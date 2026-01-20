@@ -2110,7 +2110,7 @@ const SESSIONS = [
         // Register for the day (save to Airtable without sessions)
         async function registerForDay() {
             const name = document.getElementById('userName').value.trim();
-            const email = document.getElementById('userEmail').value.trim();
+            const email = document.getElementById('userEmail').value.trim().toLowerCase();
             const school = document.getElementById('userSchool').value;
             const btn = document.getElementById('registerDayBtn');
             const status = document.getElementById('registrationStatus');
@@ -2130,6 +2130,17 @@ const SESSIONS = [
                 showAlert('Please select your school/department.', 'error');
                 document.getElementById('userSchool').focus();
                 return;
+            }
+
+            // Check if this is a DIFFERENT user than what's stored in localStorage
+            const savedInfo = localStorage.getItem('voyageUserInfo');
+            if (savedInfo) {
+                const oldInfo = JSON.parse(savedInfo);
+                if (oldInfo.email && oldInfo.email.toLowerCase() !== email.toLowerCase()) {
+                    // Different user! Clear the old user's session selections
+                    userRegistrations = { 1: null, 2: null, 3: null, 4: null };
+                    console.log('New user detected - cleared previous session selections');
+                }
             }
 
             // Check if Airtable is configured
@@ -2200,7 +2211,10 @@ const SESSIONS = [
 
                     status.innerHTML = '🎉 Welcome back! Your info has been updated. Select your sessions below.';
                 } else {
-                    // New user - create record
+                    // New user - clear any leftover session selections from previous user
+                    userRegistrations = { 1: null, 2: null, 3: null, 4: null };
+                    
+                    // Create new record
                     const createResponse = await fetch(
                         `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}`,
                         {
