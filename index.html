@@ -1887,8 +1887,9 @@ const SESSIONS = [
             if (AIRTABLE_CONFIG.apiKey.includes('YOUR_') || AIRTABLE_CONFIG.baseId.includes('YOUR_')) return;
 
             try {
+                // Sort by RegisteredAt descending to get the most recent record
                 const response = await fetch(
-                    `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}?filterByFormula=${encodeURIComponent(`{Email}="${info.email}"`)}`,
+                    `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}?filterByFormula=${encodeURIComponent(`{Email}="${info.email}"`)}&sort%5B0%5D%5Bfield%5D=RegisteredAt&sort%5B0%5D%5Bdirection%5D=desc`,
                     {
                         headers: {
                             'Authorization': `Bearer ${AIRTABLE_CONFIG.apiKey}`
@@ -1899,6 +1900,7 @@ const SESSIONS = [
                 const data = await response.json();
                 
                 if (data.records && data.records.length > 0) {
+                    // Use the most recent record (first after sorting desc by RegisteredAt)
                     const record = data.records[0];
                     const fields = record.fields;
                     
@@ -2141,9 +2143,9 @@ const SESSIONS = [
             btn.innerHTML = '⏳ Registering...';
 
             try {
-                // Check if user already exists (by email)
+                // Check if user already exists (by email) - sort by RegisteredAt desc to get most recent
                 const checkResponse = await fetch(
-                    `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}?filterByFormula=${encodeURIComponent(`{Email}="${email}"`)}`,
+                    `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}?filterByFormula=${encodeURIComponent(`{Email}="${email}"`)}&sort%5B0%5D%5Bfield%5D=RegisteredAt&sort%5B0%5D%5Bdirection%5D=desc`,
                     {
                         headers: {
                             'Authorization': `Bearer ${AIRTABLE_CONFIG.apiKey}`
@@ -2155,7 +2157,7 @@ const SESSIONS = [
                 let recordId;
 
                 if (checkData.records && checkData.records.length > 0) {
-                    // User exists - update their record
+                    // User exists - use the most recent record (first after sorting desc)
                     recordId = checkData.records[0].id;
                     
                     const updateResponse = await fetch(
@@ -2493,28 +2495,72 @@ const SESSIONS = [
                 return session ? session.title : '';
             };
 
-            const record = {
-                fields: {
-                    Name: userInfo.name,
-                    Email: userInfo.email,
-                    School: userInfo.school,
-                    Session1: getSessionTitle(1),
-                    Session2: getSessionTitle(2),
-                    Session3: getSessionTitle(3),
-                    Session4: getSessionTitle(4),
-                    RegisteredAt: new Date().toISOString()
-                }
+            const fields = {
+                Name: userInfo.name,
+                Email: userInfo.email,
+                School: userInfo.school,
+                Session1: getSessionTitle(1),
+                Session2: getSessionTitle(2),
+                Session3: getSessionTitle(3),
+                Session4: getSessionTitle(4)
             };
 
             try {
-                const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${AIRTABLE_CONFIG.apiKey}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(record)
-                });
+                // First, check if user already has a record (get most recent by RegisteredAt)
+                const checkResponse = await fetch(
+                    `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}?filterByFormula=${encodeURIComponent(`{Email}="${userInfo.email}"`)}&sort%5B0%5D%5Bfield%5D=RegisteredAt&sort%5B0%5D%5Bdirection%5D=desc`,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${AIRTABLE_CONFIG.apiKey}`
+                        }
+                    }
+                );
+                
+                const checkData = await checkResponse.json();
+                let response;
+
+                if (checkData.records && checkData.records.length > 0) {
+                    // User exists - UPDATE (PATCH) the most recent record
+                    const recordId = checkData.records[0].id;
+                    response = await fetch(
+                        `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}/${recordId}`,
+                        {
+                            method: 'PATCH',
+                            headers: {
+                                'Authorization': `Bearer ${AIRTABLE_CONFIG.apiKey}`,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ fields: fields })
+                        }
+                    );
+                    
+                    // Update localStorage with correct record ID
+                    const savedInfo = JSON.parse(localStorage.getItem('voyageUserInfo') || '{}');
+                    savedInfo.airtableRecordId = recordId;
+                    localStorage.setItem('voyageUserInfo', JSON.stringify(savedInfo));
+                } else {
+                    // New user - CREATE (POST) a new record
+                    fields.RegisteredAt = new Date().toISOString();
+                    response = await fetch(
+                        `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}`,
+                        {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${AIRTABLE_CONFIG.apiKey}`,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ fields: fields })
+                        }
+                    );
+                    
+                    if (response.ok) {
+                        const createData = await response.json();
+                        // Save new record ID to localStorage
+                        const savedInfo = JSON.parse(localStorage.getItem('voyageUserInfo') || '{}');
+                        savedInfo.airtableRecordId = createData.id;
+                        localStorage.setItem('voyageUserInfo', JSON.stringify(savedInfo));
+                    }
+                }
 
                 if (response.ok) {
                     showAlert('Registration saved successfully!', 'success');
