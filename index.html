@@ -2280,6 +2280,48 @@ const SESSIONS = [
             ['userName', 'userEmail', 'userSchool'].forEach(id => {
                 document.getElementById(id).addEventListener('change', saveUserInfo);
             });
+            
+            // Special handling for email field - detect user change
+            document.getElementById('userEmail').addEventListener('change', handleEmailChange);
+        }
+
+        function handleEmailChange() {
+            const newEmail = document.getElementById('userEmail').value.trim().toLowerCase();
+            const saved = localStorage.getItem('voyageUserInfo');
+            
+            if (saved) {
+                const oldInfo = JSON.parse(saved);
+                const oldEmail = (oldInfo.email || '').toLowerCase();
+                
+                // If email changed, this is likely a different user
+                if (oldEmail && newEmail && oldEmail !== newEmail) {
+                    console.log('Email changed - clearing previous user session data');
+                    
+                    // Clear session selections
+                    userRegistrations = { 1: null, 2: null, 3: null, 4: null };
+                    
+                    // Reset the registration button
+                    const btn = document.getElementById('registerDayBtn');
+                    const status = document.getElementById('registrationStatus');
+                    btn.innerHTML = '🚢 Register for the Day';
+                    btn.classList.remove('registered');
+                    btn.disabled = false;
+                    status.style.display = 'none';
+                    
+                    // Clear the stored record ID
+                    const newInfo = {
+                        name: document.getElementById('userName').value,
+                        email: newEmail,
+                        school: document.getElementById('userSchool').value
+                    };
+                    localStorage.setItem('voyageUserInfo', JSON.stringify(newInfo));
+                    
+                    // Update displays
+                    loadSessions();
+                    updateMySchedule();
+                    updateMobileSchedule();
+                }
+            }
         }
 
         function saveUserInfo() {
@@ -2288,6 +2330,15 @@ const SESSIONS = [
                 email: document.getElementById('userEmail').value,
                 school: document.getElementById('userSchool').value
             };
+            // Preserve the airtableRecordId if it exists
+            const saved = localStorage.getItem('voyageUserInfo');
+            if (saved) {
+                const oldInfo = JSON.parse(saved);
+                // Only preserve record ID if email hasn't changed
+                if (oldInfo.email && oldInfo.email.toLowerCase() === info.email.toLowerCase() && oldInfo.airtableRecordId) {
+                    info.airtableRecordId = oldInfo.airtableRecordId;
+                }
+            }
             localStorage.setItem('voyageUserInfo', JSON.stringify(info));
         }
 
