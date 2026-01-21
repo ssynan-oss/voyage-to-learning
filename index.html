@@ -1908,7 +1908,10 @@ const SESSIONS = [
                     info.airtableRecordId = record.id;
                     localStorage.setItem('voyageUserInfo', JSON.stringify(info));
                     
-                    // Load existing session selections
+                    // FIRST: Clear all session selections to start fresh
+                    userRegistrations = { 1: null, 2: null, 3: null, 4: null };
+                    
+                    // THEN: Load existing session selections (only the ones they have)
                     if (fields.Session1) {
                         const session = SESSIONS.find(s => s.title === fields.Session1 && s.session === '1');
                         if (session) userRegistrations[1] = session.id;
@@ -2190,7 +2193,10 @@ const SESSIONS = [
 
                     if (!updateResponse.ok) throw new Error('Failed to update registration');
                     
-                    // Load their existing session selections
+                    // FIRST: Clear all session selections to start fresh
+                    userRegistrations = { 1: null, 2: null, 3: null, 4: null };
+                    
+                    // THEN: Load their existing session selections (only the ones they have)
                     const existingRecord = checkData.records[0].fields;
                     if (existingRecord.Session1) {
                         const session = SESSIONS.find(s => s.title === existingRecord.Session1 && s.session === '1');
