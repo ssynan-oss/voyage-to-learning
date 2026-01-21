@@ -6,262 +6,45 @@
     <title>VTL 4.5 Presenter Verification</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #1a5276 0%, #2e86ab 50%, #48a9a6 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            font-weight: 600;
-            color: #1a5276;
-            margin-bottom: 8px;
-            font-size: 1rem;
-        }
-
-        .required::after {
-            content: " *";
-            color: #e74c3c;
-        }
-
-        select, textarea, input[type="text"] {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-family: 'Poppins', sans-serif;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        select:focus, textarea:focus, input[type="text"]:focus {
-            outline: none;
-            border-color: #2e86ab;
-            box-shadow: 0 0 0 3px rgba(46, 134, 171, 0.2);
-        }
-
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .session-card {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-left: 4px solid #2e86ab;
-        }
-
-        .session-card h3 {
-            color: #1a5276;
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-        }
-
-        .session-card .description {
-            color: #555;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            padding: 15px;
-            background: white;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
-        }
-
-        .radio-group, .checkbox-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        .radio-option, .checkbox-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
-
-        .radio-option input, .checkbox-option input {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: #2e86ab;
-        }
-
-        .checkbox-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 12px;
-            margin-top: 10px;
-        }
-
-        .checkbox-option {
-            background: #f8f9fa;
-            padding: 10px 15px;
-            border-radius: 8px;
-            transition: background 0.2s;
-        }
-
-        .checkbox-option:hover {
-            background: #e8f4f8;
-        }
-
-        .checkbox-option input:checked + span {
-            color: #1a5276;
-            font-weight: 500;
-        }
-
-        .correction-box {
-            margin-top: 10px;
-            display: none;
-        }
-
-        .correction-box.show {
-            display: block;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #1a5276, #2e86ab);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: block;
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(26, 82, 118, 0.4);
-        }
-
-        .btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .intro-text {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .success-message {
-            text-align: center;
-            padding: 40px;
-        }
-
-        .success-message h2 {
-            color: #27ae60;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-
-        .success-message p {
-            color: #555;
-            font-size: 1.1rem;
-        }
-
-        .success-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-        }
-
-        .presenter-info {
-            background: #e8f4f8;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .presenter-info strong {
-            color: #1a5276;
-        }
-
-        .section-title {
-            color: #1a5276;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e0e0e0;
-        }
-
-        .note {
-            font-size: 0.9rem;
-            color: #666;
-            font-style: italic;
-            margin-top: 5px;
-        }
-
-        @media (max-width: 600px) {
-            .header h1 {
-                font-size: 1.5rem;
-            }
-
-            .card {
-                padding: 20px;
-            }
-
-            .checkbox-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #1a5276 0%, #2e86ab 50%, #48a9a6 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; color: white; margin-bottom: 30px; }
+        .header h1 { font-size: 2rem; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .header p { font-size: 1.1rem; opacity: 0.9; }
+        .card { background: white; border-radius: 16px; padding: 30px; margin-bottom: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+        .form-group { margin-bottom: 25px; }
+        label { display: block; font-weight: 600; color: #1a5276; margin-bottom: 8px; font-size: 1rem; }
+        .required::after { content: " *"; color: #e74c3c; }
+        select, textarea, input[type="text"] { width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; font-family: 'Poppins', sans-serif; transition: border-color 0.3s, box-shadow 0.3s; }
+        select:focus, textarea:focus, input[type="text"]:focus { outline: none; border-color: #2e86ab; box-shadow: 0 0 0 3px rgba(46, 134, 171, 0.2); }
+        textarea { min-height: 120px; resize: vertical; }
+        .session-card { background: #f8f9fa; border-radius: 12px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #2e86ab; }
+        .session-card h3 { color: #1a5276; font-size: 1.1rem; margin-bottom: 10px; }
+        .session-card .description { color: #555; font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px; padding: 15px; background: white; border-radius: 8px; border: 1px solid #e0e0e0; }
+        .radio-group, .checkbox-group { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 10px; }
+        .radio-option, .checkbox-option { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .radio-option input, .checkbox-option input { width: 18px; height: 18px; cursor: pointer; accent-color: #2e86ab; }
+        .checkbox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 10px; }
+        .checkbox-option { background: #f8f9fa; padding: 10px 15px; border-radius: 8px; transition: background 0.2s; }
+        .checkbox-option:hover { background: #e8f4f8; }
+        .checkbox-option input:checked + span { color: #1a5276; font-weight: 500; }
+        .correction-box { margin-top: 10px; display: none; }
+        .correction-box.show { display: block; }
+        .btn { background: linear-gradient(135deg, #1a5276, #2e86ab); color: white; border: none; padding: 15px 40px; font-size: 1.1rem; font-weight: 600; border-radius: 8px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: block; width: 100%; margin-top: 20px; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(26, 82, 118, 0.4); }
+        .btn:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
+        .hidden { display: none; }
+        .intro-text { color: #555; line-height: 1.6; margin-bottom: 20px; }
+        .success-message { text-align: center; padding: 40px; }
+        .success-message h2 { color: #27ae60; font-size: 1.8rem; margin-bottom: 15px; }
+        .success-message p { color: #555; font-size: 1.1rem; }
+        .success-icon { font-size: 4rem; margin-bottom: 20px; }
+        .presenter-info { background: #e8f4f8; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; }
+        .presenter-info strong { color: #1a5276; }
+        .section-title { color: #1a5276; font-size: 1.2rem; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #e0e0e0; }
+        .note { font-size: 0.9rem; color: #666; font-style: italic; margin-top: 5px; }
+        @media (max-width: 600px) { .header h1 { font-size: 1.5rem; } .card { padding: 20px; } .checkbox-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -270,125 +53,60 @@
             <h1>⛵ Voyage to Learning 4.5</h1>
             <p>Presenter Information Verification</p>
         </div>
-
-        <!-- Step 1: Select Presenter -->
         <div class="card" id="step1">
-            <p class="intro-text">
-                Thank you for presenting at Voyage to Learning 4.5! Please take a moment to verify your information 
-                and let us know who your session is best suited for. This helps participants choose the right sessions.
-            </p>
-            
+            <p class="intro-text">Thank you for presenting at Voyage to Learning 4.5! Please take a moment to verify your information and let us know who your session is best suited for. This helps participants choose the right sessions.</p>
             <div class="form-group">
                 <label for="presenterSelect" class="required">Select Your Name</label>
-                <select id="presenterSelect">
-                    <option value="">-- Choose your name --</option>
-                </select>
+                <select id="presenterSelect"><option value="">-- Choose your name --</option></select>
             </div>
         </div>
-
-        <!-- Step 2: Verification Form -->
         <div class="card hidden" id="step2">
-            <div class="presenter-info">
-                <strong>Presenter:</strong> <span id="displayName"></span>
-            </div>
-
+            <div class="presenter-info"><strong>Presenter:</strong> <span id="displayName"></span></div>
             <form id="verificationForm">
-                <!-- Name Verification -->
                 <div class="form-group">
                     <h3 class="section-title">1. Name Verification</h3>
                     <label class="required">Is your name spelled correctly above?</label>
                     <div class="radio-group">
-                        <label class="radio-option">
-                            <input type="radio" name="nameCorrect" value="yes" required>
-                            <span>Yes, it's correct</span>
-                        </label>
-                        <label class="radio-option">
-                            <input type="radio" name="nameCorrect" value="no">
-                            <span>No, it needs correction</span>
-                        </label>
+                        <label class="radio-option"><input type="radio" name="nameCorrect" value="yes" required><span>Yes, it's correct</span></label>
+                        <label class="radio-option"><input type="radio" name="nameCorrect" value="no"><span>No, it needs correction</span></label>
                     </div>
                     <div class="correction-box" id="nameCorrectionBox">
                         <label for="nameCorrection">Please provide the correct spelling:</label>
                         <input type="text" id="nameCorrection" placeholder="Enter correct name spelling">
                     </div>
                 </div>
-
-                <!-- Sessions Container -->
                 <div id="sessionsContainer"></div>
-
-                <!-- Target Audience -->
                 <div class="form-group">
                     <h3 class="section-title">3. Target Audience</h3>
                     <label class="required">To help participants choose sessions, please indicate who your session(s) are designed for:</label>
                     <p class="note">Select all that apply</p>
                     <div class="checkbox-grid" id="audienceCheckboxes">
-                        <label class="checkbox-option">
-                            <input type="checkbox" name="audience" value="All Audiences">
-                            <span>All Audiences</span>
-                        </label>
-                        <label class="checkbox-option">
-                            <input type="checkbox" name="audience" value="PreK-2 Teachers">
-                            <span>PreK-2 Teachers</span>
-                        </label>
-                        <label class="checkbox-option">
-                            <input type="checkbox" name="audience" value="3-5 Teachers">
-                            <span>3-5 Teachers</span>
-                        </label>
-                        <label class="checkbox-option">
-                            <input type="checkbox" name="audience" value="6-8 Teachers">
-                            <span>6-8 Teachers</span>
-                        </label>
-                        <label class="checkbox-option">
-                            <input type="checkbox" name="audience" value="9-12 Teachers">
-                            <span>9-12 Teachers</span>
-                        </label>
-                        <label class="checkbox-option">
-                            <input type="checkbox" name="audience" value="Special Education Teachers">
-                            <span>Special Education Teachers</span>
-                        </label>
-                        <label class="checkbox-option">
-                            <input type="checkbox" name="audience" value="ESOL Teachers">
-                            <span>ESOL Teachers</span>
-                        </label>
-                        <label class="checkbox-option">
-                            <input type="checkbox" name="audience" value="Instructional Coaches">
-                            <span>Instructional Coaches</span>
-                        </label>
-                        <label class="checkbox-option">
-                            <input type="checkbox" name="audience" value="Administrators">
-                            <span>Administrators</span>
-                        </label>
-                        <label class="checkbox-option">
-                            <input type="checkbox" name="audience" value="Paraprofessionals">
-                            <span>Paraprofessionals</span>
-                        </label>
-                        <label class="checkbox-option">
-                            <input type="checkbox" name="audience" value="School Counselors">
-                            <span>School Counselors</span>
-                        </label>
-                        <label class="checkbox-option">
-                            <input type="checkbox" name="audience" value="Media Specialists">
-                            <span>Media Specialists</span>
-                        </label>
+                        <label class="checkbox-option"><input type="checkbox" name="audience" value="All Audiences"><span>All Audiences</span></label>
+                        <label class="checkbox-option"><input type="checkbox" name="audience" value="PreK-2 Teachers"><span>PreK-2 Teachers</span></label>
+                        <label class="checkbox-option"><input type="checkbox" name="audience" value="3-5 Teachers"><span>3-5 Teachers</span></label>
+                        <label class="checkbox-option"><input type="checkbox" name="audience" value="6-8 Teachers"><span>6-8 Teachers</span></label>
+                        <label class="checkbox-option"><input type="checkbox" name="audience" value="9-12 Teachers"><span>9-12 Teachers</span></label>
+                        <label class="checkbox-option"><input type="checkbox" name="audience" value="Special Education Teachers"><span>Special Education Teachers</span></label>
+                        <label class="checkbox-option"><input type="checkbox" name="audience" value="ESOL Teachers"><span>ESOL Teachers</span></label>
+                        <label class="checkbox-option"><input type="checkbox" name="audience" value="Instructional Coaches"><span>Instructional Coaches</span></label>
+                        <label class="checkbox-option"><input type="checkbox" name="audience" value="Administrators"><span>Administrators</span></label>
+                        <label class="checkbox-option"><input type="checkbox" name="audience" value="Paraprofessionals"><span>Paraprofessionals</span></label>
+                        <label class="checkbox-option"><input type="checkbox" name="audience" value="School Counselors"><span>School Counselors</span></label>
+                        <label class="checkbox-option"><input type="checkbox" name="audience" value="Media Specialists"><span>Media Specialists</span></label>
                     </div>
                     <div style="margin-top: 15px;">
                         <label for="audienceOther">Other (please specify):</label>
                         <input type="text" id="audienceOther" placeholder="e.g., PE Teachers, Art Teachers">
                     </div>
                 </div>
-
-                <!-- Additional Notes -->
                 <div class="form-group">
                     <h3 class="section-title">4. Additional Comments</h3>
                     <label for="additionalNotes">Any other changes or notes you'd like to share?</label>
                     <textarea id="additionalNotes" placeholder="Optional: Enter any additional information or requests..."></textarea>
                 </div>
-
                 <button type="submit" class="btn" id="submitBtn">Submit Verification</button>
             </form>
         </div>
-
-        <!-- Success Message -->
         <div class="card hidden" id="successCard">
             <div class="success-message">
                 <div class="success-icon">✅</div>
@@ -399,598 +117,94 @@
             </div>
         </div>
     </div>
-
     <script>
-        // Presenter data
-        const presenters = [
-  {
-    "name": "Amy Godfrey, NEGaRESA ELA Specialist",
-    "sessions": [
-      {
-        "title": "Write On: Elevating Writing Instruction in Grades 3-5",
-        "description": "Strong writing instruction is intentionally designed, modeled, and nurtured. In this session, educators will explore practical, research-based strategies to strengthen writing instruction across all subject areas. Participants will examine the key components of effective writing instruction beginning with sentence construction, moving to effective paragraph planning, and then putting all the pieces together to construct text based upon a scenario. Aligned to the new writing standards and GMAS expectations, this session emphasizes how to support all writers as they develop their abilities to construct text. You will leave with clear strategies to elevate student writing and grow confident, capable communicators."
-      },
-      {
-        "title": "Write On: Elevating Writing Instruction in Grades K-2",
-        "description": "Strong writing instruction is intentionally designed, modeled, and nurtured. In this session, educators will explore practical, research-based strategies to strengthen writing instruction across all subject areas. Participants will examine the key components of effective writing instruction at the sentence level with sentence construction, developing writers through oral language and early understanding of forming a sentence. Aligned to the new Georgia standards, this session emphasizes how to support all writers across content areas as they develop their abilities to construct text at the sentence level. You will leave with clear strategies to elevate student writing and grow confident, capable communicators."
-      }
-    ]
-  },
-  {
-    "name": "April Arendall, EdTech Specialist/Speaker/Innovator",
-    "sessions": [
-      {
-        "title": "Wayground",
-        "description": "Discover how Wayground's versatile supplemental learning platform can revolutionize differentiation and accessibility in your classroom by leveraging AI-powered tools to automatically generate Georgia State standards-aligned assessments, create engaging gamified presentations with immediate student performance feedback, and develop reading passages with proper citations on any subject matter. You'll explore how Wayground seamlessly integrates with Georgia Standards of Excellence to provide high-quality vetted Instruction across core subjects while offering 25+ accessibility features—including Read Aloud, Audio Responses, Translation, and Dyslexia Font—that ensure UDL compliance and increase flexibility in Instruction presentation. Whether you're looking to support curriculum adoption with vetted math resources, integrate supplemental Instruction with your existing curriculum maps, or create multiple versions of activities with unique reading levels to meet diverse student needs, this session will show you how Wayground can streamline your instructional practice while enhancing student engagement and outcomes."
-      }
-    ]
-  },
-  {
-    "name": "Brandi Paul, Corrie Mattox, Mary Kate Shealy, OCES",
-    "sessions": [
-      {
-        "title": "Adobe Express for Education",
-        "description": "How to use Adobe Express for Education with Students"
-      }
-    ]
-  },
-  {
-    "name": "Brandon Adams, OCMS",
-    "sessions": [
-      {
-        "title": "Google Maps across Instruction (writing, cultures, science, math)",
-        "description": "This session is about strategies for teachers across Instruction and grade levels to use Google Maps to help students to learn the standards in a unique and creative way. This visual format will be another tool to add to your list of strategies that will help all learners, especially the visual learners. From art to math, Ela to science and Social Studies, ag to Spanish, Kindergarten to Senior year all can get ideas to change things up in your classroom if you have not used Google Maps before."
-      }
-    ]
-  },
-  {
-    "name": "Danielle Williams, LMSW, Medlink Patriot, SBHC",
-    "sessions": [
-      {
-        "title": "How to Support Students with Mental Health Issues",
-        "description": "Description coming soon."
-      },
-      {
-        "title": "Protecting your Personal Mental Health",
-        "description": "Description coming soon."
-      }
-    ]
-  },
-  {
-    "name": "Dr. Chad Galloway and Ashlee, OCES",
-    "sessions": [
-      {
-        "title": "Virtual Field Trips",
-        "description": "Description coming soon."
-      }
-    ]
-  },
-  {
-    "name": "Dr. DeShonda Wolfe, Certified Brisk AI Professional, OCHS",
-    "sessions": [
-      {
-        "title": "Brisk",
-        "description": "Brisk is an AI-powered Chrome extension that simplifies teaching tasks. It helps educators instantly create lesson plans, quizzes, presentations, and student feedback using your favorite resources, like YouTube, Google Docs, and web articles."
-      }
-    ]
-  },
-  {
-    "name": "Dr. Susan Winstead, Math Instructional Coach, OCES",
-    "sessions": [
-      {
-        "title": "Hands-On Statistics that Stick",
-        "description": "This interactive professional learning session immerses teachers in hands-on statistical investigations aligned to elementary standards. Participants will explore data collection, representation, and analysis through concrete materials and real-world contexts while gaining practical strategies to implement immediately in their classrooms."
-      }
-    ]
-  },
-  {
-    "name": "Dr. Tess Vaughn, Orthopedic Clinical Specialist",
-    "sessions": [
-      {
-        "title": "Strengthen Your Core, Posture, Pressure and Presence",
-        "description": "We all hear how important breath, meditation, and relaxation are, but who has the time and energy to lie down in a dark, quiet place with candles and aromatherapy for 30 minutes every day?! Although it does sound a bit dreamy…What if you could lower stress, anxiety, blood pressure, pulse rate, low back pain, headaches, neck tension, buttocks pain, and pelvic floor leaking and pressure just by breathing with the right muscles in the right pattern even when you're teaching class!! Join me as we learn to do just that, and I bet you'll leave the breakout session feeling less pain and more relaxed."
-      }
-    ]
-  },
-  {
-    "name": "Eric Curts, Nationally Known Technology Integration Specialist",
-    "sessions": [
-      {
-        "title": "Your AI Treasure Chest: Creating & Sharing Gemini Gems",
-        "description": "Gems are reusable, custom prompts that save your best AI workflows for instant access, and they are a game-changer for educators! In this deep-dive session we'll start by using Google's pre-made Gems (like Brainstormer and Storybook Creator), then learn to create your own, with tips for effective prompting and uploading reference files. We'll also cover how to share your Gems with colleagues and how schools can build a shared, high-quality Gem repository for staff and students. To see their full potential, we will tour my \"EduGems\" website and demonstrate powerful, ready-to-use prompts for lesson hooks, rubric generation, DOK analysis, and even creating AI-powered classroom games."
-      },
-      {
-        "title": "Promptcraft? Building a Better AI Prompt",
-        "description": "AI can have a powerful impact on teaching and learning, but the value of what you get out can often depend on the quality of what you put in. How can you craft better prompts to get the best results? In this session we will explore examples of excellent prompts, models for building better prompts, using a \"super prompt\" to create prompts, using the \"collaborative prompt\" technique, activities to practice prompting, and more."
-      },
-      {
-        "title": "Full Bleed: Finding Balance between technology and Lift",
-        "description": "Technology is a wonderful tool, but it can also consume our lives. In this session we will explore Googley tools as well as other tech resources (for ourselves and our students) to help monitor and manage the time we spend using technology, as well as how we can use technology to increase mindfulness and promote better mental, emotional, and physical health."
-      },
-      {
-        "title": "Did a Robot Write This Report? Managing AI Cheating",
-        "description": "Although AI can help support students in their learning and work, unfortunately it can also be misused for cheating purposes. In this session we will explore ways to address academic integrity concerns in the age of AI. This will include creating student AI guidelines, adjustments to make assignments more AI-resistant, tools to monitor the use of AI and see what work students have done themselves, and educating students on the proper use of AI."
-      }
-    ]
-  },
-  {
-    "name": "Erin Serrian, OCMS",
-    "sessions": [
-      {
-        "title": "Beat the Stress Away",
-        "description": "Have you ever wanted a chance to create music with a community but didn't believe you had the skills to complete the task? Have you ever felt like you needed to productively put your energy into something to lower your stress? If so, this is the class for you! Come join the bucket drumming brigade and learn how to play a musical tune with just two sticks and a 5-gallon bucket. No musical experience necessary, but health benefits might be found!"
-      }
-    ]
-  },
-  {
-    "name": "Jamie Parker, Fitness Instructor",
-    "sessions": [
-      {
-        "title": "Core Balance and Stretch",
-        "description": "A gentle workout designed for all levels. This workout will include standing abs and balance, ending with a nice long stretch. (For all levels, all standing, and no floor work)."
-      }
-    ]
-  },
-  {
-    "name": "Jason Byars, EdTech Specialist/Speaker/Innovator",
-    "sessions": [
-      {
-        "title": "The Safe Harbor Classroom: Navigating Trauma with Care and Connection",
-        "description": "Educators will explore how to create a "safe harbor" classroom where students feel grounded, supported, and ready to learn. Participants will learn how trauma and stress shape student behavior, practice recognizing common regulation needs, and discover trauma-informed strategies that build safety, predictability, and strong teacher–student connections. Through practical examples and classroom-ready tools, this session equips teachers to navigate challenging moments with compassion and to foster a learning environment where every student can thrive."
-      }
-    ]
-  },
-  {
-    "name": "Jennifer Kimbel, OCHS and Lindsey Gregory, OCES",
-    "sessions": [
-      {
-        "title": "So, You're Finished, Now What?",
-        "description": "We've all seen it: that one student who finishes a 30-minute task in approximately 45 seconds and is now staring into your soul. Instead of panicking or handing out \"busy work\" that everyone hates, come learn how to channel that chaotic speed into something meaningful. This session provides a toolkit of independent tasks and brain-bending challenges designed to keep early finishers challenged and actively engaged in critical thinking tasks."
-      }
-    ]
-  },
-  {
-    "name": "Jennifer Yauck, OCHS Instructional Coach",
-    "sessions": [
-      {
-        "title": "Inspire",
-        "description": "Come and learn more about the GA Inspire platform! In this session we will look at the social studies and science courses to find lessons to help your students in all grade levels! We will focus on multimodality lessons for English Learners and so much more! You will walk away with new lessons and activities!"
-      }
-    ]
-  },
-  {
-    "name": "Jessica Tipton, OCHS",
-    "sessions": [
-      {
-        "title": "Supporting Diverse Learners with Notebook LM",
-        "description": "A practical overview of using Notebook LM's features to help special education students navigate content more independently."
-      },
-      {
-        "title": "Fall Smart Workshop",
-        "description": "A short instructional training on how to react, roll, and land safely during accidental falls."
-      }
-    ]
-  },
-  {
-    "name": "Jim Synan, Education Specialist in School Counseling & Behavior Specialist, Clarke County Schools",
-    "sessions": [
-      {
-        "title": "Behavior Strategies for the K-12 Classroom",
-        "description": "In this session, we will review effective Tier 1 Classroom Management Strategies, examine how to verbally de-escalate a student, and also touch on how trauma can impact the brain of students"
-      }
-    ]
-  },
-  {
-    "name": "Karyn Gunter, Director of Special Education, OCSD",
-    "sessions": [
-      {
-        "title": "A Day in the Life of a SpEd Student",
-        "description": "Experience a school day through the eyes of a special education student in this powerful simulation-based session. Participants will rotate through scenarios reflecting common academic, social, sensory, and communication challenges, building empathy and deepening understanding of diverse learning needs. Through guided reflection, educators will connect these experiences to practical classroom strategies, IEP implementation, and inclusive practices. Leave with a renewed perspective on accessibility, student engagement, and creating truly supportive learning environments for all students."
-      }
-    ]
-  },
-  {
-    "name": "Katherine Calkin, MPH, MCHES Health Educator, Piedmont Hospital",
-    "sessions": [
-      {
-        "title": "Tai Chi for Balance Improvement",
-        "description": "Clinical studies show tai chi can improve strength, flexibility, balance & quality of sleep. This mind-body practice can increase feelings of relaxation and focus. We will warm up with gentle qigong exercises and will practice a simple Tai Chi for Health Institute form. Movements can be done standing or seated and can be adapted to your body. No experience necessary."
-      }
-    ]
-  },
-  {
-    "name": "Kelly Allgood and Penny Miller, Janet High, OCMS",
-    "sessions": [
-      {
-        "title": "Power Up Participation: 3 Digital Tools to Supercharge Student Thinking and Writing",
-        "description": "In this session, participants will explore Curipod, ShortAnswer.com, and WeWrite—three easy-to-use tools designed to increase student engagement and writing. Attendees will experience each tool from a student's perspective and learn practical strategies for using them. The session will focus on promoting active thinking, real-time participation, and meaningful writing without adding extra grading."
-      }
-    ]
-  },
-  {
-    "name": "Ken Howard, Special Agent in Charge (GBI Gang Task Force) Katie Walker, Assistant Special Agent in Charge & Tonia Willis",
-    "sessions": [
-      {
-        "title": "Gang Culture and Our Children",
-        "description": ""Gang affiliation is not something that students leave behind when they enter the school building. If a gang presence exists at school, it cannot be ignored. . . Gang-related issues should be addressed head-on or they will fester, harm school climate, and impede the learning environment" (Georgia Department of Education). Kids are being recruited to join gangs now when they are in high school, middle school, and yes, even elementary school! Learn about active gangs in surrounding areas and how to identify them, as well as how gang involvement impacts kids in school and out of school."
-      }
-    ]
-  },
-  {
-    "name": "Kevin Southall, OCES",
-    "sessions": [
-      {
-        "title": "Suno: More Than a Jingle",
-        "description": "Suno shows teachers how to use AI music to boost engagement, spark creativity, and make learning stick across any subject. Educators will create their own classroom-ready songs and leave with fresh, fun ideas they can use for students and themselves immediately."
-      }
-    ]
-  },
-  {
-    "name": "Kristine Heckman, OCHS and Robin Guest, OCES",
-    "sessions": [
-      {
-        "title": "Absent Intelligence",
-        "description": "Overwhelmed with all the AI choices out there? Come to this class to learn how to start a chat with ChatGPT. This course is designed to help teachers incorporate AI into their classrooms without being overwhelmed. Basic tips and helpful hints will be the focus, so you can begin or even continue your journey from Absent Intelligence to Amazing Integration."
-      }
-    ]
-  },
-  {
-    "name": "Lindsey Gregory, OCES",
-    "sessions": [
-      {
-        "title": "Escape Room",
-        "description": "Transform traditional classroom materials into interactive challenges by incorporating digital locks. This session explores how embedding game-like mechanics into everyday tasks can spark curiosity and increase student engagement. Participants will learn how to create their own digital locks to breathe new life into standard worksheets and create immersive, multi-layered learning adventures."
-      }
-    ]
-  },
-  {
-    "name": "Mara Hardy, OCMS",
-    "sessions": [
-      {
-        "title": "AI Early Finisher Activities",
-        "description": "Discover how to engage your early finishers with meaningful, challenging work using AI-powered extension activities. In this hands-on session, you'll learn to use ChatGPT to create Depth of Knowledge (DOK) leveled tasks that push students beyond surface learning while keeping them motivated through digital badge-earning opportunities. Participants will leave with their own content-specific early finisher activities and a personalized badge system ready to implement in their classrooms. Transform those extra minutes into powerful learning moments that celebrate student achievement!"
-      }
-    ]
-  },
-  {
-    "name": "Michael Weis, OCHS",
-    "sessions": [
-      {
-        "title": "Peardeck and Flexiquiz",
-        "description": "This session will allow users to become familiar with the PearDeck and Flexiquiz application for Google Presentations for gauging student learning (formative assessments)."
-      }
-    ]
-  },
-  {
-    "name": "Norma Heninger, County Dir. DFACS",
-    "sessions": [
-      {
-        "title": "Foster Care and DFACS",
-        "description": "Information about the foster care system and how DFACS works to support children and families in our community."
-      }
-    ]
-  },
-  {
-    "name": "Paul Thiel, Director of Operations OCHS",
-    "sessions": [
-      {
-        "title": "Mastering Classroom Management with LanSchool",
-        "description": "Take control of your digital classroom! Discover how LanSchool can transform your ability to monitor student devices, guide online learning, and keep students focused on the task at hand. Learn essential features like screen monitoring, website management, messaging tools, and attention-grabbing techniques that help you maintain engagement during instruction. Whether you're new to LanSchool or looking to unlock its full potential, you'll leave with practical skills to create a more productive and focused learning environment."
-      }
-    ]
-  },
-  {
-    "name": "Rebecca Crook, Instructional Coach, OCES",
-    "sessions": [
-      {
-        "title": "Mystery Skype: Making Geography Engaging",
-        "description": "Mystery Skype: Making Geography Engaging: Take your geography standards to the next level with an interactive, inquiry-based learning experience! In this session, you'll learn how Mystery Skype transform map skills and geographic reasoning into an exciting game that connects your students with classrooms around the world. We'll explore how to prepare students for the game, assign the roles, and align the activity to any grad level and any geography standards. Walk away with everything you need to bring high-energy, authentic global learning into your classroom."
-      },
-      {
-        "title": "Using & Choosing Decodable Texts (Wiley Bleins approach)",
-        "description": "Using & Choosing Decodable Texts (Wiley Blevins Approach): Strong decoding is the foundation of reading success, and decodable texts are a powerful tool when used well. Designed for K-2 teachers and any educators supporting students with phonics gaps, this session breaks down how to select, introduce, and use decodable texts effectively using Wiley Blevins book. We'll look at the key criteria for high-quality decodables, and simple routines that build accuracy, automaticity, and confidence in emerging readers. Participants will leave with practical examples, planning tools, and ready-to-use strategies for small-group instruction."
-      }
-    ]
-  },
-  {
-    "name": "Rosanna Ames, PR & Julie Sartor, Media Specialist OCHS",
-    "sessions": [
-      {
-        "title": "Unlocking the Magic of Canva",
-        "description": "Canva is one of the most user-friendly design tools available to educators, and we have free access to the pro version. Canva is constantly improving functionality and adding new features. Join us for this session to check out some of the new features, including AI tools."
-      }
-    ]
-  },
-  {
-    "name": "Rosanna Ames, PR Consultant, Julie Sartor & Maurice Freeman, OCHS",
-    "sessions": [
-      {
-        "title": "Communication Strategies",
-        "description": "Description coming soon."
-      }
-    ]
-  },
-  {
-    "name": "Samantha Mathe, OCES",
-    "sessions": [
-      {
-        "title": "Be Aware, Stay Safe: Practical Strategies for Everyday Life",
-        "description": "From online threats to real-world encounters, this session equips you with practical knowledge to protect yourself in today's world. Learn what you may not know about internet safety, how to recognize and avoid common scams (whether they come through phone calls or emails), and what to watch for when you're out and about on your own. The session wraps up with physical tactics you can use if you ever find yourself in a dangerous situation. Walk away with actionable strategies you can put into practice immediately."
-      }
-    ]
-  },
-  {
-    "name": "Sarah Gray and Ela McAllister, OCES",
-    "sessions": [
-      {
-        "title": "Using AI to create stories with differentiated Lexile Levels",
-        "description": "Imagine being able to create perfectly leveled stories in minutes. In this session, participants will learn how to use AI tools to generate engaging texts at specific Lexile levels and design meaningful questions that support comprehension. You'll leave with practical techniques to personalize literacy experiences for every learner."
-      }
-    ]
-  },
-  {
-    "name": "Shannon Hammond, Executive Director of Adult Literacy Barrow",
-    "sessions": [
-      {
-        "title": "Strategies for Supporting English Learners in the Classroom",
-        "description": "Participants will leave with an understanding of the needs of English Learners and will be provided with strategies to meet their unique needs. The session is open to all educators who teach or otherwise support English Learners."
-      }
-    ]
-  },
-  {
-    "name": "Shona Foster, Instructional Technology & Digital Learning Director, NEGA RESA",
-    "sessions": [
-      {
-        "title": "Using NotebookLM to Support Teaching, Learning, and Planning",
-        "description": "NotebookLM is a powerful AI tool designed to help educators make sense of information using their own trusted sources. In this session, participants will explore how Notebook LM can support lesson planning, Instruction analysis, and instructional decision making by synthesizing documents, generating insights, creating summaries, and supporting multimodal learning experiences. Attendees will see practical classroom and professional use cases, including note-taking, question generation, concept mapping, and podcast creation, while gaining a clear understanding of how NotebookLM aligns with instructional goals and standards based teaching. This hands-on session is ideal for educators looking to use AI thoughtfully, safely, and efficiently to support both teaching and learning"
-      },
-      {
-        "title": "Using AI Tools to Support Life, Work, and Well-Being",
-        "description": "NotebookLM is a powerful AI tool designed to help educators make sense of information using their own trusted sources. In this session, participants will explore how Notebook LM can support lesson planning, Instruction analysis, and instructional decision making by synthesizing documents, generating insights, creating summaries, and supporting multimodal learning experiences. Attendees will see practical classroom and professional use cases, including note-taking, question generation, concept mapping, and podcast creation, while gaining a clear understanding of how NotebookLM aligns with instructional goals and standards based teaching. This hands-on session is ideal for educators looking to use AI thoughtfully, safely, and efficiently to support both teaching and learning"
-      }
-    ]
-  },
-  {
-    "name": "Spencer & Whitney Gomez, Movement Meals",
-    "sessions": [
-      {
-        "title": "Healthy Meal Prep",
-        "description": "Tips and tricks to preparing healthy meals ahead of time. Demonstration Session"
-      }
-    ]
-  },
-  {
-    "name": "Steven King, OCMS",
-    "sessions": [
-      {
-        "title": "Employing AI Tools in the Science Classroom",
-        "description": "Students often use AI to make it easy to complete their assignments, so why shouldn't you make your job easier by using AI? We will look at some great uses of implementing AI to make your science lessons engaging and assist with lesson planning, classroom management, and instruction. Attendees will also be given the opportunity to share uses of AI that they have found beneficial in their own classroom."
-      }
-    ]
-  },
-  {
-    "name": "Suzanne Hughes, ESOL Teacher, OCES",
-    "sessions": [
-      {
-        "title": "\"Wordless Stories\" for English Learners",
-        "description": "Wordless Stories for English Learners- In this session I will demonstrate how I use wordless stories to help English Learners of various levels of English Language Proficiency to create/retell narrative stories. Students watch a wordless video, then they practice sequencing still images from the story. Vocabulary and language are taught and developed through modeling and peer interaction. Mini-lessons are used throughout the unit to teach and review concepts such as beginning/middle/end and transition words/phrases. Students work through the writing process with varying levels of support (pre-write, draft, edit, and publish)."
-      }
-    ]
-  },
-  {
-    "name": "Tamara Byars, Director of Professional Learning, Northeast Georgia RESA",
-    "sessions": [
-      {
-        "title": "Navigating Crucial Conversations with Confidence",
-        "description": "Set sail on a learning voyage designed to help educators navigate high-stakes conversations with clarity, confidence, and care. Learn to recognize when a conversation has entered \"rough waters,\" stay oriented to shared purpose while managing strong emotions, and navigate differing viewpoints with respect and professionalism. Whether you're addressing student concerns with parents, collaborating with colleagues, or managing personal conversations at home, you'll gain practical communication tools to steer conversations toward understanding and positive outcomes."
-      }
-    ]
-  },
-  {
-    "name": "Tannis Hillis, Speech Language Therapist, OCES",
-    "sessions": [
-      {
-        "title": "Writing IEPs using AI",
-        "description": "Participants will leave my session knowing how to use AI to help them write IEPs"
-      }
-    ]
-  },
-  {
-    "name": "Theresa Maxwell, OCHS",
-    "sessions": [
-      {
-        "title": "Student Survival for the Progressive Teacher",
-        "description": "Effective and consistent classroom management skills are essential for every teacher in order to maintain a quality learning environment for all students. This workshop will equip teachers with the necessary tools in order to establish classroom guidelines, procedures, and behavior management techniques."
-      }
-    ]
-  },
-  {
-    "name": "Tommy Wilson and Ruth Wilson, OCES",
-    "sessions": [
-      {
-        "title": "Strategies for Self Defense",
-        "description": "Participants will learn techniques for survival in an uncertain world. They will learn to identify potential threats and countermeasures to defend against those threats. They will learn how situational awareness and self-awareness can act as proactive measures."
-      }
-    ]
-  }
-];
+const presenters = [{"name": "Amy Godfrey, NEGaRESA ELA Specialist", "sessions": [{"title": "Write On: Elevating Writing Instruction in Grades 3-5", "description": "Strong writing instruction is intentionally designed, modeled, and nurtured. In this session, educators will explore practical, research-based strategies to strengthen writing instruction across all subject areas. Participants will examine the key components of effective writing instruction beginning with sentence construction, moving to effective paragraph planning, and then putting all the pieces together to construct text based upon a scenario. Aligned to the new writing standards and GMAS expectations, this session emphasizes how to support all writers as they develop their abilities to construct text. You will leave with clear strategies to elevate student writing and grow confident, capable communicators."}, {"title": "Write On: Elevating Writing Instruction in Grades K-2", "description": "Strong writing instruction is intentionally designed, modeled, and nurtured. In this session, educators will explore practical, research-based strategies to strengthen writing instruction across all subject areas. Participants will examine the key components of effective writing instruction at the sentence level with sentence construction, developing writers through oral language and early understanding of forming a sentence. Aligned to the new Georgia standards, this session emphasizes how to support all writers across content areas as they develop their abilities to construct text at the sentence level. You will leave with clear strategies to elevate student writing and grow confident, capable communicators."}]}, {"name": "April Arendall, EdTech Specialist/Speaker/Innovator", "sessions": [{"title": "Wayground", "description": "Discover how Wayground's versatile supplemental learning platform can revolutionize differentiation and accessibility in your classroom by leveraging AI-powered tools to automatically generate Georgia State standards-aligned assessments, create engaging gamified presentations with immediate student performance feedback, and develop reading passages with proper citations on any subject matter. You'll explore how Wayground seamlessly integrates with Georgia Standards of Excellence to provide high-quality vetted Instruction across core subjects while offering 25+ accessibility features-including Read Aloud, Audio Responses, Translation, and Dyslexia Font-that ensure UDL compliance and increase flexibility in Instruction presentation. Whether you're looking to support curriculum adoption with vetted math resources, integrate supplemental Instruction with your existing curriculum maps, or create multiple versions of activities with unique reading levels to meet diverse student needs, this session will show you how Wayground can streamline your instructional practice while enhancing student engagement and outcomes."}]}, {"name": "Brandi Paul, Corrie Mattox, Mary Kate Shealy, OCES", "sessions": [{"title": "Adobe Express for Education", "description": "How to use Adobe Express for Education with Students"}]}, {"name": "Brandon Adams, OCMS", "sessions": [{"title": "Google Maps across Instruction (writing, cultures, science, math)", "description": "This session is about strategies for teachers across Instruction and grade levels to use Google Maps to help students to learn the standards in a unique and creative way. This visual format will be another tool to add to your list of strategies that will help all learners, especially the visual learners. From art to math, Ela to science and Social Studies, ag to Spanish, Kindergarten to Senior year all can get ideas to change things up in your classroom if you have not used Google Maps before."}]}, {"name": "Danielle Williams, LMSW, Medlink Patriot, SBHC", "sessions": [{"title": "How to Support Students with Mental Health Issues", "description": "Description coming soon."}, {"title": "Protecting your Personal Mental Health", "description": "Description coming soon."}]}, {"name": "Dr. Chad Galloway and Ashlee, OCES", "sessions": [{"title": "Virtual Field Trips", "description": "Description coming soon."}]}, {"name": "Dr. DeShonda Wolfe, Certified Brisk AI Professional, OCHS", "sessions": [{"title": "Brisk", "description": "Brisk is an AI-powered Chrome extension that simplifies teaching tasks. It helps educators instantly create lesson plans, quizzes, presentations, and student feedback using your favorite resources, like YouTube, Google Docs, and web articles."}]}, {"name": "Dr. Susan Winstead, Math Instructional Coach, OCES", "sessions": [{"title": "Hands-On Statistics that Stick", "description": "This interactive professional learning session immerses teachers in hands-on statistical investigations aligned to elementary standards. Participants will explore data collection, representation, and analysis through concrete materials and real-world contexts while gaining practical strategies to implement immediately in their classrooms."}]}, {"name": "Dr. Tess Vaughn, Orthopedic Clinical Specialist", "sessions": [{"title": "Strengthen Your Core, Posture, Pressure and Presence", "description": "We all hear how important breath, meditation, and relaxation are, but who has the time and energy to lie down in a dark, quiet place with candles and aromatherapy for 30 minutes every day?!  Although it does sound a bit dreamy...What if you could lower stress, anxiety, blood pressure, pulse rate, low back pain, headaches, neck tension, buttocks pain, and pelvic floor leaking and pressure just by breathing with the right muscles in the right pattern even when you\u2019re teaching class!! Join me as we learn to do just that, and I bet you\u2019ll leave the breakout session feeling less pain and more relaxed."}]}, {"name": "Eric Curts, Nationally Known Technology Integration Specialist", "sessions": [{"title": "Your AI Treasure Chest: Creating & Sharing Gemini Gems", "description": "Gems are reusable, custom prompts that save your best AI workflows for instant access, and they are a game-changer for educators! In this deep-dive session we'll start by using Google's pre-made Gems (like Brainstormer and Storybook Creator), then learn to create your own, with tips for effective prompting and uploading reference files. We'll also cover how to share your Gems with colleagues and how schools can build a shared, high-quality Gem repository for staff and students. To see their full potential, we will tour my \"EduGems\" website and demonstrate powerful, ready-to-use prompts for lesson hooks, rubric generation, DOK analysis, and even creating AI-powered classroom games."}, {"title": "Promptcraft? Building a Better AI Prompt", "description": "AI can have a powerful impact on teaching and learning, but the value of what you get out can often depend on the quality of what you put in. How can you craft better prompts to get the best results? In this session we will explore examples of excellent prompts, models for building better prompts, using a \"super prompt\" to create prompts, using the \"collaborative prompt\" technique, activities to practice prompting, and more."}, {"title": "Full Bleed: Finding Balance between technology and Lift", "description": "Technology is a wonderful tool, but it can also consume our lives. In this session we will explore Googley tools as well as other tech resources (for ourselves and our students) to help monitor and manage the time we spend using technology, as well as how we can use technology to increase mindfulness and promote better mental, emotional, and physical health."}, {"title": "Did a Robot Write This Report? Managing AI Cheating", "description": "Although AI can help support students in their learning and work, unfortunately it can also be misused for cheating purposes. In this session we will explore ways to address academic integrity concerns in the age of AI. This will include creating student AI guidelines, adjustments to make assignments more AI-resistant, tools to monitor the use of AI and see what work students have done themselves, and educating students on the proper use of AI."}]}, {"name": "Erin Serrian, OCMS", "sessions": [{"title": "Beat the Stress Away", "description": "Have you ever wanted a chance to create music with a community but didn't believe you had the skills to complete the task? Have you ever felt like you needed to productively put your energy into something to lower your stress? If so, this is the class for you! Come join the bucket drumming brigade and learn how to play a musical tune with just two sticks and a 5- gallon bucket. No musical experience necessary, but health benefits might be found!\""}]}, {"name": "Jamie Parker, Fitness Instructor", "sessions": [{"title": "Core Balance and Stretch", "description": "A gentle workout designed for all levels. This workout will include standing abs and balance, ending with a nice long stretch. (For all levels, all standing, and no floor work)."}]}, {"name": "Jason Byars, EdTech Specialist/Speaker/Innovator", "sessions": [{"title": "The Safe Harbor Classroom: Navigating Trauma with Care and Connection", "description": "Educators will explore how to create a \u201csafe harbor\u201d classroom where students feel grounded, supported, and ready to learn. Participants will learn how trauma and stress shape student behavior, practice recognizing common regulation needs, and discover trauma-informed strategies that build safety, predictability, and strong teacher-student connections. Through practical examples and classroom-ready tools, this session equips teachers to navigate challenging moments with compassion and to foster a learning environment where every student can thrive."}]}, {"name": "Jennifer Kimbel, OCHS and Lindsey Gregory, OCES", "sessions": [{"title": "So, You're Finished, Now What?", "description": "We\u2019ve all seen it: that one student who finishes a 30-minute task in approximately 45 seconds and is now staring into your soul. Instead of panicking or handing out \"busy work\" that everyone hates, come learn how to channel that chaotic speed into something meaningful. This session provides a toolkit of independent tasks and brain-bending challenges designed to keep early finishers challenged and actively engaged in critical thinking tasks."}]}, {"name": "Jennifer Yauck, OCHS Instructional Coach", "sessions": [{"title": "Inspire", "description": "Come and learn more about the GA Inspire platform! In this session we will look at the social studies and science courses to find lessons to help your students in all grade levels! We will focus on multimodality lessons for English Learners and so much more! You will walk away with new lessons and activities!"}]}, {"name": "Jessica Tipton, OCHS", "sessions": [{"title": "Supporting Diverse Learners with Notebook LM", "description": "A practical overview of using Notebook LM\u2019s features to help special education students navigate content more independently."}, {"title": "Fall Smart Workshop", "description": "A short instructional training on how to react, roll, and land safely during accidental falls."}]}, {"name": "Jim Synan, Education Specialist in School Counseling & Behavior Specialist, Clarke County Schools", "sessions": [{"title": "Behavior Strategies for the K-12 Classroom", "description": "In this session, we will review effective Tier 1 Classroom Management Strategies, examine how to verbally de-escalate a student, and also touch on how trauma can impact the brain of students"}]}, {"name": "Karyn Gunter, Director of Special Education, OCSD", "sessions": [{"title": "A Day in the Life of a SpED Student", "description": "Experience a school day through the eyes of a special education student in this powerful simulation-based session. Participants will rotate through scenarios reflecting common academic, social, sensory, and communication challenges, building empathy and deepening understanding of diverse learning needs. Through guided reflection, educators will connect these experiences to practical classroom strategies, IEP implementation, and inclusive practices. Leave with a renewed perspective on accessibility, student engagement, and creating truly supportive learning environments for all students."}, {"title": "A Day in the Life of a SpEd Student", "description": "Experience a school day through the eyes of a special education student in this powerful simulation-based session. Participants will rotate through scenarios reflecting common academic, social, sensory, and communication challenges, building empathy and deepening understanding of diverse learning needs. Through guided reflection, educators will connect these experiences to practical classroom strategies, IEP implementation, and inclusive practices. Leave with a renewed perspective on accessibility, student engagement, and creating truly supportive learning environments for all students."}]}, {"name": "Katherine Calkin, MPH, MCHES Health Educator, Piedmont Hospital", "sessions": [{"title": "Tai Chi for Balance Improvement", "description": "Clinical studies show tai chi can improve strength, flexibility, balance & quality of sleep. This mind-body practice can increase feelings of relaxation and focus. We will warm up with gentle qigong exercises and will practice a simple Tai Chi for Health Institute form. Movements can be done standing or seated and can be adapted to your body. No experience necessary."}]}, {"name": "Kelly Allgood and Penny Miller, Janet High, OCMS", "sessions": [{"title": "Power Up Participation: 3 Digital Tools to Supercharge Student Thinking and Writing", "description": "In this session, participants will explore Curipod, ShortAnswer.com, and WeWrite-three easy-to-use tools designed to increase student engagement and writing. Attendees will experience each tool from a student\u2019s perspective and learn practical strategies for using them. The session will focus on promoting active thinking, real-time participation, and meaningful writing without adding extra grading."}]}, {"name": "Ken Howard, Special Agent in Charge (GBI Gang Task Force) Katie Walker, Assistant Special Agent in Charge & Tonia Willis", "sessions": [{"title": "Gang Culture and Our Children", "description": "\u201cGang affiliation is not something that students leave behind when they enter the school building. If a gang presence exists at school, it cannot be ignored. . . Gang-related issues should be addressed head-on or they will fester, harm school climate, and impede the learning environment\u201d (Georgia Department of Education). Kids are being recruited to join gangs now when they are in high school, middle school, and yes, even elementary school! Learn about active gangs in surrounding areas and how to identify them, as well as how gang involvement impacts kids in school and out of school."}]}, {"name": "Kevin Southall, OCES", "sessions": [{"title": "Suno: More Than a Jingle", "description": "Suno shows teachers how to use AI music to boost engagement, spark creativity, and make learning stick across any subject. Educators will create their own classroom-ready songs and leave with fresh, fun ideas they can use for students and themselves immediately."}]}, {"name": "Kristine Heckman, OCHS and Robin Guest, OCES", "sessions": [{"title": "Absent Intelligence", "description": "Overwhelmed with all the AI choices out there? Come to this class to learn how to start a chat with ChatGPT. This course is designed to help teachers incorporate AI into their classrooms without being overwhelmed. Basic tips and helpful hints will be the focus, so you can begin or even continue your journey from Absent Intelligence to Amazing Integration."}]}, {"name": "Lindsey Gregory, OCES", "sessions": [{"title": "Escape Room", "description": "Transform traditional classroom materials into interactive challenges by incorporating digital locks. This session explores how embedding game-like mechanics into everyday tasks can spark curiosity and increase student engagement. Participants will learn how to create their own digital locks to breathe new life into standard worksheets and create immersive, multi-layered learning adventures."}]}, {"name": "Mara Hardy, OCMS", "sessions": [{"title": "AI Early Finisher Activities", "description": "Discover how to engage your early finishers with meaningful, challenging work using AI-powered extension activities. In this hands-on session, you'll learn to use ChatGPT to create Depth of Knowledge (DOK) leveled tasks that push students beyond surface learning while keeping them motivated through digital badge-earning opportunities. Participants will leave with their own content-specific early finisher activities and a personalized badge system ready to implement in their classrooms. Transform those extra minutes into powerful learning moments that celebrate student achievement!"}]}, {"name": "Michael Weis, OCHS", "sessions": [{"title": "Peardeck and Flexiquiz", "description": "This session will allow users to become familiar with the PearDeck and Flexiquiz application for Google Presentations for gauging student learning (formative assessments)."}]}, {"name": "Norma Heninger, County Dir. DFACS", "sessions": [{"title": "Foster Care and DFACS", "description": "Information about the foster care system and how DFACS works to support children and families in our community."}]}, {"name": "Paul Thiel, Director of Operations OCHS", "sessions": [{"title": "Mastering Classroom Management with LanSchool", "description": "Take control of your digital classroom! Discover how LanSchool can transform your ability to monitor student devices, guide online learning, and keep students focused on the task at hand. Learn essential features like screen monitoring, website management, messaging tools, and attention-grabbing techniques that help you maintain engagement during instruction. Whether you're new to LanSchool or looking to unlock its full potential, you'll leave with practical skills to create a more productive and focused learning environment."}]}, {"name": "Rebecca Crook, Instructional Coach, OCES", "sessions": [{"title": "Mystery Skype: Making Geography Engaging", "description": "Mystery Skype: Making Geography Engaging: Take your geography standards to the next level with an interactive, inquiry-based learning experience! In this session, you'll learn how Mystery Skype transform map skills and geographic reasoning into an exciting game that connects your students with classrooms around the world. We'll explore how to prepare students for the game, assign the roles, and align the activity to any grad level and any geography standards. Walk away with everything you need to bring high-energy, authentic global learning into your classroom."}, {"title": "Using & Choosing Decodable Texts (Wiley Bleins approach)", "description": "Using & Choosing Decodable Texts (Wiley Blevins Approach): Strong decoding is the foundation of reading success, and decodable texts are a powerful tool when used well. Designed for K-2 teachers and any educators supporting students with phonics gaps, this session breaks down how to select, introduce, and use decodable texts effectively using Wiley Blevins book. We'll look at the key criteria for high-quality decodables, and simple routines that build accuracy, automaticity, and confidence in emerging readers. Participants will leave with practical examples, planning tools, and ready-to-use strategies for small-group instruction."}]}, {"name": "Rosanna Ames, PR & Julie Sartor, Media Specialist OCHS", "sessions": [{"title": "Unlocking the Magic of Canva", "description": "Canva is one of the most user-friendly design tools available to educators, and we have free access to the pro version. Canva is constantly improving functionality and adding new features. Join us for this session to check out some of the new features, including AI tools."}]}, {"name": "Rosanna Ames, PR Consultant, Julie Sartor & Maurice Freeman, OCHS", "sessions": [{"title": "Communication Strategies", "description": "Description coming soon."}]}, {"name": "Samantha Mathe, OCES", "sessions": [{"title": "Be Aware, Stay Safe: Practical Strategies for Everyday Life", "description": "From online threats to real-world encounters, this session equips you with practical knowledge to protect yourself in today's world. Learn what you may not know about internet safety, how to recognize and avoid common scams (whether they come through phone calls or emails), and what to watch for when you're out and about on your own. The session wraps up with physical tactics you can use if you ever find yourself in a dangerous situation. Walk away with actionable strategies you can put into practice immediately."}]}, {"name": "Sarah Gray and Ela McAllister, OCES", "sessions": [{"title": "Using AI to create stories with differentiated Lexile Levels", "description": "Imagine being able to create perfectly leveled stories in minutes. In this session, participants will learn how to use AI tools to generate engaging texts at specific Lexile levels and design meaningful questions that support comprehension. You\u2019ll leave with practical techniques to personalize literacy experiences for every learner."}]}, {"name": "Shannon Hammond, Executive Director of Adult Literacy Barrow", "sessions": [{"title": "Strategies for Supporting English Learners in the Classroom", "description": "Participants will leave with an understanding of the needs of English Learners and will be provided with strategies to meet their unique needs. The session is open to all educators who teach or otherwise support English Learners."}]}, {"name": "Shona Foster, Instructional Technology & Digital Learning Director, NEGA RESA", "sessions": [{"title": "Using NotebookLM to Support Teaching, Learning, and Planning", "description": "NotebookLM is a powerful AI tool designed to help educators make sense of information using their own trusted sources. In this session, participants will explore how Notebook LM can support lesson planning, Instruction analysis, and instructional decision making by synthesizing documents, generating insights, creating summaries, and supporting multimodal learning experiences. Attendees will see practical classroom and professional use cases, including note-taking, question generation, concept mapping, and podcast creation, while gaining a clear understanding of how NotebookLM aligns with instructional goals and standards based teaching. This hands-on session is ideal for educators looking to use AI thoughtfully, safely, and efficiently to support both teaching and learning"}, {"title": "Using AI Tools to Support Life, Work, and Well-Being", "description": "NotebookLM is a powerful AI tool designed to help educators make sense of information using their own trusted sources. In this session, participants will explore how Notebook LM can support lesson planning, Instruction analysis, and instructional decision making by synthesizing documents, generating insights, creating summaries, and supporting multimodal learning experiences. Attendees will see practical classroom and professional use cases, including note-taking, question generation, concept mapping, and podcast creation, while gaining a clear understanding of how NotebookLM aligns with instructional goals and standards based teaching. This hands-on session is ideal for educators looking to use AI thoughtfully, safely, and efficiently to support both teaching and learning"}]}, {"name": "Spencer & Whitney Gomez, Movement Meals", "sessions": [{"title": "Healthy Meal Prep", "description": "Tips and tricks to preparing healthy meals ahead of time.  Demonstration Session"}]}, {"name": "Steven King, OCMS", "sessions": [{"title": "Employing AI Tools in the Science Classroom", "description": "Students often use AI to make it easy to complete their assignments, so why shouldn\u2019t you make your job easier by using AI?  We will look at some great uses of implementing AI to make your science lessons engaging and assist with lesson planning, classroom management, and instruction.  Attendees will also be given the opportunity to share uses of AI that they have found beneficial in their own classroom."}]}, {"name": "Suzanne Hughes, ESOL Teacher, OCES", "sessions": [{"title": "\"Wordless Stories\" for English Learners", "description": "Wordless Stories for English Learners- In this session I will demonstrate how I use wordless stories to help English Learners of various levels of English Language Proficiency to create/retell narrative stories.  Students watch a wordless video, then they practice sequencing still images from the story.  Vocabulary and language are taught and developed through modeling and peer interaction.  Mini-lessons are used throughout the unit to teach and review concepts such as beginning/middle/end and transition words/phrases.  Students work through the writing process with varying levels of support (pre-write, draft, edit, and publish)."}]}, {"name": "Tamara Byars, Director of Professional Learning, Northeast Georgia RESA", "sessions": [{"title": "Navigating Crucial Conversations with Confidence", "description": "Set sail on a learning voyage designed to help educators navigate high-stakes conversations with clarity, confidence, and care. Learn to recognize when a conversation has entered \"rough waters,\" stay oriented to shared purpose while managing strong emotions, and navigate differing viewpoints with respect and professionalism. Whether you're addressing student concerns with parents, collaborating with colleagues, or managing personal conversations at home, you'll gain practical communication tools to steer conversations toward understanding and positive outcomes."}]}, {"name": "Tannis Hillis, Speech Language Therapist, OCES", "sessions": [{"title": "Writing IEPs using AI", "description": "Participants will leave my session knowing how to use AI to help them write IEPs"}]}, {"name": "Theresa Maxwell, OCHS", "sessions": [{"title": "Student Survival for the Progressive Teacher", "description": "Effective and consistent classroom management skills are essential for every teacher in order to maintain a quality learning environment for all students. This workshop will equip teachers with the necessary tools in order to establish classroom guidelines, procedures, and behavior management techniques.Effective and consistent classroom management skills are essential for every teacher in order to maintain a quality learning environment for all students. This workshop will equip teachers with the necessary tools in order to establish classroom guidelines, procedures, and behavior management techniques."}]}, {"name": "Tommy Wilson and Ruth Wilson, OCES", "sessions": [{"title": "Strategies for Self Defense", "description": "Participants will learn techniques for survival in an uncertain world.   They will learn to identify potential threats and countermeasures to defend against those threats. They will learn how situational awareness and self-awareness can act as proactive measures."}]}];
 
-        // Google Apps Script Web App URL - Replace with your actual URL after deploying
-        const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
 
-        // DOM Elements
-        const presenterSelect = document.getElementById('presenterSelect');
-        const step1 = document.getElementById('step1');
-        const step2 = document.getElementById('step2');
-        const successCard = document.getElementById('successCard');
-        const displayName = document.getElementById('displayName');
-        const sessionsContainer = document.getElementById('sessionsContainer');
-        const verificationForm = document.getElementById('verificationForm');
-        const nameCorrectionBox = document.getElementById('nameCorrectionBox');
+const presenterSelect = document.getElementById('presenterSelect');
+const step1 = document.getElementById('step1');
+const step2 = document.getElementById('step2');
+const successCard = document.getElementById('successCard');
+const displayName = document.getElementById('displayName');
+const sessionsContainer = document.getElementById('sessionsContainer');
+const verificationForm = document.getElementById('verificationForm');
+const nameCorrectionBox = document.getElementById('nameCorrectionBox');
 
-        // Populate presenter dropdown
-        presenters.forEach((presenter, index) => {
-            const option = document.createElement('option');
-            option.value = index;
-            option.textContent = presenter.name;
-            presenterSelect.appendChild(option);
+presenters.forEach((presenter, index) => {
+    const option = document.createElement('option');
+    option.value = index;
+    option.textContent = presenter.name;
+    presenterSelect.appendChild(option);
+});
+
+presenterSelect.addEventListener('change', function() {
+    if (this.value === '') { step2.classList.add('hidden'); return; }
+    const presenter = presenters[this.value];
+    displayName.textContent = presenter.name;
+    let sessionsHTML = '<h3 class="section-title">2. Session Information</h3>';
+    presenter.sessions.forEach((session, idx) => {
+        sessionsHTML += '<div class="session-card"><h3>Session ' + (idx + 1) + ': ' + session.title + '</h3><div class="description">' + session.description + '</div><div class="form-group"><label class="required">Is this session title correct?</label><div class="radio-group"><label class="radio-option"><input type="radio" name="titleCorrect' + idx + '" value="yes" required><span>Yes</span></label><label class="radio-option"><input type="radio" name="titleCorrect' + idx + '" value="no"><span>No</span></label></div><div class="correction-box" id="titleCorrectionBox' + idx + '"><label>Please provide the correct title:</label><input type="text" id="titleCorrection' + idx + '" placeholder="Enter correct session title"></div></div><div class="form-group"><label class="required">Is this description correct?</label><div class="radio-group"><label class="radio-option"><input type="radio" name="descCorrect' + idx + '" value="yes" required><span>Yes</span></label><label class="radio-option"><input type="radio" name="descCorrect' + idx + '" value="no"><span>No</span></label></div><div class="correction-box" id="descCorrectionBox' + idx + '"><label>Please provide the correct description:</label><textarea id="descCorrection' + idx + '" placeholder="Enter correct description"></textarea></div></div></div>';
+    });
+    sessionsContainer.innerHTML = sessionsHTML;
+    presenter.sessions.forEach((session, idx) => {
+        document.querySelectorAll('input[name="titleCorrect' + idx + '"]').forEach(radio => {
+            radio.addEventListener('change', function() { document.getElementById('titleCorrectionBox' + idx).classList.toggle('show', this.value === 'no'); });
         });
-
-        // Handle presenter selection
-        presenterSelect.addEventListener('change', function() {
-            if (this.value === '') {
-                step2.classList.add('hidden');
-                return;
-            }
-
-            const presenter = presenters[this.value];
-            displayName.textContent = presenter.name;
-
-            // Build sessions HTML
-            let sessionsHTML = '<h3 class="section-title">2. Session Information</h3>';
-            
-            presenter.sessions.forEach((session, idx) => {
-                sessionsHTML += `
-                    <div class="session-card">
-                        <h3>Session ${idx + 1}: ${session.title}</h3>
-                        <div class="description">${session.description}</div>
-                        
-                        <div class="form-group">
-                            <label class="required">Is this session title correct?</label>
-                            <div class="radio-group">
-                                <label class="radio-option">
-                                    <input type="radio" name="titleCorrect${idx}" value="yes" required>
-                                    <span>Yes</span>
-                                </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="titleCorrect${idx}" value="no">
-                                    <span>No</span>
-                                </label>
-                            </div>
-                            <div class="correction-box" id="titleCorrectionBox${idx}">
-                                <label>Please provide the correct title:</label>
-                                <input type="text" id="titleCorrection${idx}" placeholder="Enter correct session title">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="required">Is this description correct?</label>
-                            <div class="radio-group">
-                                <label class="radio-option">
-                                    <input type="radio" name="descCorrect${idx}" value="yes" required>
-                                    <span>Yes</span>
-                                </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="descCorrect${idx}" value="no">
-                                    <span>No</span>
-                                </label>
-                            </div>
-                            <div class="correction-box" id="descCorrectionBox${idx}">
-                                <label>Please provide the correct description:</label>
-                                <textarea id="descCorrection${idx}" placeholder="Enter correct description"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            sessionsContainer.innerHTML = sessionsHTML;
-
-            // Add event listeners for showing/hiding correction boxes
-            presenter.sessions.forEach((session, idx) => {
-                document.querySelectorAll(`input[name="titleCorrect${idx}"]`).forEach(radio => {
-                    radio.addEventListener('change', function() {
-                        document.getElementById(`titleCorrectionBox${idx}`).classList.toggle('show', this.value === 'no');
-                    });
-                });
-                
-                document.querySelectorAll(`input[name="descCorrect${idx}"]`).forEach(radio => {
-                    radio.addEventListener('change', function() {
-                        document.getElementById(`descCorrectionBox${idx}`).classList.toggle('show', this.value === 'no');
-                    });
-                });
-            });
-
-            step2.classList.remove('hidden');
+        document.querySelectorAll('input[name="descCorrect' + idx + '"]').forEach(radio => {
+            radio.addEventListener('change', function() { document.getElementById('descCorrectionBox' + idx).classList.toggle('show', this.value === 'no'); });
         });
+    });
+    step2.classList.remove('hidden');
+});
 
-        // Handle name correction visibility
-        document.querySelectorAll('input[name="nameCorrect"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                nameCorrectionBox.classList.toggle('show', this.value === 'no');
-            });
+document.querySelectorAll('input[name="nameCorrect"]').forEach(radio => {
+    radio.addEventListener('change', function() { nameCorrectionBox.classList.toggle('show', this.value === 'no'); });
+});
+
+verificationForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const audienceChecked = document.querySelectorAll('input[name="audience"]:checked');
+    const audienceOther = document.getElementById('audienceOther').value.trim();
+    if (audienceChecked.length === 0 && !audienceOther) { alert('Please select at least one target audience for your session(s).'); return; }
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+    const presenter = presenters[presenterSelect.value];
+    const formData = {
+        timestamp: new Date().toISOString(),
+        presenterName: presenter.name,
+        nameCorrect: document.querySelector('input[name="nameCorrect"]:checked')?.value,
+        nameCorrection: document.getElementById('nameCorrection')?.value || '',
+        sessions: [],
+        targetAudience: Array.from(audienceChecked).map(cb => cb.value),
+        audienceOther: audienceOther,
+        additionalNotes: document.getElementById('additionalNotes')?.value || ''
+    };
+    presenter.sessions.forEach((session, idx) => {
+        formData.sessions.push({
+            originalTitle: session.title,
+            titleCorrect: document.querySelector('input[name="titleCorrect' + idx + '"]:checked')?.value,
+            titleCorrection: document.getElementById('titleCorrection' + idx)?.value || '',
+            descCorrect: document.querySelector('input[name="descCorrect' + idx + '"]:checked')?.value,
+            descCorrection: document.getElementById('descCorrection' + idx)?.value || ''
         });
-
-        // Handle form submission
-        verificationForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            // Validate audience selection
-            const audienceChecked = document.querySelectorAll('input[name="audience"]:checked');
-            const audienceOther = document.getElementById('audienceOther').value.trim();
-            
-            if (audienceChecked.length === 0 && !audienceOther) {
-                alert('Please select at least one target audience for your session(s).');
-                return;
-            }
-
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Submitting...';
-
-            const presenter = presenters[presenterSelect.value];
-            
-            // Gather form data
-            const formData = {
-                timestamp: new Date().toISOString(),
-                presenterName: presenter.name,
-                nameCorrect: document.querySelector('input[name="nameCorrect"]:checked')?.value,
-                nameCorrection: document.getElementById('nameCorrection')?.value || '',
-                sessions: [],
-                targetAudience: Array.from(audienceChecked).map(cb => cb.value),
-                audienceOther: audienceOther,
-                additionalNotes: document.getElementById('additionalNotes')?.value || ''
-            };
-
-            // Gather session data
-            presenter.sessions.forEach((session, idx) => {
-                formData.sessions.push({
-                    originalTitle: session.title,
-                    titleCorrect: document.querySelector(`input[name="titleCorrect${idx}"]:checked`)?.value,
-                    titleCorrection: document.getElementById(`titleCorrection${idx}`)?.value || '',
-                    descCorrect: document.querySelector(`input[name="descCorrect${idx}"]:checked`)?.value,
-                    descCorrection: document.getElementById(`descCorrection${idx}`)?.value || ''
-                });
-            });
-
-            try {
-                // Send to Google Sheets via Apps Script
-                if (GOOGLE_SCRIPT_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-                    await fetch(GOOGLE_SCRIPT_URL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(formData)
-                    });
-                }
-
-                // Show success
-                step1.classList.add('hidden');
-                step2.classList.add('hidden');
-                successCard.classList.remove('hidden');
-
-                // Log for testing
-                console.log('Form submitted:', formData);
-
-            } catch (error) {
-                console.error('Error submitting form:', error);
-                alert('There was an error submitting your form. Please try again.');
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Submit Verification';
-            }
-        });
+    });
+    try {
+        if (GOOGLE_SCRIPT_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+            await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) });
+        }
+        step1.classList.add('hidden');
+        step2.classList.add('hidden');
+        successCard.classList.remove('hidden');
+        console.log('Form submitted:', formData);
+    } catch (error) {
+        console.error('Error submitting form:', error);
+        alert('There was an error submitting your form. Please try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Verification';
+    }
+});
     </script>
 </body>
 </html>
