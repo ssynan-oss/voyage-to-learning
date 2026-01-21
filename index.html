@@ -2156,6 +2156,9 @@ const SESSIONS = [
             btn.disabled = true;
             btn.innerHTML = '⏳ Registering...';
 
+            // IMMEDIATELY clear all session selections - we'll load fresh from Airtable
+            userRegistrations = { 1: null, 2: null, 3: null, 4: null };
+
             try {
                 // Check if user already exists (by email) - sort by RegisteredAt desc to get most recent
                 const checkResponse = await fetch(
@@ -2193,10 +2196,7 @@ const SESSIONS = [
 
                     if (!updateResponse.ok) throw new Error('Failed to update registration');
                     
-                    // FIRST: Clear all session selections to start fresh
-                    userRegistrations = { 1: null, 2: null, 3: null, 4: null };
-                    
-                    // THEN: Load their existing session selections (only the ones they have)
+                    // Load their existing session selections (sessions already cleared at start)
                     const existingRecord = checkData.records[0].fields;
                     if (existingRecord.Session1) {
                         const session = SESSIONS.find(s => s.title === existingRecord.Session1 && s.session === '1');
@@ -2217,10 +2217,7 @@ const SESSIONS = [
 
                     status.innerHTML = '🎉 Welcome back! Your info has been updated. Select your sessions below.';
                 } else {
-                    // New user - clear any leftover session selections from previous user
-                    userRegistrations = { 1: null, 2: null, 3: null, 4: null };
-                    
-                    // Create new record
+                    // New user - sessions already cleared at start, create new record
                     const createResponse = await fetch(
                         `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}`,
                         {
