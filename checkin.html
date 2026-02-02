@@ -545,6 +545,7 @@
             <button class="admin-btn btn-roster" onclick="showRoster()">&#128203; View Check-In Roster</button>
             <button class="admin-btn btn-roster" onclick="copyRoster()">&#128196; Copy Names for Door Prizes</button>
             <button class="admin-btn btn-prize" onclick="drawWinner()">&#127873; Draw Random Door Prize Winner</button>
+            <button class="admin-btn btn-refresh" onclick="resetWinners()" style="font-size:0.8rem;">&#128260; Reset Winners (Start Over)</button>
 
             <div class="roster-area" id="rosterArea"></div>
             <div class="prize-winner" id="prizeWinner">
@@ -552,6 +553,11 @@
                 <div>The winner is...</div>
                 <div class="winner-name" id="winnerName"></div>
                 <div style="font-size:1.5rem; margin-top:0.5rem;">&#127882;&#127881;&#127882;</div>
+                <div id="remainingCount" style="margin-top:0.8rem;font-size:0.85rem;color:#888;"></div>
+            </div>
+            <div id="winnerHistory" style="display:none;margin-top:1rem;background:var(--light-gray);border-radius:10px;padding:1rem;">
+                <div style="font-weight:700;color:var(--navy);margin-bottom:0.5rem;">&#127873; Winners So Far:</div>
+                <div id="winnerList"></div>
             </div>
         </div>
     </div>
@@ -573,6 +579,8 @@
         };
 
         let checkedInList = [];
+        let prizePool = [];
+        let winners = [];
 
         // ============================================
         // STEP 1: LOOK UP EMAIL IN REGISTRATIONS
@@ -779,6 +787,9 @@
                 checkedInList.sort((a, b) => new Date(b.time) - new Date(a.time));
 
                 document.getElementById('totalCheckedIn').textContent = checkedInList.length;
+
+                // Refresh prize pool (exclude previous winners)
+                prizePool = checkedInList.filter(p => !winners.includes(p.name));
                 document.getElementById('totalRegistered').textContent = totalRegistered;
 
             } catch (error) {
@@ -840,9 +851,40 @@
                 return;
             }
 
-            const winner = checkedInList[Math.floor(Math.random() * checkedInList.length)];
+            // Build pool excluding past winners
+            prizePool = checkedInList.filter(p => !winners.includes(p.name));
+
+            if (prizePool.length === 0) {
+                alert('Everyone has already won a prize! Click "Reset Winners" to start over.');
+                return;
+            }
+
+            const winner = prizePool[Math.floor(Math.random() * prizePool.length)];
+            winners.push(winner.name);
+
+            // Remove from pool
+            prizePool = prizePool.filter(p => p.name !== winner.name);
+
             document.getElementById('winnerName').textContent = winner.name;
+            document.getElementById('remainingCount').textContent = `${prizePool.length} names remaining in the pool`;
             document.getElementById('prizeWinner').classList.add('visible');
+
+            // Update winner history
+            const historyDiv = document.getElementById('winnerHistory');
+            historyDiv.style.display = 'block';
+            document.getElementById('winnerList').innerHTML = winners.map((w, i) =>
+                `<div style="padding:0.3rem 0;border-bottom:1px solid #e2e8f0;font-size:0.9rem;">${i + 1}. ${w}</div>`
+            ).join('');
+        }
+
+        function resetWinners() {
+            if (winners.length === 0) return;
+            if (!confirm(`Reset all ${winners.length} winners and start over?`)) return;
+            winners = [];
+            prizePool = [...checkedInList];
+            document.getElementById('prizeWinner').classList.remove('visible');
+            document.getElementById('winnerHistory').style.display = 'none';
+            document.getElementById('winnerList').innerHTML = '';
         }
 
         // Enter key handlers
