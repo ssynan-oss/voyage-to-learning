@@ -2258,38 +2258,52 @@ const SESSIONS = [
             }
 
             try {
-                // Fetch all registrations from Airtable
-                const response = await fetch(
-                    `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}`,
-                    {
+                // Fetch ALL registrations from Airtable (with pagination)
+                let allRecords = [];
+                let offset = null;
+                
+                do {
+                    let url = `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}?pageSize=100`;
+                    if (offset) {
+                        url += `&offset=${offset}`;
+                    }
+                    
+                    const response = await fetch(url, {
                         headers: {
                             'Authorization': `Bearer ${AIRTABLE_CONFIG.apiKey}`
                         }
-                    }
-                );
-
-                if (response.ok) {
-                    const data = await response.json();
-                    
-                    // Count registrations for each session
-                    data.records.forEach(record => {
-                        const fields = record.fields;
-                        
-                        // Check each session slot
-                        ['Session1', 'Session2', 'Session3', 'Session4'].forEach(slotField => {
-                            const sessionTitle = fields[slotField];
-                            if (sessionTitle) {
-                                // Find session by title and increment count
-                                const session = SESSIONS.find(s => s.title === sessionTitle);
-                                if (session) {
-                                    sessionEnrollments[session.id] = (sessionEnrollments[session.id] || 0) + 1;
-                                }
-                            }
-                        });
                     });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        allRecords = allRecords.concat(data.records);
+                        offset = data.offset; // Will be undefined when no more pages
+                    } else {
+                        console.error('Error fetching enrollment data:', response.status);
+                        break;
+                    }
+                } while (offset);
+                
+                console.log(`Loaded ${allRecords.length} total registrations from Airtable`);
+                
+                // Count registrations for each session
+                allRecords.forEach(record => {
+                    const fields = record.fields;
                     
-                    console.log('Enrollment counts loaded:', sessionEnrollments);
-                }
+                    // Check each session slot
+                    ['Session1', 'Session2', 'Session3', 'Session4'].forEach(slotField => {
+                        const sessionTitle = fields[slotField];
+                        if (sessionTitle) {
+                            // Find session by title and increment count
+                            const session = SESSIONS.find(s => s.title === sessionTitle);
+                            if (session) {
+                                sessionEnrollments[session.id] = (sessionEnrollments[session.id] || 0) + 1;
+                            }
+                        }
+                    });
+                });
+                
+                console.log('Enrollment counts loaded:', sessionEnrollments);
             } catch (error) {
                 console.error('Error loading enrollment counts:', error);
             }
