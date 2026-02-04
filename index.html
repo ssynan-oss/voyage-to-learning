@@ -2308,15 +2308,18 @@ const SESSIONS = [
                     const fields = record.fields;
                     
                     // Check each session slot
-                    ['Session1', 'Session2', 'Session3', 'Session4'].forEach(slotField => {
+                    ['Session1', 'Session2', 'Session3', 'Session4'].forEach((slotField, index) => {
                         const sessionTitle = fields[slotField];
+                        const sessionSlot = String(index + 1); // Convert to "1", "2", "3", "4"
+                        
                         if (sessionTitle) {
                             // Normalize the title for matching (trim whitespace, normalize unicode)
                             const normalizedTitle = sessionTitle.trim().normalize('NFC');
                             
-                            // Find session by title and increment count
+                            // Find session by BOTH title AND session slot
                             const session = SESSIONS.find(s => 
-                                s.title.trim().normalize('NFC') === normalizedTitle
+                                s.title.trim().normalize('NFC') === normalizedTitle &&
+                                String(s.session) === sessionSlot
                             );
                             if (session) {
                                 sessionEnrollments[session.id] = (sessionEnrollments[session.id] || 0) + 1;
