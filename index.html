@@ -281,6 +281,61 @@
             margin: 0;
         }
 
+        .schedule-buttons {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .confirm-btn {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .confirm-btn:hover {
+            background: linear-gradient(135deg, #219a52, #27ae60);
+            transform: scale(1.02);
+        }
+
+        .confirm-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .confirmation-message {
+            margin-top: 1rem;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .confirmation-message.success {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            color: #155724;
+            border: 2px solid #28a745;
+        }
+
+        .confirmation-message.incomplete {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            color: #856404;
+            border: 2px solid #ffc107;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .print-btn {
             background: var(--navy);
             color: white;
@@ -587,6 +642,32 @@
             max-height: 0;
             padding: 0 1rem;
             overflow: hidden;
+        }
+
+        .mobile-schedule-bar.collapsed .mobile-confirm-container {
+            display: none !important;
+        }
+
+        .mobile-confirm-container {
+            padding: 0.75rem 1rem 1rem 1rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .mobile-confirm-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 0.85rem 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .mobile-confirm-btn:hover, .mobile-confirm-btn:active {
+            background: linear-gradient(135deg, #219a52, #27ae60);
         }
 
         .mobile-schedule-item {
@@ -1105,9 +1186,13 @@
         <div class="my-schedule" id="mySchedule" style="display: none;">
             <div class="schedule-header">
                 <h2>📋 My Schedule</h2>
-                <button class="print-btn" onclick="printSchedule()">🖨️ Print My Schedule</button>
+                <div class="schedule-buttons">
+                    <button class="confirm-btn" id="confirmSessionsBtn" onclick="confirmSessions()">✅ Confirm My Sessions</button>
+                    <button class="print-btn" onclick="printSchedule()">🖨️ Print My Schedule</button>
+                </div>
             </div>
             <div id="scheduleContent"></div>
+            <div id="confirmationMessage" class="confirmation-message" style="display: none;"></div>
         </div>
 
         <!-- Sessions Grid -->
@@ -1128,6 +1213,9 @@
         </div>
         <div class="mobile-schedule-content" id="mobileScheduleContent">
             <!-- Filled by JavaScript -->
+        </div>
+        <div class="mobile-confirm-container" id="mobileConfirmContainer" style="display: none;">
+            <button class="mobile-confirm-btn" onclick="confirmSessions()">✅ Confirm My Sessions</button>
         </div>
     </div>
 
@@ -2220,6 +2308,7 @@ const SESSIONS = [
         function updateMobileSchedule() {
             const contentEl = document.getElementById('mobileScheduleContent');
             const countEl = document.getElementById('mobileScheduleCount');
+            const confirmContainer = document.getElementById('mobileConfirmContainer');
             
             const registeredSessions = Object.entries(userRegistrations)
                 .filter(([slot, id]) => id !== null)
@@ -2233,6 +2322,7 @@ const SESSIONS = [
 
             if (registeredSessions.length === 0) {
                 contentEl.innerHTML = '<div class="mobile-schedule-empty">No sessions selected yet.<br>Browse and register below!</div>';
+                confirmContainer.style.display = 'none';
                 return;
             }
 
@@ -2242,6 +2332,9 @@ const SESSIONS = [
                     <div class="mobile-schedule-title">${session.title}</div>
                 </div>
             `).join('');
+            
+            // Show confirm button when user has at least one session
+            confirmContainer.style.display = 'block';
         }
 
         // Load enrollment counts from Airtable
@@ -2906,6 +2999,85 @@ const SESSIONS = [
             
             // Also update mobile schedule bar
             updateMobileSchedule();
+        }
+
+        // Confirm Sessions Function - gives users feedback that sessions are saved
+        async function confirmSessions() {
+            const btn = document.getElementById('confirmSessionsBtn');
+            const messageDiv = document.getElementById('confirmationMessage');
+            const userName = document.getElementById('userName').value.trim();
+            const userEmail = document.getElementById('userEmail').value.trim();
+            
+            // Count selected sessions
+            const selectedCount = Object.values(userRegistrations).filter(id => id !== null).length;
+            
+            // Check if user is registered
+            const savedInfo = localStorage.getItem('voyageUserInfo');
+            if (!savedInfo || !JSON.parse(savedInfo).airtableRecordId) {
+                showAlert('Please click "Register for the Day" first before confirming sessions.', 'error');
+                return;
+            }
+            
+            // Disable button and show loading
+            btn.disabled = true;
+            btn.innerHTML = '⏳ Confirming...';
+            
+            try {
+                // Force save to Airtable
+                await saveToAirtable();
+                
+                // Show confirmation message
+                messageDiv.style.display = 'block';
+                
+                if (selectedCount === 4) {
+                    messageDiv.className = 'confirmation-message success';
+                    messageDiv.innerHTML = `
+                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🎉 All Sessions Confirmed!</div>
+                        <div>${userName}, your ${selectedCount} sessions have been saved.</div>
+                        <div style="font-size: 0.9rem; margin-top: 0.5rem; color: #155724;">
+                            ✓ You can print your schedule or close this page.<br>
+                            ✓ Your sessions will be here when you return.
+                        </div>
+                    `;
+                } else if (selectedCount > 0) {
+                    messageDiv.className = 'confirmation-message incomplete';
+                    messageDiv.innerHTML = `
+                        <div style="font-size: 1.3rem; margin-bottom: 0.5rem;">✓ Sessions Saved (${selectedCount}/4)</div>
+                        <div>${userName}, you have ${selectedCount} session${selectedCount > 1 ? 's' : ''} selected.</div>
+                        <div style="font-size: 0.9rem; margin-top: 0.5rem;">
+                            ⚠️ You still have ${4 - selectedCount} session${4 - selectedCount > 1 ? 's' : ''} to choose!<br>
+                            Scroll down to browse available sessions.
+                        </div>
+                    `;
+                } else {
+                    messageDiv.className = 'confirmation-message incomplete';
+                    messageDiv.innerHTML = `
+                        <div style="font-size: 1.3rem; margin-bottom: 0.5rem;">⚠️ No Sessions Selected</div>
+                        <div>Please scroll down and click "Register" on the sessions you want to attend.</div>
+                    `;
+                }
+                
+                // Scroll to make sure they see the message
+                messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // Reset button
+                btn.disabled = false;
+                btn.innerHTML = '✅ Confirm My Sessions';
+                
+                // Also show an alert for extra visibility
+                if (selectedCount === 4) {
+                    showAlert('All 4 sessions confirmed and saved! 🎉', 'success');
+                } else if (selectedCount > 0) {
+                    showAlert(`${selectedCount} session${selectedCount > 1 ? 's' : ''} saved. You still need to select ${4 - selectedCount} more!`, 'info');
+                }
+                
+            } catch (error) {
+                console.error('Error confirming sessions:', error);
+                btn.disabled = false;
+                btn.innerHTML = '✅ Confirm My Sessions';
+                messageDiv.style.display = 'none';
+                showAlert('There was an error saving your sessions. Please try again.', 'error');
+            }
         }
 
         // Print Schedule Function
