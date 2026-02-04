@@ -2124,7 +2124,7 @@ const SESSIONS = [
                 
                 do {
                     const url = offset 
-                        ? `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}?offset=${offset}`
+                        ? `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}?offset=${encodeURIComponent(offset)}`
                         : `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}`;
                     
                     const response = await fetch(url, {
@@ -2138,6 +2138,7 @@ const SESSIONS = [
                         allRecords = allRecords.concat(data.records);
                         offset = data.offset; // Will be undefined if no more pages
                     } else {
+                        console.error('Airtable pagination error:', response.status);
                         break;
                     }
                 } while (offset);
