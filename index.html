@@ -1978,19 +1978,19 @@ const SESSIONS = [
                     
                     // THEN: Load existing session selections (only the ones they have)
                     if (fields.Session1) {
-                        const session = SESSIONS.find(s => s.title === fields.Session1 && s.session === '1');
+                        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(fields.Session1) && s.session === '1');
                         if (session) userRegistrations[1] = session.id;
                     }
                     if (fields.Session2) {
-                        const session = SESSIONS.find(s => s.title === fields.Session2 && s.session === '2');
+                        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(fields.Session2) && s.session === '2');
                         if (session) userRegistrations[2] = session.id;
                     }
                     if (fields.Session3) {
-                        const session = SESSIONS.find(s => s.title === fields.Session3 && s.session === '3');
+                        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(fields.Session3) && s.session === '3');
                         if (session) userRegistrations[3] = session.id;
                     }
                     if (fields.Session4) {
-                        const session = SESSIONS.find(s => s.title === fields.Session4 && s.session === '4');
+                        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(fields.Session4) && s.session === '4');
                         if (session) userRegistrations[4] = session.id;
                     }
                     
@@ -2118,42 +2118,54 @@ const SESSIONS = [
             }
 
             try {
-                // Fetch all registrations from Airtable
-                const response = await fetch(
-                    `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}`,
-                    {
+                // Fetch ALL registrations from Airtable (handling pagination)
+                let allRecords = [];
+                let offset = null;
+                
+                do {
+                    const url = offset 
+                        ? `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}?offset=${offset}`
+                        : `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}`;
+                    
+                    const response = await fetch(url, {
                         headers: {
                             'Authorization': `Bearer ${AIRTABLE_CONFIG.apiKey}`
                         }
-                    }
-                );
-
-                if (response.ok) {
-                    const data = await response.json();
-                    
-                    // Count registrations for each session
-                    data.records.forEach(record => {
-                        const fields = record.fields;
-                        
-                        // Check each session slot
-                        ['Session1', 'Session2', 'Session3', 'Session4'].forEach((slotField, index) => {
-                            const sessionTitle = fields[slotField];
-                            const sessionSlot = String(index + 1); // '1', '2', '3', or '4'
-                            if (sessionTitle) {
-                                // Find session by title AND session slot, using normalized comparison
-                                const normalizedInput = normalizeTitle(sessionTitle);
-                                const session = SESSIONS.find(s => 
-                                    normalizeTitle(s.title) === normalizedInput && s.session === sessionSlot
-                                );
-                                if (session) {
-                                    sessionEnrollments[session.id] = (sessionEnrollments[session.id] || 0) + 1;
-                                }
-                            }
-                        });
                     });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        allRecords = allRecords.concat(data.records);
+                        offset = data.offset; // Will be undefined if no more pages
+                    } else {
+                        break;
+                    }
+                } while (offset);
+                
+                console.log(`Loaded ${allRecords.length} total registrations from Airtable`);
+                
+                // Count registrations for each session
+                allRecords.forEach(record => {
+                    const fields = record.fields;
                     
-                    console.log('Enrollment counts loaded:', sessionEnrollments);
-                }
+                    // Check each session slot
+                    ['Session1', 'Session2', 'Session3', 'Session4'].forEach((slotField, index) => {
+                        const sessionTitle = fields[slotField];
+                        const sessionSlot = String(index + 1); // '1', '2', '3', or '4'
+                        if (sessionTitle) {
+                            // Find session by title AND session slot, using normalized comparison
+                            const normalizedInput = normalizeTitle(sessionTitle);
+                            const session = SESSIONS.find(s => 
+                                normalizeTitle(s.title) === normalizedInput && s.session === sessionSlot
+                            );
+                            if (session) {
+                                sessionEnrollments[session.id] = (sessionEnrollments[session.id] || 0) + 1;
+                            }
+                        }
+                    });
+                });
+                
+                console.log('Enrollment counts loaded:', sessionEnrollments);
             } catch (error) {
                 console.error('Error loading enrollment counts:', error);
             }
@@ -2279,19 +2291,19 @@ const SESSIONS = [
                     // Load their existing session selections (sessions already cleared at start)
                     const existingRecord = checkData.records[0].fields;
                     if (existingRecord.Session1) {
-                        const session = SESSIONS.find(s => s.title === existingRecord.Session1 && s.session === '1');
+                        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(existingRecord.Session1) && s.session === '1');
                         if (session) userRegistrations[1] = session.id;
                     }
                     if (existingRecord.Session2) {
-                        const session = SESSIONS.find(s => s.title === existingRecord.Session2 && s.session === '2');
+                        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(existingRecord.Session2) && s.session === '2');
                         if (session) userRegistrations[2] = session.id;
                     }
                     if (existingRecord.Session3) {
-                        const session = SESSIONS.find(s => s.title === existingRecord.Session3 && s.session === '3');
+                        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(existingRecord.Session3) && s.session === '3');
                         if (session) userRegistrations[3] = session.id;
                     }
                     if (existingRecord.Session4) {
-                        const session = SESSIONS.find(s => s.title === existingRecord.Session4 && s.session === '4');
+                        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(existingRecord.Session4) && s.session === '4');
                         if (session) userRegistrations[4] = session.id;
                     }
 
