@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voyage to Learning 4.0 - Session Registration</title>
+    <title>Voyage to Learning 4.5 - Session Registration</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -2277,38 +2277,55 @@ const SESSIONS = [
             }
 
             try {
-                // Fetch all registrations from Airtable
-                const response = await fetch(
-                    `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}`,
-                    {
+                // Fetch ALL registrations from Airtable with pagination
+                let allRecords = [];
+                let offset = null;
+                
+                do {
+                    const url = offset 
+                        ? `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}?offset=${offset}`
+                        : `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}`;
+                    
+                    const response = await fetch(url, {
                         headers: {
                             'Authorization': `Bearer ${AIRTABLE_CONFIG.apiKey}`
                         }
-                    }
-                );
-
-                if (response.ok) {
-                    const data = await response.json();
-                    
-                    // Count registrations for each session
-                    data.records.forEach(record => {
-                        const fields = record.fields;
-                        
-                        // Check each session slot
-                        ['Session1', 'Session2', 'Session3', 'Session4'].forEach(slotField => {
-                            const sessionTitle = fields[slotField];
-                            if (sessionTitle) {
-                                // Find session by title and increment count
-                                const session = SESSIONS.find(s => s.title === sessionTitle);
-                                if (session) {
-                                    sessionEnrollments[session.id] = (sessionEnrollments[session.id] || 0) + 1;
-                                }
-                            }
-                        });
                     });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        allRecords = allRecords.concat(data.records);
+                        offset = data.offset; // Will be undefined if no more pages
+                    } else {
+                        break;
+                    }
+                } while (offset);
+                
+                console.log(`Fetched ${allRecords.length} total registration records`);
+                
+                // Count registrations for each session
+                allRecords.forEach(record => {
+                    const fields = record.fields;
                     
-                    console.log('Enrollment counts loaded:', sessionEnrollments);
-                }
+                    // Check each session slot
+                    ['Session1', 'Session2', 'Session3', 'Session4'].forEach(slotField => {
+                        const sessionTitle = fields[slotField];
+                        if (sessionTitle) {
+                            // Normalize the title for matching (trim whitespace, normalize unicode)
+                            const normalizedTitle = sessionTitle.trim().normalize('NFC');
+                            
+                            // Find session by title and increment count
+                            const session = SESSIONS.find(s => 
+                                s.title.trim().normalize('NFC') === normalizedTitle
+                            );
+                            if (session) {
+                                sessionEnrollments[session.id] = (sessionEnrollments[session.id] || 0) + 1;
+                            }
+                        }
+                    });
+                });
+                
+                console.log('Enrollment counts loaded:', sessionEnrollments);
             } catch (error) {
                 console.error('Error loading enrollment counts:', error);
             }
@@ -3073,7 +3090,7 @@ const SESSIONS = [
                 <!DOCTYPE html>
                 <html>
                 <head>
-                    <title>My Voyage to Learning Schedule</title>
+                    <title>My Voyage to Learning 4.5 Schedule</title>
                     <style>
                         body { 
                             font-family: Georgia, serif; 
