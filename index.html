@@ -296,7 +296,7 @@
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
+            transition: all 0.3s ease;
         }
 
         .confirm-btn:hover {
@@ -308,6 +308,59 @@
             background: #95a5a6;
             cursor: not-allowed;
             transform: none;
+        }
+
+        .confirm-btn.confirming {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
+        .confirm-btn.confirmed {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            font-size: 1.1rem;
+            padding: 0.85rem 1.75rem;
+            animation: celebratePulse 0.5s ease-out;
+        }
+
+        .confirm-btn.partial {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        @keyframes celebratePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Confetti */
+        .confetti-piece {
+            position: fixed;
+            top: -20px;
+            width: 12px;
+            height: 12px;
+            z-index: 10000;
+            animation: confettiFall linear forwards;
+            pointer-events: none;
+        }
+
+        .confetti-piece:nth-child(odd) {
+            border-radius: 50%;
+        }
+
+        .confetti-piece:nth-child(even) {
+            transform: rotate(45deg);
+        }
+
+        @keyframes confettiFall {
+            0% {
+                top: -20px;
+                opacity: 1;
+                transform: translateX(0) rotate(0deg);
+            }
+            100% {
+                top: 100vh;
+                opacity: 0;
+                transform: translateX(100px) rotate(720deg);
+            }
         }
 
         .confirmation-message {
@@ -663,11 +716,25 @@
             font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
+            transition: all 0.3s ease;
         }
 
         .mobile-confirm-btn:hover, .mobile-confirm-btn:active {
             background: linear-gradient(135deg, #219a52, #27ae60);
+        }
+
+        .mobile-confirm-btn.confirmed {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            font-size: 1.1rem;
+            animation: celebratePulse 0.5s ease-out;
+        }
+
+        .mobile-confirm-btn.partial {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .mobile-confirm-btn:disabled {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
         }
 
         .mobile-schedule-item {
@@ -3001,9 +3068,37 @@ const SESSIONS = [
             updateMobileSchedule();
         }
 
+        // Confetti animation function
+        function launchConfetti() {
+            const duration = 3000;
+            const end = Date.now() + duration;
+            
+            const colors = ['#1e4d7b', '#5b9bd5', '#d4a574', '#27ae60', '#f39c12', '#e74c3c'];
+            
+            (function frame() {
+                // Create confetti pieces
+                for (let i = 0; i < 3; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti-piece';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    document.body.appendChild(confetti);
+                    
+                    // Remove after animation
+                    setTimeout(() => confetti.remove(), 4000);
+                }
+                
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+
         // Confirm Sessions Function - gives users feedback that sessions are saved
         async function confirmSessions() {
             const btn = document.getElementById('confirmSessionsBtn');
+            const mobileBtn = document.querySelector('.mobile-confirm-btn');
             const messageDiv = document.getElementById('confirmationMessage');
             const userName = document.getElementById('userName').value.trim();
             const userEmail = document.getElementById('userEmail').value.trim();
@@ -3018,9 +3113,14 @@ const SESSIONS = [
                 return;
             }
             
-            // Disable button and show loading
+            // Disable buttons and show loading
             btn.disabled = true;
-            btn.innerHTML = '⏳ Confirming...';
+            btn.innerHTML = '⏳ Saving...';
+            btn.className = 'confirm-btn confirming';
+            if (mobileBtn) {
+                mobileBtn.disabled = true;
+                mobileBtn.innerHTML = '⏳ Saving...';
+            }
             
             try {
                 // Force save to Airtable
@@ -3030,26 +3130,58 @@ const SESSIONS = [
                 messageDiv.style.display = 'block';
                 
                 if (selectedCount === 4) {
+                    // FULL SUCCESS - Launch confetti!
+                    launchConfetti();
+                    
+                    // Change button to confirmed state
+                    btn.innerHTML = '🎉 CONFIRMED!';
+                    btn.className = 'confirm-btn confirmed';
+                    btn.disabled = false;
+                    if (mobileBtn) {
+                        mobileBtn.innerHTML = '🎉 CONFIRMED!';
+                        mobileBtn.className = 'mobile-confirm-btn confirmed';
+                        mobileBtn.disabled = false;
+                    }
+                    
                     messageDiv.className = 'confirmation-message success';
                     messageDiv.innerHTML = `
-                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🎉 All Sessions Confirmed!</div>
-                        <div>${userName}, your ${selectedCount} sessions have been saved.</div>
-                        <div style="font-size: 0.9rem; margin-top: 0.5rem; color: #155724;">
+                        <div style="font-size: 1.8rem; margin-bottom: 0.5rem;">🎉 ALL SESSIONS CONFIRMED! 🎉</div>
+                        <div style="font-size: 1.1rem;">${userName}, your schedule is complete and saved!</div>
+                        <div style="font-size: 0.95rem; margin-top: 0.75rem; color: #155724;">
                             ✓ You can print your schedule or close this page.<br>
                             ✓ Your sessions will be here when you return.
                         </div>
                     `;
                 } else if (selectedCount > 0) {
+                    // Partial - sessions saved but not complete
+                    btn.innerHTML = '✓ Saved! Select More Sessions';
+                    btn.className = 'confirm-btn partial';
+                    btn.disabled = false;
+                    if (mobileBtn) {
+                        mobileBtn.innerHTML = '✓ Saved! (' + selectedCount + '/4)';
+                        mobileBtn.className = 'mobile-confirm-btn partial';
+                        mobileBtn.disabled = false;
+                    }
+                    
                     messageDiv.className = 'confirmation-message incomplete';
                     messageDiv.innerHTML = `
-                        <div style="font-size: 1.3rem; margin-bottom: 0.5rem;">✓ Sessions Saved (${selectedCount}/4)</div>
-                        <div>${userName}, you have ${selectedCount} session${selectedCount > 1 ? 's' : ''} selected.</div>
+                        <div style="font-size: 1.3rem; margin-bottom: 0.5rem;">✓ ${selectedCount} Session${selectedCount > 1 ? 's' : ''} Saved!</div>
+                        <div>${userName}, you still have <strong>${4 - selectedCount} session${4 - selectedCount > 1 ? 's' : ''}</strong> to choose.</div>
                         <div style="font-size: 0.9rem; margin-top: 0.5rem;">
-                            ⚠️ You still have ${4 - selectedCount} session${4 - selectedCount > 1 ? 's' : ''} to choose!<br>
-                            Scroll down to browse available sessions.
+                            👇 Scroll down to browse and select more sessions.
                         </div>
                     `;
                 } else {
+                    // No sessions selected
+                    btn.innerHTML = '✅ Confirm My Sessions';
+                    btn.className = 'confirm-btn';
+                    btn.disabled = false;
+                    if (mobileBtn) {
+                        mobileBtn.innerHTML = '✅ Confirm My Sessions';
+                        mobileBtn.className = 'mobile-confirm-btn';
+                        mobileBtn.disabled = false;
+                    }
+                    
                     messageDiv.className = 'confirmation-message incomplete';
                     messageDiv.innerHTML = `
                         <div style="font-size: 1.3rem; margin-bottom: 0.5rem;">⚠️ No Sessions Selected</div>
@@ -3060,21 +3192,16 @@ const SESSIONS = [
                 // Scroll to make sure they see the message
                 messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 
-                // Reset button
-                btn.disabled = false;
-                btn.innerHTML = '✅ Confirm My Sessions';
-                
-                // Also show an alert for extra visibility
-                if (selectedCount === 4) {
-                    showAlert('All 4 sessions confirmed and saved! 🎉', 'success');
-                } else if (selectedCount > 0) {
-                    showAlert(`${selectedCount} session${selectedCount > 1 ? 's' : ''} saved. You still need to select ${4 - selectedCount} more!`, 'info');
-                }
-                
             } catch (error) {
                 console.error('Error confirming sessions:', error);
                 btn.disabled = false;
                 btn.innerHTML = '✅ Confirm My Sessions';
+                btn.className = 'confirm-btn';
+                if (mobileBtn) {
+                    mobileBtn.disabled = false;
+                    mobileBtn.innerHTML = '✅ Confirm My Sessions';
+                    mobileBtn.className = 'mobile-confirm-btn';
+                }
                 messageDiv.style.display = 'none';
                 showAlert('There was an error saving your sessions. Please try again.', 'error');
             }
