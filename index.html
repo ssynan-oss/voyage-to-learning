@@ -2094,6 +2094,17 @@ const SESSIONS = [
         }
 
         // Load enrollment counts from Airtable
+        // Normalize text for flexible matching (handles apostrophe variations, etc.)
+        function normalizeTitle(text) {
+            if (!text) return '';
+            return text
+                .replace(/[\u2018\u2019\u0060\u00B4]/g, "'")  // Convert curly/smart apostrophes to straight
+                .replace(/[\u201C\u201D]/g, '"')              // Convert curly quotes to straight
+                .replace(/\s+/g, ' ')                         // Normalize whitespace
+                .trim()
+                .toLowerCase();
+        }
+
         async function loadEnrollmentCounts() {
             // Initialize all sessions with 0 enrollments
             SESSIONS.forEach(s => {
@@ -2129,8 +2140,11 @@ const SESSIONS = [
                             const sessionTitle = fields[slotField];
                             const sessionSlot = String(index + 1); // '1', '2', '3', or '4'
                             if (sessionTitle) {
-                                // Find session by title AND session slot to handle repeated sessions
-                                const session = SESSIONS.find(s => s.title === sessionTitle && s.session === sessionSlot);
+                                // Find session by title AND session slot, using normalized comparison
+                                const normalizedInput = normalizeTitle(sessionTitle);
+                                const session = SESSIONS.find(s => 
+                                    normalizeTitle(s.title) === normalizedInput && s.session === sessionSlot
+                                );
                                 if (session) {
                                     sessionEnrollments[session.id] = (sessionEnrollments[session.id] || 0) + 1;
                                 }
