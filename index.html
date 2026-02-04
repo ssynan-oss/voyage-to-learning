@@ -2129,19 +2129,19 @@ const SESSIONS = [
                     
                     // THEN: Load existing session selections (only the ones they have)
                     if (fields.Session1) {
-                        const session = SESSIONS.find(s => s.title === fields.Session1 && s.session === '1');
+                        const session = SESSIONS.find(s => s.title === fields.Session1 && s.session === 1);
                         if (session) userRegistrations[1] = session.id;
                     }
                     if (fields.Session2) {
-                        const session = SESSIONS.find(s => s.title === fields.Session2 && s.session === '2');
+                        const session = SESSIONS.find(s => s.title === fields.Session2 && s.session === 2);
                         if (session) userRegistrations[2] = session.id;
                     }
                     if (fields.Session3) {
-                        const session = SESSIONS.find(s => s.title === fields.Session3 && s.session === '3');
+                        const session = SESSIONS.find(s => s.title === fields.Session3 && s.session === 3);
                         if (session) userRegistrations[3] = session.id;
                     }
                     if (fields.Session4) {
-                        const session = SESSIONS.find(s => s.title === fields.Session4 && s.session === '4');
+                        const session = SESSIONS.find(s => s.title === fields.Session4 && s.session === 4);
                         if (session) userRegistrations[4] = session.id;
                     }
                     
@@ -2429,19 +2429,19 @@ const SESSIONS = [
                     // Load their existing session selections (sessions already cleared at start)
                     const existingRecord = checkData.records[0].fields;
                     if (existingRecord.Session1) {
-                        const session = SESSIONS.find(s => s.title === existingRecord.Session1 && s.session === '1');
+                        const session = SESSIONS.find(s => s.title === existingRecord.Session1 && s.session === 1);
                         if (session) userRegistrations[1] = session.id;
                     }
                     if (existingRecord.Session2) {
-                        const session = SESSIONS.find(s => s.title === existingRecord.Session2 && s.session === '2');
+                        const session = SESSIONS.find(s => s.title === existingRecord.Session2 && s.session === 2);
                         if (session) userRegistrations[2] = session.id;
                     }
                     if (existingRecord.Session3) {
-                        const session = SESSIONS.find(s => s.title === existingRecord.Session3 && s.session === '3');
+                        const session = SESSIONS.find(s => s.title === existingRecord.Session3 && s.session === 3);
                         if (session) userRegistrations[3] = session.id;
                     }
                     if (existingRecord.Session4) {
-                        const session = SESSIONS.find(s => s.title === existingRecord.Session4 && s.session === '4');
+                        const session = SESSIONS.find(s => s.title === existingRecord.Session4 && s.session === 4);
                         if (session) userRegistrations[4] = session.id;
                     }
 
