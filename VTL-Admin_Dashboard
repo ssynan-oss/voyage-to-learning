@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voyage to Learning 4.5 - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --navy: #1e4d7b;
+            --ocean: #2980b9;
+            --gold: #d4a726;
+            --light-gray: #f5f5f5;
+            --text: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: var(--light-gray);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--ocean) 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+        }
+
+        .header-subtitle {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .refresh-btn {
+            background: var(--gold);
+            color: var(--navy);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .refresh-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Setup Banner */
+        .setup-banner {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 2px solid #ffc107;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .setup-banner h3 {
+            color: #856404;
+            margin-bottom: 0.5rem;
+        }
+
+        .setup-banner p {
+            color: #856404;
+        }
+
+        .setup-banner code {
+            background: rgba(0,0,0,0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--navy);
+            line-height: 1;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .stat-card.highlight {
+            background: linear-gradient(135deg, var(--navy), var(--ocean));
+            color: white;
+        }
+
+        .stat-card.highlight .stat-number {
+            color: var(--gold);
+        }
+
+        .stat-card.highlight .stat-label {
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-btn:hover {
+            border-color: var(--ocean);
+        }
+
+        .tab-btn.active {
+            background: var(--navy);
+            color: white;
+            border-color: var(--navy);
+        }
+
+        /* Panels */
+        .panel {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        .panel h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--navy);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        /* Search Box */
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .search-box input,
+        .search-box select {
+            padding: 0.75rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-box input:focus,
+        .search-box select:focus {
+            outline: none;
+            border-color: var(--ocean);
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: var(--light-gray);
+            font-weight: 700;
+            color: var(--navy);
+            position: sticky;
+            top: 0;
+        }
+
+        tr:hover {
+            background: #f9f9f9;
+        }
+
+        /* School Breakdown */
+        .school-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .school-item {
+            background: var(--light-gray);
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .school-name {
+            font-weight: 600;
+        }
+
+        .school-count {
+            background: var(--navy);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        /* Session Roster */
+        .session-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .session-selector select {
+            padding: 0.75rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            min-width: 300px;
+        }
+
+        .print-roster-btn {
+            background: var(--navy);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .print-roster-btn:hover {
+            background: var(--ocean);
+        }
+
+        /* Capacity Bars */
+        .capacity-section {
+            margin-top: 1rem;
+        }
+
+        .capacity-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .capacity-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .capacity-title {
+            font-weight: 600;
+        }
+
+        .capacity-numbers {
+            color: #666;
+        }
+
+        .capacity-bar {
+            height: 24px;
+            background: #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .capacity-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--ocean), var(--navy));
+            border-radius: 12px;
+            transition: width 0.5s ease;
+        }
+
+        .capacity-fill.warning {
+            background: linear-gradient(90deg, #e67e22, #d35400);
+        }
+
+        .capacity-fill.full {
+            background: linear-gradient(90deg, #c0392b, #96281b);
+        }
+
+        /* Charts */
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-wrapper {
+            background: var(--light-gray);
+            border-radius: 12px;
+            padding: 1.5rem;
+            min-height: 350px;
+        }
+
+        .category-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .category-item {
+            background: var(--light-gray);
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid var(--ocean);
+        }
+
+        .category-item.technology { border-left-color: #3498db; }
+        .category-item.instruction { border-left-color: #9b59b6; }
+        .category-item.sel { border-left-color: #e74c3c; }
+        .category-item.wellness { border-left-color: #2ecc71; }
+        .category-item.safety { border-left-color: #2c3e50; }
+        .category-item.transportation { border-left-color: #f1c40f; }
+
+        .category-name {
+            font-weight: 600;
+        }
+
+        .category-count {
+            background: var(--navy);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e0e0e0;
+            border-top-color: var(--ocean);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Print Styles */
+        @media print {
+            .header, .tabs, .search-box, .session-selector, .setup-banner {
+                display: none !important;
+            }
+            .panel {
+                display: block !important;
+                box-shadow: none !important;
+            }
+            .container {
+                padding: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>🚢 Voyage to Learning 4.5</h1>
+            <p class="header-subtitle">Admin Dashboard • February 20, 2026</p>
+        </div>
+        <button class="refresh-btn" onclick="loadData()">🔄 Refresh Data</button>
+    </div>
+
+    <div class="container">
+        <!-- Setup Banner -->
+        <div class="setup-banner" id="setupBanner">
+            <h3>🔧 Connect to Airtable</h3>
+            <p>Enter your Airtable credentials in the code (look for <code>AIRTABLE_CONFIG</code>) to load registration data. Use the same credentials as the registration app.</p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card highlight">
+                <div class="stat-number" id="totalRegistrations">0</div>
+                <div class="stat-label">Total Registrations</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="session1Count">0</div>
+                <div class="stat-label">Session 1 Registered</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="session2Count">0</div>
+                <div class="stat-label">Session 2 Registered</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="session3Count">0</div>
+                <div class="stat-label">Session 3 Registered</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="session4Count">0</div>
+                <div class="stat-label">Session 4 Registered</div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showPanel('participants')">👥 All Participants</button>
+            <button class="tab-btn" onclick="showPanel('rosters')">📋 Session Rosters</button>
+            <button class="tab-btn" onclick="showPanel('attendance')">✅ Attendance / Door Prizes</button>
+            <button class="tab-btn" onclick="showPanel('categories')">📈 Categories</button>
+            <button class="tab-btn" onclick="showPanel('schools')">🏫 By School/Dept</button>
+            <button class="tab-btn" onclick="showPanel('capacity')">📊 Capacity Tracking</button>
+        </div>
+
+        <!-- Participants Panel -->
+        <div class="panel active" id="panel-participants">
+            <h2>👥 All Participants</h2>
+            <div class="search-box">
+                <input type="text" id="searchParticipant" placeholder="🔍 Search by name or email..." onkeyup="filterParticipants()">
+                <select id="filterSchool" onchange="filterParticipants()">
+                    <option value="">All Schools/Departments</option>
+                    <option value="OCES">OCES</option>
+                    <option value="OCMS">OCMS</option>
+                    <option value="OCHS">OCHS</option>
+                    <option value="Academy">Academy</option>
+                    <option value="Central Office">Central Office</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Nutrition Services">Nutrition Services</option>
+                    <option value="Nurses">Nurses</option>
+                    <option value="Maintenance and Facilities">Maintenance and Facilities</option>
+                    <option value="Board of Education">Board of Education</option>
+                    <option value="External Guest">External Guest</option>
+                </select>
+            </div>
+            <div class="table-container">
+                <table id="participantsTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>School/Dept</th>
+                            <th>Session 1</th>
+                            <th>Session 2</th>
+                            <th>Session 3</th>
+                            <th>Session 4</th>
+                        </tr>
+                    </thead>
+                    <tbody id="participantsBody">
+                        <!-- Filled by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="empty-state" id="noParticipants" style="display: none;">
+                <div class="empty-state-icon">📭</div>
+                <p>No registrations yet. They'll appear here once people start signing up!</p>
+            </div>
+        </div>
+
+        <!-- Rosters Panel -->
+        <div class="panel" id="panel-rosters">
+            <h2>📋 Session Rosters</h2>
+            <div class="session-selector">
+                <select id="rosterSessionSelect" onchange="loadRoster()">
+                    <option value="">-- Select a Session --</option>
+                </select>
+                <button class="print-roster-btn" onclick="printRoster()">🖨️ Print Roster</button>
+            </div>
+            <div class="table-container">
+                <table id="rosterTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>School/Dept</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rosterBody">
+                        <!-- Filled by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="empty-state" id="noRoster" style="display: none;">
+                <div class="empty-state-icon">📋</div>
+                <p>Select a session above to view its roster.</p>
+            </div>
+        </div>
+
+        <!-- Attendance Panel -->
+        <div class="panel" id="panel-attendance">
+            <h2>✅ Attendance / Door Prizes</h2>
+            <p style="color: #666; margin-bottom: 1.5rem;">View verified attendees who checked in via QR code. Copy names for door prize drawings!</p>
+            
+            <div class="session-selector">
+                <select id="attendanceSessionSelect" onchange="loadAttendance()">
+                    <option value="">-- Select a Session --</option>
+                    <option value="1">Session 1 (8:15 - 9:05)</option>
+                    <option value="2">Session 2 (9:20 - 10:10)</option>
+                    <option value="3">Session 3 (10:35 - 11:25)</option>
+                    <option value="4">Session 4 (11:40 - 12:30)</option>
+                    <option value="all">All Sessions Combined</option>
+                </select>
+                <button class="print-roster-btn" onclick="copyAttendanceNames()" style="background: #27ae60;">📋 Copy Names for Door Prizes</button>
+                <button class="print-roster-btn" onclick="refreshAttendance()">🔄 Refresh</button>
+            </div>
+
+            <div class="attendance-stats" style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                <div class="stat-card" style="flex: 1; min-width: 150px;">
+                    <div class="stat-value" id="attendanceCount">0</div>
+                    <div class="stat-label">Checked In</div>
+                </div>
+                <div class="stat-card" style="flex: 1; min-width: 150px;">
+                    <div class="stat-value" id="attendancePercent">0%</div>
+                    <div class="stat-label">Attendance Rate</div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table id="attendanceTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>School/Dept</th>
+                            <th>Session</th>
+                            <th>Checked In At</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendanceBody">
+                        <!-- Filled by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="empty-state" id="noAttendance" style="display: none;">
+                <div class="empty-state-icon">📱</div>
+                <p>No check-ins yet for this session. Attendees will appear here after they scan the QR code.</p>
+            </div>
+        </div>
+
+        <!-- Schools Panel -->
+        <div class="panel" id="panel-schools">
+            <h2>🏫 Registrations by School/Department</h2>
+            <div class="school-breakdown" id="schoolBreakdown">
+                <!-- Filled by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Categories Panel -->
+        <div class="panel" id="panel-categories">
+            <h2>📈 Registrations by Category</h2>
+            <p style="color: #666; margin-bottom: 1.5rem;">See which types of sessions are most popular:</p>
+            <div class="charts-container">
+                <div class="chart-wrapper">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="categoryPieChart"></canvas>
+                </div>
+            </div>
+            <div class="category-breakdown" id="categoryBreakdown">
+                <!-- Filled by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Capacity Panel -->
+        <div class="panel" id="panel-capacity">
+            <h2>📊 Capacity Tracking</h2>
+            <p style="color: #666; margin-bottom: 1.5rem;">Sessions with limited capacity:</p>
+            <div class="capacity-section" id="capacitySection">
+                <!-- Filled by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // AIRTABLE CONFIGURATION - SAME AS REGISTRATION APP
+        // ============================================
+        const AIRTABLE_CONFIG = {
+            apiKey: 'pat4JfPWUNgr4NQxL.342aa5b23a4784cc789d0a9729b0c52cae067201249a0188661ced3b247571a7',
+            baseId: 'appGVgzw2GnMh3gii',
+            tableName: 'Registrations'
+        };
+
+        // Sessions with capacity limits (must match registration app)
+        const CAPACITY_SESSIONS = [
+            { title: "Beat the Stress Away", session: "3", capacity: 24 },
+            { title: "Beat the Stress Away", session: "4", capacity: 24 },
+            { title: "First Responders on Wheels", session: "1", capacity: 25 },
+            { title: "First Responders on Wheels", session: "2", capacity: 25 },
+            { title: "On the Road Together: Bus Driver Roundtable", session: "4", capacity: 60 }
+        ];
+
+        // Session time slots
+        const SESSION_TIMES = {
+            '1': '8:15 - 9:05',
+            '2': '9:20 - 10:10',
+            '3': '10:35 - 11:25',
+            '4': '11:40 - 12:30'
+        };
+
+        // Session to Category mapping (must match registration app)
+        const SESSION_CATEGORIES = {
+            "\"Wordless Stories\" for English Learners": "Instruction",
+            "A Day in the Life of a SpED Student": "SEL",
+            "A Day in the Life of a SpEd Student": "SEL",
+            "AI Early Finisher Activities": "Technology",
+            "Absent Intelligence": "Technology",
+            "Adobe Express for Education": "Technology",
+            "Be Aware, Stay Safe: Practical Strategies for Everyday Life": "Safety",
+            "Beat the Stress Away": "Wellness",
+            "Behavior Strategies for the K-12 Classroom": "SEL",
+            "Brisk": "Technology",
+            "Communication Strategies": "Technology",
+            "Core Balance and Stretch": "Wellness",
+            "Did a Robot Write This Report? Managing AI Cheating": "Technology",
+            "Employing AI Tools in the Science Classroom": "Technology",
+            "Escape Room": "Instruction",
+            "Fall Smart Workshop": "Safety",
+            "Foster Care and DFACS": "SEL",
+            "Full Bleed: Finding Balance between technology and Lift": "Technology",
+            "Gang Culture and Our Children": "Safety",
+            "Google Maps across Instruction (writing, cultures, science, math)": "Technology",
+            "Hands-On Statistics that Stick": "Instruction",
+            "Healthy Meal Prep": "Wellness",
+            "How to Support Students with Mental Health Issues": "SEL",
+            "Inspire": "Technology",
+            "Mastering Classroom Management with LanSchool": "Technology",
+            "Mystery Skype: Making Geography Engaging": "Instruction",
+            "Navigating Crucial Conversations with Confidence": "SEL",
+            "Peardeck and Flexiquiz": "Technology",
+            "Power Up Participation: 3 Digital Tools to Supercharge Student Thinking and Writing": "Technology",
+            "Promptcraft? Building a Better AI Prompt": "Technology",
+            "Protecting your Personal Mental Health": "SEL",
+            "So, You're Finished, Now What?": "Instruction",
+            "Strategies for Self Defense": "Safety",
+            "Strategies for Supporting English Learners in the Classroom": "Instruction",
+            "Strengthen Your Core, Posture, Pressure and Presence": "Wellness",
+            "Student Survival for the Progressive Teacher": "SEL",
+            "Suno: More Than a Jingle": "Technology",
+            "Supporting Diverse Learners with Notebook LM": "Technology",
+            "Tai Chi for Balance Improvement": "Wellness",
+            "The Safe Harbor Classroom: Navigating Trauma with Care and Connection": "SEL",
+            "Unlocking the Magic of Canva": "Technology",
+            "Using & Choosing Decodable Texts (Wiley Bleins approach)": "Instruction",
+            "Using AI Tools to Support Life, Work, and Well-Being": "Technology",
+            "Using AI to create stories with differentiated Lexile Levels": "Technology",
+            "Using NotebookLM to Support Teaching, Learning, and Planning": "Technology",
+            "Virtual Field Trips": "Instruction",
+            "Wayground": "Technology",
+            "Write On: Elevating Writing Instruction in Grades 3-5": "Instruction",
+            "Write On: Elevating Writing Instruction in Grades K-2": "Instruction",
+            "Writing IEPs using AI": "Technology",
+            "Your AI Treasure Chest: Creating & Sharing Gemini Gems": "Technology"
+        };
+
+        // Chart instances
+        let categoryBarChart = null;
+        let categoryPieChart = null;
+
+        // Store all registrations
+        let allRegistrations = [];
+        let allSessions = new Set();
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+        });
+
+        // Load data from Airtable
+        async function loadData() {
+            // Check if configured
+            if (AIRTABLE_CONFIG.apiKey.includes('YOUR_')) {
+                document.getElementById('setupBanner').style.display = 'block';
+                showSampleData();
+                return;
+            }
+
+            document.getElementById('setupBanner').style.display = 'none';
+
+            try {
+                let allRecords = [];
+                let offset = null;
+
+                // Fetch all records (handling pagination)
+                do {
+                    let url = `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}`;
+                    if (offset) url += `?offset=${offset}`;
+
+                    const response = await fetch(url, {
+                        headers: {
+                            'Authorization': `Bearer ${AIRTABLE_CONFIG.apiKey}`
+                        }
+                    });
+
+                    if (!response.ok) throw new Error('Failed to fetch data');
+
+                    const data = await response.json();
+                    allRecords = allRecords.concat(data.records);
+                    offset = data.offset;
+                } while (offset);
+
+                // Process records
+                allRegistrations = allRecords.map(record => ({
+                    id: record.id,
+                    name: record.fields.Name || '',
+                    email: record.fields.Email || '',
+                    school: record.fields.School || '',
+                    session1: record.fields.Session1 || '',
+                    session2: record.fields.Session2 || '',
+                    session3: record.fields.Session3 || '',
+                    session4: record.fields.Session4 || '',
+                    attended1: record.fields.Attended1 || '',
+                    attended2: record.fields.Attended2 || '',
+                    attended3: record.fields.Attended3 || '',
+                    attended4: record.fields.Attended4 || '',
+                    registeredAt: record.fields.RegisteredAt || ''
+                }));
+
+                // Collect all unique sessions
+                allSessions.clear();
+                allRegistrations.forEach(reg => {
+                    if (reg.session1) allSessions.add(`1|${reg.session1}`);
+                    if (reg.session2) allSessions.add(`2|${reg.session2}`);
+                    if (reg.session3) allSessions.add(`3|${reg.session3}`);
+                    if (reg.session4) allSessions.add(`4|${reg.session4}`);
+                });
+
+                updateDashboard();
+
+            } catch (error) {
+                console.error('Error loading data:', error);
+                alert('Error loading data from Airtable. Check your credentials and try again.');
+            }
+        }
+
+        // Show sample data when Airtable is not configured
+        function showSampleData() {
+            allRegistrations = [
+                { name: 'Sample User 1', email: 'sample1@example.com', school: 'OCES', session1: 'Write On: Elevating Writing Instruction in Grades 3-5', session2: 'Wayground', session3: 'Brisk', session4: 'Google Maps across Instruction' },
+                { name: 'Sample User 2', email: 'sample2@example.com', school: 'OCMS', session1: 'Adobe Express for Education', session2: 'Promptcraft: Building a Better AI Prompt', session3: 'Beat the Stress Away', session4: 'Did a Robot Write This Report?' },
+                { name: 'Sample User 3', email: 'sample3@example.com', school: 'OCHS', session1: 'Your AI Treasure Chest', session2: 'Understanding Generational Differences', session3: 'Full Bleed: Finding Balance', session4: 'Core Balance and Stretch' },
+            ];
+
+            allSessions.clear();
+            allRegistrations.forEach(reg => {
+                if (reg.session1) allSessions.add(`1|${reg.session1}`);
+                if (reg.session2) allSessions.add(`2|${reg.session2}`);
+                if (reg.session3) allSessions.add(`3|${reg.session3}`);
+                if (reg.session4) allSessions.add(`4|${reg.session4}`);
+            });
+
+            updateDashboard();
+        }
+
+        // Update all dashboard elements
+        function updateDashboard() {
+            updateStats();
+            updateParticipantsTable();
+            updateRosterDropdown();
+            updateSchoolBreakdown();
+            updateCapacity();
+            updateCategoryCharts();
+        }
+
+        // Update statistics
+        function updateStats() {
+            document.getElementById('totalRegistrations').textContent = allRegistrations.length;
+            
+            document.getElementById('session1Count').textContent = allRegistrations.filter(r => r.session1).length;
+            document.getElementById('session2Count').textContent = allRegistrations.filter(r => r.session2).length;
+            document.getElementById('session3Count').textContent = allRegistrations.filter(r => r.session3).length;
+            document.getElementById('session4Count').textContent = allRegistrations.filter(r => r.session4).length;
+        }
+
+        // Update participants table
+        function updateParticipantsTable() {
+            const tbody = document.getElementById('participantsBody');
+            const noParticipants = document.getElementById('noParticipants');
+
+            if (allRegistrations.length === 0) {
+                tbody.innerHTML = '';
+                noParticipants.style.display = 'block';
+                return;
+            }
+
+            noParticipants.style.display = 'none';
+            tbody.innerHTML = allRegistrations.map(reg => `
+                <tr data-name="${reg.name.toLowerCase()}" data-email="${reg.email.toLowerCase()}" data-school="${reg.school}">
+                    <td>${reg.name}</td>
+                    <td>${reg.email}</td>
+                    <td>${reg.school}</td>
+                    <td>${reg.session1 || '-'}</td>
+                    <td>${reg.session2 || '-'}</td>
+                    <td>${reg.session3 || '-'}</td>
+                    <td>${reg.session4 || '-'}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Filter participants
+        function filterParticipants() {
+            const searchTerm = document.getElementById('searchParticipant').value.toLowerCase();
+            const schoolFilter = document.getElementById('filterSchool').value;
+
+            const rows = document.querySelectorAll('#participantsBody tr');
+            rows.forEach(row => {
+                const name = row.dataset.name;
+                const email = row.dataset.email;
+                const school = row.dataset.school;
+
+                const matchesSearch = !searchTerm || name.includes(searchTerm) || email.includes(searchTerm);
+                const matchesSchool = !schoolFilter || school === schoolFilter;
+
+                row.style.display = matchesSearch && matchesSchool ? '' : 'none';
+            });
+        }
+
+        // Update roster dropdown
+        function updateRosterDropdown() {
+            const select = document.getElementById('rosterSessionSelect');
+            select.innerHTML = '<option value="">-- Select a Session --</option>';
+
+            // Group sessions by slot
+            const sessionsBySlot = { '1': [], '2': [], '3': [], '4': [] };
+            
+            allSessions.forEach(session => {
+                const [slot, title] = session.split('|');
+                sessionsBySlot[slot].push(title);
+            });
+
+            // Add options grouped by session slot
+            ['1', '2', '3', '4'].forEach(slot => {
+                if (sessionsBySlot[slot].length > 0) {
+                    const group = document.createElement('optgroup');
+                    group.label = `Session ${slot} (${SESSION_TIMES[slot]})`;
+                    
+                    sessionsBySlot[slot].sort().forEach(title => {
+                        const option = document.createElement('option');
+                        option.value = `${slot}|${title}`;
+                        option.textContent = title.length > 50 ? title.substring(0, 50) + '...' : title;
+                        group.appendChild(option);
+                    });
+                    
+                    select.appendChild(group);
+                }
+            });
+
+            document.getElementById('noRoster').style.display = 'block';
+            document.getElementById('rosterTable').style.display = 'none';
+        }
+
+        // Load roster for selected session
+        function loadRoster() {
+            const select = document.getElementById('rosterSessionSelect');
+            const value = select.value;
+            
+            if (!value) {
+                document.getElementById('noRoster').style.display = 'block';
+                document.getElementById('rosterTable').style.display = 'none';
+                return;
+            }
+
+            const [slot, title] = value.split('|');
+            const sessionField = `session${slot}`;
+
+            const roster = allRegistrations.filter(reg => reg[sessionField] === title);
+            
+            const tbody = document.getElementById('rosterBody');
+            tbody.innerHTML = roster.map((reg, index) => `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${reg.name}</td>
+                    <td>${reg.email}</td>
+                    <td>${reg.school}</td>
+                </tr>
+            `).join('');
+
+            document.getElementById('noRoster').style.display = 'none';
+            document.getElementById('rosterTable').style.display = 'table';
+        }
+
+        // Print roster
+        function printRoster() {
+            const select = document.getElementById('rosterSessionSelect');
+            if (!select.value) {
+                alert('Please select a session first.');
+                return;
+            }
+
+            const [slot, title] = select.value.split('|');
+            const sessionField = `session${slot}`;
+            const roster = allRegistrations.filter(reg => reg[sessionField] === title);
+
+            const printContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Session Roster</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 40px; }
+                        h1 { color: #1e4d7b; font-size: 24px; margin-bottom: 5px; }
+                        h2 { color: #666; font-size: 16px; font-weight: normal; margin-bottom: 20px; }
+                        .meta { color: #666; margin-bottom: 20px; }
+                        table { width: 100%; border-collapse: collapse; }
+                        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+                        th { background: #f5f5f5; font-weight: bold; }
+                        .footer { margin-top: 30px; color: #999; font-size: 12px; }
+                    </style>
+                </head>
+                <body>
+                    <h1>${title}</h1>
+                    <h2>Session ${slot} • ${SESSION_TIMES[slot]}</h2>
+                    <p class="meta">Total Registered: ${roster.length}</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>School/Dept</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${roster.map((reg, i) => `
+                                <tr>
+                                    <td>${i + 1}</td>
+                                    <td>${reg.name}</td>
+                                    <td>${reg.email}</td>
+                                    <td>${reg.school}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                    <p class="footer">Voyage to Learning 4.5 • Printed ${new Date().toLocaleDateString()}</p>
+                </body>
+                </html>
+            `;
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => printWindow.print(), 250);
+        }
+
+        // Update school breakdown
+        function updateSchoolBreakdown() {
+            const breakdown = {};
+            
+            allRegistrations.forEach(reg => {
+                const school = reg.school || 'Unknown';
+                breakdown[school] = (breakdown[school] || 0) + 1;
+            });
+
+            const container = document.getElementById('schoolBreakdown');
+            
+            if (Object.keys(breakdown).length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🏫</div><p>No registrations yet.</p></div>';
+                return;
+            }
+
+            // Sort by count descending
+            const sorted = Object.entries(breakdown).sort((a, b) => b[1] - a[1]);
+
+            container.innerHTML = sorted.map(([school, count]) => `
+                <div class="school-item">
+                    <span class="school-name">${school}</span>
+                    <span class="school-count">${count}</span>
+                </div>
+            `).join('');
+        }
+
+        // Update capacity tracking
+        function updateCapacity() {
+            const container = document.getElementById('capacitySection');
+
+            const capacityData = CAPACITY_SESSIONS.map(session => {
+                const sessionField = `session${session.session}`;
+                const enrolled = allRegistrations.filter(reg => reg[sessionField] === session.title).length;
+                const percentage = (enrolled / session.capacity) * 100;
+                
+                let fillClass = '';
+                if (percentage >= 100) fillClass = 'full';
+                else if (percentage >= 75) fillClass = 'warning';
+
+                return {
+                    ...session,
+                    enrolled,
+                    percentage,
+                    fillClass
+                };
+            });
+
+            container.innerHTML = capacityData.map(session => `
+                <div class="capacity-item">
+                    <div class="capacity-header">
+                        <span class="capacity-title">${session.title} (Session ${session.session})</span>
+                        <span class="capacity-numbers">${session.enrolled} / ${session.capacity}</span>
+                    </div>
+                    <div class="capacity-bar">
+                        <div class="capacity-fill ${session.fillClass}" style="width: ${Math.min(session.percentage, 100)}%"></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update category charts
+        function updateCategoryCharts() {
+            // Count registrations by category
+            const categoryCounts = {
+                'Technology': 0,
+                'Instruction': 0,
+                'SEL': 0,
+                'Wellness': 0,
+                'Safety': 0,
+                'Transportation': 0
+            };
+
+            // Count all session registrations
+            allRegistrations.forEach(reg => {
+                [reg.session1, reg.session2, reg.session3, reg.session4].forEach(sessionTitle => {
+                    if (sessionTitle && SESSION_CATEGORIES[sessionTitle]) {
+                        categoryCounts[SESSION_CATEGORIES[sessionTitle]]++;
+                    }
+                });
+            });
+
+            const labels = Object.keys(categoryCounts);
+            const data = Object.values(categoryCounts);
+            const colors = {
+                'Technology': '#3498db',
+                'Instruction': '#9b59b6',
+                'SEL': '#e74c3c',
+                'Wellness': '#2ecc71',
+                'Safety': '#2c3e50'
+            };
+            const backgroundColors = labels.map(label => colors[label] || '#95a5a6');
+
+            // Destroy existing charts if they exist
+            if (categoryBarChart) categoryBarChart.destroy();
+            if (categoryPieChart) categoryPieChart.destroy();
+
+            // Create bar chart
+            const barCtx = document.getElementById('categoryChart').getContext('2d');
+            categoryBarChart = new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Registrations',
+                        data: data,
+                        backgroundColor: backgroundColors,
+                        borderColor: backgroundColors,
+                        borderWidth: 1,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: 'Registrations by Category',
+                            font: { size: 16, weight: 'bold' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1 }
+                        }
+                    }
+                }
+            });
+
+            // Create pie chart
+            const pieCtx = document.getElementById('categoryPieChart').getContext('2d');
+            categoryPieChart = new Chart(pieCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: backgroundColors,
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Category Distribution',
+                            font: { size: 16, weight: 'bold' }
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            // Update category breakdown list
+            const breakdownContainer = document.getElementById('categoryBreakdown');
+            const sortedCategories = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1]);
+            
+            breakdownContainer.innerHTML = sortedCategories.map(([category, count]) => `
+                <div class="category-item ${category.toLowerCase()}">
+                    <span class="category-name">${category}</span>
+                    <span class="category-count">${count}</span>
+                </div>
+            `).join('');
+        }
+
+        // Show panel
+        function showPanel(panelName) {
+            // Update tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update panels
+            document.querySelectorAll('.panel').forEach(panel => panel.classList.remove('active'));
+            document.getElementById(`panel-${panelName}`).classList.add('active');
+        }
+
+        // ============================================
+        // ATTENDANCE FUNCTIONS
+        // ============================================
+        
+        let currentAttendanceData = [];
+
+        async function loadAttendance() {
+            const sessionSelect = document.getElementById('attendanceSessionSelect').value;
+            if (!sessionSelect) {
+                document.getElementById('noAttendance').style.display = 'block';
+                document.getElementById('attendanceTable').style.display = 'none';
+                return;
+            }
+
+            const tbody = document.getElementById('attendanceBody');
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Loading...</td></tr>';
+
+            currentAttendanceData = [];
+            let totalRegistered = 0;
+
+            if (sessionSelect === 'all') {
+                // Get all attendees across all sessions
+                allRegistrations.forEach(reg => {
+                    for (let i = 1; i <= 4; i++) {
+                        const sessionField = `session${i}`;
+                        const attendedField = `attended${i}`;
+                        if (reg[sessionField]) {
+                            totalRegistered++;
+                            if (reg[attendedField]) {
+                                currentAttendanceData.push({
+                                    name: reg.name,
+                                    email: reg.email,
+                                    school: reg.school,
+                                    session: `Session ${i}`,
+                                    sessionTitle: reg[sessionField],
+                                    checkedInAt: reg[attendedField]
+                                });
+                            }
+                        }
+                    }
+                });
+            } else {
+                // Get attendees for specific session
+                const sessionField = `session${sessionSelect}`;
+                const attendedField = `attended${sessionSelect}`;
+                
+                allRegistrations.forEach(reg => {
+                    if (reg[sessionField]) {
+                        totalRegistered++;
+                        if (reg[attendedField]) {
+                            currentAttendanceData.push({
+                                name: reg.name,
+                                email: reg.email,
+                                school: reg.school,
+                                session: `Session ${sessionSelect}`,
+                                sessionTitle: reg[sessionField],
+                                checkedInAt: reg[attendedField]
+                            });
+                        }
+                    }
+                });
+            }
+
+            // Update stats
+            document.getElementById('attendanceCount').textContent = currentAttendanceData.length;
+            const percentage = totalRegistered > 0 ? Math.round((currentAttendanceData.length / totalRegistered) * 100) : 0;
+            document.getElementById('attendancePercent').textContent = percentage + '%';
+
+            // Update table
+            if (currentAttendanceData.length === 0) {
+                document.getElementById('noAttendance').style.display = 'block';
+                document.getElementById('attendanceTable').style.display = 'none';
+            } else {
+                document.getElementById('noAttendance').style.display = 'none';
+                document.getElementById('attendanceTable').style.display = 'table';
+
+                tbody.innerHTML = currentAttendanceData.map((att, index) => {
+                    const checkedInTime = att.checkedInAt ? new Date(att.checkedInAt).toLocaleTimeString() : '';
+                    return `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${att.name}</td>
+                            <td>${att.email}</td>
+                            <td>${att.school}</td>
+                            <td>${att.session}</td>
+                            <td>${checkedInTime}</td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+        }
+
+        function refreshAttendance() {
+            loadData(); // Reload all data from Airtable
+            setTimeout(() => {
+                loadAttendance(); // Then refresh attendance display
+            }, 1000);
+        }
+
+        function copyAttendanceNames() {
+            if (currentAttendanceData.length === 0) {
+                alert('No attendees to copy. Select a session first.');
+                return;
+            }
+
+            const names = currentAttendanceData.map(att => att.name).join('\n');
+            navigator.clipboard.writeText(names).then(() => {
+                alert(`Copied ${currentAttendanceData.length} names to clipboard!\n\nPaste into your randomizer for door prizes.`);
+            }).catch(err => {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = names;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert(`Copied ${currentAttendanceData.length} names to clipboard!\n\nPaste into your randomizer for door prizes.`);
+            });
+        }
+    </script>
+</body>
+</html>
