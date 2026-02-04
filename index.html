@@ -2314,7 +2314,8 @@ const SESSIONS = [
                         
                         if (sessionTitle) {
                             // Normalize the title for matching (trim whitespace, normalize unicode)
-                            const normalizedTitle = sessionTitle.trim().normalize('NFC');
+                            // Also strip "(Session X)" suffix that Airtable adds
+                            const normalizedTitle = sessionTitle.trim().normalize('NFC').replace(/\s*\(Session\s*\d+\)\s*$/i, '');
                             
                             // Find session by BOTH title AND session slot
                             const session = SESSIONS.find(s => 
