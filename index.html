@@ -281,114 +281,6 @@
             margin: 0;
         }
 
-        .schedule-buttons {
-            display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .confirm-btn {
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .confirm-btn:hover {
-            background: linear-gradient(135deg, #219a52, #27ae60);
-            transform: scale(1.02);
-        }
-
-        .confirm-btn:disabled {
-            background: #95a5a6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .confirm-btn.confirming {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-        }
-
-        .confirm-btn.confirmed {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-            font-size: 1.1rem;
-            padding: 0.85rem 1.75rem;
-            animation: celebratePulse 0.5s ease-out;
-        }
-
-        .confirm-btn.partial {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-        }
-
-        @keyframes celebratePulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        /* Confetti */
-        .confetti-piece {
-            position: fixed;
-            top: -20px;
-            width: 12px;
-            height: 12px;
-            z-index: 10000;
-            animation: confettiFall linear forwards;
-            pointer-events: none;
-        }
-
-        .confetti-piece:nth-child(odd) {
-            border-radius: 50%;
-        }
-
-        .confetti-piece:nth-child(even) {
-            transform: rotate(45deg);
-        }
-
-        @keyframes confettiFall {
-            0% {
-                top: -20px;
-                opacity: 1;
-                transform: translateX(0) rotate(0deg);
-            }
-            100% {
-                top: 100vh;
-                opacity: 0;
-                transform: translateX(100px) rotate(720deg);
-            }
-        }
-
-        .confirmation-message {
-            margin-top: 1rem;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            text-align: center;
-            animation: fadeIn 0.3s ease-in;
-        }
-
-        .confirmation-message.success {
-            background: linear-gradient(135deg, #d4edda, #c3e6cb);
-            color: #155724;
-            border: 2px solid #28a745;
-        }
-
-        .confirmation-message.incomplete {
-            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
-            color: #856404;
-            border: 2px solid #ffc107;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .print-btn {
             background: var(--navy);
             color: white;
@@ -508,9 +400,9 @@
             right: 10px;
             background: none;
             border: none;
-            font-size: 2rem;
+            font-size: 1.5rem;
             cursor: pointer;
-            opacity: 0.5;
+            opacity: 0.4;
             transition: all 0.2s;
             z-index: 5;
         }
@@ -522,126 +414,6 @@
 
         .favorite-btn.favorited {
             opacity: 1;
-        }
-
-        /* Pulse animation for stars on page load */
-        @keyframes starPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.3); }
-        }
-
-        .favorite-btn.pulse-hint {
-            animation: starPulse 1s ease-in-out 3;
-            opacity: 0.8;
-        }
-
-        /* Favorites instruction hint */
-        .favorites-hint {
-            background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
-            border: 1px solid var(--gold);
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 0.95rem;
-            color: var(--text);
-        }
-
-        .favorites-hint .hint-icon {
-            font-size: 1.5rem;
-        }
-
-        .favorites-hint .hint-text {
-            flex: 1;
-        }
-
-        .favorites-hint .hint-dismiss {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-            opacity: 0.5;
-            transition: opacity 0.2s;
-        }
-
-        .favorites-hint .hint-dismiss:hover {
-            opacity: 1;
-        }
-
-        /* Onboarding modal */
-        .onboarding-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .onboarding-overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .onboarding-modal {
-            background: white;
-            border-radius: 16px;
-            padding: 2rem;
-            max-width: 450px;
-            max-height: 85vh;
-            overflow-y: auto;
-            margin: 1rem;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-        }
-
-        .onboarding-overlay.show .onboarding-modal {
-            transform: scale(1);
-        }
-
-        .onboarding-modal .tip-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-        }
-
-        .onboarding-modal h3 {
-            color: var(--navy);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        .onboarding-modal p {
-            color: var(--text);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .onboarding-modal .got-it-btn {
-            background: linear-gradient(135deg, var(--ocean) 0%, var(--navy) 100%);
-            color: white;
-            border: none;
-            padding: 0.75rem 2rem;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .onboarding-modal .got-it-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(30, 77, 123, 0.4);
         }
 
         /* Mobile Sticky Schedule Bar */
@@ -695,46 +467,6 @@
             max-height: 0;
             padding: 0 1rem;
             overflow: hidden;
-        }
-
-        .mobile-schedule-bar.collapsed .mobile-confirm-container {
-            display: none !important;
-        }
-
-        .mobile-confirm-container {
-            padding: 0.75rem 1rem 1rem 1rem;
-            border-top: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .mobile-confirm-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
-            color: white;
-            border: none;
-            padding: 0.85rem 1rem;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-confirm-btn:hover, .mobile-confirm-btn:active {
-            background: linear-gradient(135deg, #219a52, #27ae60);
-        }
-
-        .mobile-confirm-btn.confirmed {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-            font-size: 1.1rem;
-            animation: celebratePulse 0.5s ease-out;
-        }
-
-        .mobile-confirm-btn.partial {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-        }
-
-        .mobile-confirm-btn:disabled {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
         }
 
         .mobile-schedule-item {
@@ -1116,13 +848,6 @@
         </div>
         <div class="banner-logo">
             <p class="subtitle" style="margin-top: 1rem; font-size: 1.3rem;">Set Your Course • February 2026</p>
-            <a href="https://sites.google.com/oglethorpe.k12.ga.us/oc-voyage-to-learning-4-5?usp=sharing" 
-               target="_blank" 
-               style="display: inline-block; margin-top: 1rem; padding: 0.6rem 1.5rem; background: linear-gradient(135deg, #d4a574, #c49464); color: #1a3a5c; font-weight: bold; text-decoration: none; border-radius: 25px; font-size: 0.95rem; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.2);"
-               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.3)';"
-               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.2)';">
-               ← Back to VTL Website
-            </a>
         </div>
     </div>
 
@@ -1239,13 +964,6 @@
             <span class="favorites-count" id="favoritesCount"></span>
         </div>
 
-        <!-- Favorites Hint -->
-        <div class="favorites-hint" id="favoritesHint">
-            <span class="hint-icon">💡</span>
-            <span class="hint-text"><strong>Pro tip:</strong> Click the ⭐ star on any session to save it as a favorite. Then use "Show Favorites Only" above to compare your top picks before registering!</span>
-            <button class="hint-dismiss" onclick="dismissHint()" title="Dismiss">✕</button>
-        </div>
-
         <!-- Alert Area -->
         <div id="alertArea"></div>
 
@@ -1253,13 +971,9 @@
         <div class="my-schedule" id="mySchedule" style="display: none;">
             <div class="schedule-header">
                 <h2>📋 My Schedule</h2>
-                <div class="schedule-buttons">
-                    <button class="confirm-btn" id="confirmSessionsBtn" onclick="confirmSessions()">✅ Confirm My Sessions</button>
-                    <button class="print-btn" onclick="printSchedule()">🖨️ Print My Schedule</button>
-                </div>
+                <button class="print-btn" onclick="printSchedule()">🖨️ Print My Schedule</button>
             </div>
             <div id="scheduleContent"></div>
-            <div id="confirmationMessage" class="confirmation-message" style="display: none;"></div>
         </div>
 
         <!-- Sessions Grid -->
@@ -1281,9 +995,6 @@
         <div class="mobile-schedule-content" id="mobileScheduleContent">
             <!-- Filled by JavaScript -->
         </div>
-        <div class="mobile-confirm-container" id="mobileConfirmContainer" style="display: none;">
-            <button class="mobile-confirm-btn" onclick="confirmSessions()">✅ Confirm My Sessions</button>
-        </div>
     </div>
 
     <script>
@@ -1299,907 +1010,890 @@
 const SESSIONS = [
     {
         "id": 1,
+        "presenter": "Amy Godfrey, NEGaRESA ELA Specialist",
         "title": "Write On: Elevating Writing Instruction in Grades 3-5",
-        "presenter": "Amy Godfrey, NEGA RESA ELA Specialist",
         "description": "Strong writing instruction is intentionally\u00a0designed, modeled, and nurtured. In this session, educators will explore\u00a0practical, research-based strategies to strengthen writing instruction\u00a0across all subject areas. Participants will examine the key components of\u00a0effective writing instruction\u00a0beginning with sentence construction, moving to effective\u00a0paragraph planning, and then putting all the pieces together to construct\u00a0text based upon a scenario. Aligned to the new writing standards and GMAS\u00a0expectations, this session emphasizes how to support all writers as they\u00a0develop their abilities to construct text. You will leave with clear\u00a0strategies to elevate student writing and grow confident, capable\u00a0communicators.",
         "category": "Instruction",
-        "session": 1,
-        "room": "724",
+        "session": "1",
         "capacity": 15,
+        "room": "724",
         "audience": "Teachers 3-5"
     },
     {
         "id": 2,
+        "presenter": "Amy Godfrey, NEGaRESA ELA Specialist",
         "title": "Write On: Elevating Writing Instruction in Grades 3-5",
-        "presenter": "Amy Godfrey, NEGA RESA ELA Specialist",
         "description": "Strong writing instruction is intentionally\u00a0designed, modeled, and nurtured. In this session, educators will explore\u00a0practical, research-based strategies to strengthen writing instruction\u00a0across all subject areas. Participants will examine the key components of\u00a0effective writing instruction\u00a0beginning with sentence construction, moving to effective\u00a0paragraph planning, and then putting all the pieces together to construct\u00a0text based upon a scenario. Aligned to the new writing standards and GMAS\u00a0expectations, this session emphasizes how to support all writers as they\u00a0develop their abilities to construct text. You will leave with clear\u00a0strategies to elevate student writing and grow confident, capable\u00a0communicators.",
         "category": "Instruction",
-        "session": 2,
-        "room": "724",
+        "session": "2",
         "capacity": 15,
+        "room": "724",
         "audience": "Teachers 3-5"
     },
     {
         "id": 3,
+        "presenter": "Amy Godfrey, NEGaRESA ELA Specialist",
         "title": "Write On: Elevating Writing Instruction in Grades K-2",
-        "presenter": "Amy Godfrey, NEGA RESA ELA Specialist",
-        "description": "Strong writing instruction is intentionally\u00a0designed, modeled, and nurtured. In this session, educators will explore\u00a0practical, research-based strategies to strengthen writing instruction\u00a0across all subject areas. Participants will examine the key components of\u00a0effective writing instruction\u00a0at the sentence level with sentence construction, developing writers through oral language, and early understanding of forming a sentence. Aligned to the new Georgia standards, this session emphasizes how to support all writers across content areas as they\u00a0develop their abilities to construct text at the sentence level. You will leave with clear\u00a0strategies to elevate student writing and grow confident, capable\u00a0communicators.",
+        "description": "Strong writing instruction is intentionally\u00a0designed, modeled, and nurtured. In this session, educators will explore\u00a0practical, research-based strategies to strengthen writing instruction\u00a0across all subject areas. Participants will examine the key components of\u00a0effective writing instruction\u00a0at the sentence level with sentence construction, developing writers through oral language and early understanding of forming a sentence. Aligned to the new Georgia standards, this session emphasizes how to support all writers across content areas as they\u00a0develop their abilities to construct text at the sentence level. You will leave with clear\u00a0strategies to elevate student writing and grow confident, capable\u00a0communicators.",
         "category": "Instruction",
-        "session": 3,
-        "room": "724",
+        "session": "3",
         "capacity": 15,
+        "room": "724",
         "audience": "Teachers PK-2"
     },
     {
         "id": 4,
+        "presenter": "Amy Godfrey, NEGaRESA ELA Specialist",
         "title": "Write On: Elevating Writing Instruction in Grades K-2",
-        "presenter": "Amy Godfrey, NEGA RESA ELA Specialist",
-        "description": "Strong writing instruction is intentionally\u00a0designed, modeled, and nurtured. In this session, educators will explore\u00a0practical, research-based strategies to strengthen writing instruction\u00a0across all subject areas. Participants will examine the key components of\u00a0effective writing instruction\u00a0at the sentence level with sentence construction, developing writers through oral language, and early understanding of forming a sentence. Aligned to the new Georgia standards, this session emphasizes how to support all writers across content areas as they\u00a0develop their abilities to construct text at the sentence level. You will leave with clear\u00a0strategies to elevate student writing and grow confident, capable\u00a0communicators.",
+        "description": "Strong writing instruction is intentionally\u00a0designed, modeled, and nurtured. In this session, educators will explore\u00a0practical, research-based strategies to strengthen writing instruction\u00a0across all subject areas. Participants will examine the key components of\u00a0effective writing instruction\u00a0at the sentence level with sentence construction, developing writers through oral language and early understanding of forming a sentence. Aligned to the new Georgia standards, this session emphasizes how to support all writers across content areas as they\u00a0develop their abilities to construct text at the sentence level. You will leave with clear\u00a0strategies to elevate student writing and grow confident, capable\u00a0communicators.",
         "category": "Instruction",
-        "session": 4,
-        "room": "724",
+        "session": "4",
         "capacity": 15,
+        "room": "724",
         "audience": "Teachers PK-2"
     },
     {
         "id": 5,
-        "title": "Wayground",
         "presenter": "April Arendall, EdTech Specialist/Speaker/Innovator",
-        "description": "Discover how Wayground's versatile supplemental learning platform can revolutionize differentiation and accessibility in your classroom by leveraging AI-powered tools to automatically generate Georgia state standards-aligned assessments, create engaging gamified presentations with immediate student performance feedback, and develop reading passages with proper citations on any subject matter. You'll explore how Wayground seamlessly integrates with Georgia Standards of Excellence to provide high-quality vetted Instruction across core subjects while offering 25+ accessibility features\u2014including Read Aloud, Audio Responses, Translation, and Dyslexia Font\u2014that ensure UDL compliance and increase flexibility in Instruction presentation. Whether you're looking to support curriculum adoption with vetted math resources, integrate supplemental Instruction with your existing curriculum maps, or create multiple versions of activities with unique reading levels to meet diverse student needs, this session will show you how Wayground can streamline your instructional practice while enhancing student engagement and outcomes.",
+        "title": "Wayground",
+        "description": "Discover how Wayground's versatile supplemental learning platform can revolutionize differentiation and accessibility in your classroom by leveraging AI-powered tools to automatically generate Georgia State standards-aligned assessments, create engaging gamified presentations with immediate student performance feedback, and develop reading passages with proper citations on any subject matter. You'll explore how Wayground seamlessly integrates with Georgia Standards of Excellence to provide high-quality vetted Instruction across core subjects while offering 25+ accessibility features\u2014including Read Aloud, Audio Responses, Translation, and Dyslexia Font\u2014that ensure UDL compliance and increase flexibility in Instruction presentation. Whether you're looking to support curriculum adoption with vetted math resources, integrate supplemental Instruction with your existing curriculum maps, or create multiple versions of activities with unique reading levels to meet diverse student needs, this session will show you how Wayground can streamline your instructional practice while enhancing student engagement and outcomes.",
         "category": "Technology",
-        "session": 1,
-        "room": "721",
+        "session": "1",
         "capacity": 20,
-        "audience": "All"
+        "room": "721"
     },
     {
         "id": 6,
-        "title": "Wayground",
         "presenter": "April Arendall, EdTech Specialist/Speaker/Innovator",
-        "description": "Discover how Wayground's versatile supplemental learning platform can revolutionize differentiation and accessibility in your classroom by leveraging AI-powered tools to automatically generate Georgia state standards-aligned assessments, create engaging gamified presentations with immediate student performance feedback, and develop reading passages with proper citations on any subject matter. You'll explore how Wayground seamlessly integrates with Georgia Standards of Excellence to provide high-quality vetted Instruction across core subjects while offering 25+ accessibility features\u2014including Read Aloud, Audio Responses, Translation, and Dyslexia Font\u2014that ensure UDL compliance and increase flexibility in Instruction presentation. Whether you're looking to support curriculum adoption with vetted math resources, integrate supplemental Instruction with your existing curriculum maps, or create multiple versions of activities with unique reading levels to meet diverse student needs, this session will show you how Wayground can streamline your instructional practice while enhancing student engagement and outcomes.",
+        "title": "Wayground",
+        "description": "Discover how Wayground's versatile supplemental learning platform can revolutionize differentiation and accessibility in your classroom by leveraging AI-powered tools to automatically generate Georgia State standards-aligned assessments, create engaging gamified presentations with immediate student performance feedback, and develop reading passages with proper citations on any subject matter. You'll explore how Wayground seamlessly integrates with Georgia Standards of Excellence to provide high-quality vetted Instruction across core subjects while offering 25+ accessibility features\u2014including Read Aloud, Audio Responses, Translation, and Dyslexia Font\u2014that ensure UDL compliance and increase flexibility in Instruction presentation. Whether you're looking to support curriculum adoption with vetted math resources, integrate supplemental Instruction with your existing curriculum maps, or create multiple versions of activities with unique reading levels to meet diverse student needs, this session will show you how Wayground can streamline your instructional practice while enhancing student engagement and outcomes.",
         "category": "Technology",
-        "session": 2,
-        "room": "721",
+        "session": "2",
         "capacity": 20,
-        "audience": "All"
+        "room": "721"
     },
     {
         "id": 7,
+        "presenter": "Brandi Paul, Corrie Mattox, Mary Kate Shealy; OCES",
         "title": "Adobe Express: The Legal \"Cheat Code\" for Busy Teachers",
-        "presenter": "Brandi Paul, Corrie Mattox & Mary Kate Shealy; OCES",
-        "description": "Let\u2019s be honest: your \"To-Do\" list is currently the size of a CVS receipt. You don\u2019t have time to become a graphic designer, a web developer, or a video editor. You have a life (presumably).\nJoin us for a session on Adobe Express for Educators, where we\u2019ll show you how to use \"the magic of AI\" to look like you spent all weekend prepping when you were actually binge-watching Netflix.\nWhat\u2019s in your new survival kit?\n\u2022\tThe PDF Exorcist: Stop re-typing worksheets from 2012. Upload those \"flat\" PDFs and watch them become editable (and actually attractive) in seconds.\n\u2022\tThe \"Anti-Chaos\" Button: Learn to Lock your templates so students can\u2019t \"accidentally\" delete the entire assignment background while trying to change a font.\n\u2022\tTalking Tacos & Robots: Use Animated Exit Tickets to get kids to explain their learning through a talking character. It\u2019s 100% more engaging than a crumpled sticky note.\n\u2022\tLaziness\u2026 but make it accessible: Automatically caption your videos with one click. It\u2019s great for UDL and even better for students who \"forgot\" their headphones.\nThe Goal: We\u2019re going to show you how to automate the boring stuff so you can get back to what you actually signed up for: teaching (and maybe drinking your coffee while it\u2019s still hot).",
+        "description": "Let\u2019s be honest: your \"To-Do\" list is currently the size of a CVS receipt. You don\u2019t have time to become a graphic designer, a web developer, or a video editor. You have a life (presumably).\nJoin us for a session on Adobe Express for Educators, where we\u2019ll show you how to use \"the magic of AI\" to look like you spent all weekend prepping when you were actually binge-watching Netflix.\nWhat\u2019s in your new survival kit?\n\u2022\tThe PDF Exorcist: Stop re-typing worksheets from 2012. Upload those \"flat\" PDFs and watch them become editable (and actually attractive) in seconds.\n\u2022\tThe \"Anti-Chaos\" Button: Learn to Lock your templates so students can\u2019t \"accidentally\" delete the entire assignment background while trying to change a font.\n\u2022\tTalking Tacos & Robots: Use Animated Exit Tickets to get kids to explain their learning through a talking character. It\u2019s 100% more engaging than a crumpled sticky note.\n\u2022\tLaziness\u2026 but make it accessible: Automatically caption your videos with one click. It\u2019s great for UDL, and even better for students who \"forgot\" their headphones.\nThe Goal: We\u2019re going to show you how to automate the boring stuff so you can get back to what you actually signed up for: teaching (and maybe drinking your coffee while it\u2019s still hot).",
         "category": "Technology",
-        "session": 1,
-        "room": "701",
+        "session": "1",
         "capacity": 15,
+        "room": "701",
         "audience": "All"
     },
     {
         "id": 8,
-        "title": "Google Maps across Instruction",
         "presenter": "Brandon Adams, OCMS",
-        "description": "This session is about strategies for teachers across instruction and grade levels to use Google Maps to help students learn the standards in a unique and creative way. This visual format will be another tool to add to your list of strategies that will help all learners, especially the visual learners. From art to math, ELA to science and social studies, Ag to Spanish, kindergarten to senior year -- all can get ideas to change things up in your classroom if you have not used Google Maps before.",
+        "title": "Google Maps across Instruction",
+        "description": "This session is about strategies for teachers across Instruction and grade levels to use Google Maps to help students to learn the standards in a unique and creative way. This visual format will be another tool to add to your list of strategies that will help all learners, especially the visual learners. From art to math, Ela to science and Social Studies, ag to Spanish, Kindergarten to Senior year all can get ideas to change things up in your classroom if you have not used Google Maps before.",
         "category": "Technology",
-        "session": 4,
-        "room": "620",
+        "session": "4",
         "capacity": 15,
+        "room": "620",
         "audience": "Teachers PK-12"
     },
     {
         "id": 9,
-        "title": "Supporting Students with Mental Health Needs",
         "presenter": "Danielle Williams, LMSW, MAT in Early Childhood Education, BS in Child & Family Development",
-        "description": "With over 12 years in education and three years as a counselor, Danielle understands how complex supporting student mental health can be in today\u2019s classrooms. This session is designed to be practical, and interactive educators will learn strategies for creating supportive environments while also having space for open conversation to address your questions and concerns.",
+        "title": "Supporting Students with Mental Health Needs",
+        "description": "With over 12 years in education and three years as a counselor, Danielle understands how complex supporting student mental health can be in today\u2019s classrooms. This session is designed to be practical and interactive\u2014educators will learn strategies for creating supportive environments while also having space for open conversation to address your questions and concerns.",
         "category": "SEL",
-        "session": 1,
-        "room": "Media Center",
+        "session": "1",
         "capacity": 20,
+        "room": "Media Center",
         "audience": "All"
     },
     {
         "id": 10,
-        "title": "Supporting Students with Mental Health Needs",
         "presenter": "Danielle Williams, LMSW, MAT in Early Childhood Education, BS in Child & Family Development",
+        "title": "Supporting Students with Mental Health Needs",
         "description": "With over 12 years in education and three years as a counselor, Danielle understands how complex supporting student mental health can be in today\u2019s classrooms. This session is designed to be practical and interactive\u2014educators will learn strategies for creating supportive environments while also having space for open conversation to address your questions and concerns.",
         "category": "SEL",
-        "session": 2,
-        "room": "Media Center",
+        "session": "2",
         "capacity": 20,
+        "room": "Media Center",
         "audience": "All"
     },
     {
         "id": 11,
-        "title": "Taking Care of You",
         "presenter": "Danielle Williams, LMSW, MAT in Early Childhood Education, BS in Child & Family Development",
+        "title": "Taking Care of You",
         "description": "As a former educator, Danielle understands firsthand how the demands and stress of teaching can make it hard to prioritize your own well-being. In this session, you will learn to recognize the early signs of burnout, understand why daily self-care is essential, and explore practical strategies to support your mental and emotional health both inside and outside the classroom.",
         "category": "SEL",
-        "session": 3,
-        "room": "Media Center",
+        "session": "3",
         "capacity": 20,
+        "room": "Media Center",
         "audience": "All"
     },
     {
         "id": 12,
-        "title": "Taking Care of You",
         "presenter": "Danielle Williams, LMSW, MAT in Early Childhood Education, BS in Child & Family Development",
+        "title": "Taking Care of You",
         "description": "As a former educator, Danielle understands firsthand how the demands and stress of teaching can make it hard to prioritize your own well-being. In this session, you will learn to recognize the early signs of burnout, understand why daily self-care is essential, and explore practical strategies to support your mental and emotional health both inside and outside the classroom.",
         "category": "SEL",
-        "session": 4,
-        "room": "Media Center",
+        "session": "4",
         "capacity": 20,
+        "room": "Media Center",
         "audience": "All"
     },
     {
         "id": 13,
-        "title": "Read Like a Scientist",
         "presenter": "Dr. Chad Galloway and Ashlee Lawhorn, OCES",
+        "title": "Read Like a Scientist",
         "description": "Read Like a Scientist shows how literacy and science work better together, helping students read, think, and reason like real scientists. Participants will use AI to create science reading passages, explore GYSTC resources, and leave with materials they can use right away.",
         "category": "Instruction",
-        "session": 4,
-        "room": "601",
+        "session": "4",
         "capacity": 15,
+        "room": "601",
         "audience": "Teachers 3-8"
     },
     {
         "id": 14,
-        "title": "Brisk",
         "presenter": "Dr. DeShonda Wolfe, Certified Brisk AI Professional, OCHS",
+        "title": "Brisk",
         "description": "Brisk is an AI-powered Chrome extension that simplifies teaching tasks. It helps educators instantly create lesson plans, quizzes, presentations, and student feedback using your favorite resources, like YouTube, Google Docs, and web articles.",
         "category": "Technology",
-        "session": 3,
-        "room": "721",
+        "session": "3",
         "capacity": 15,
-        "audience": "All"
+        "room": "721"
     },
     {
         "id": 15,
-        "title": "Brisk",
         "presenter": "Dr. DeShonda Wolfe, Certified Brisk AI Professional, OCHS",
+        "title": "Brisk",
         "description": "Brisk is an AI-powered Chrome extension that simplifies teaching tasks. It helps educators instantly create lesson plans, quizzes, presentations, and student feedback using your favorite resources, like YouTube, Google Docs, and web articles.",
         "category": "Technology",
-        "session": 4,
-        "room": "721",
+        "session": "4",
         "capacity": 15,
-        "audience": "All"
+        "room": "721"
     },
     {
         "id": 16,
-        "title": "Hands-On Statistics that Stick",
         "presenter": "Dr. Susan Winstead, Math Instructional Coach, OCES",
+        "title": "Hands-On Statistics that Stick",
         "description": "This interactive professional learning session immerses teachers in hands-on statistical investigations aligned to elementary standards. Participants will explore data collection, representation, and analysis through concrete materials and real-world contexts while gaining practical strategies to implement immediately in their classrooms.",
         "category": "Instruction",
-        "session": 1,
-        "room": "614",
+        "session": "1",
         "capacity": 15,
+        "room": "614",
         "audience": "Teachers PK-5, SpED"
     },
     {
         "id": 17,
-        "title": "Hands-On Statistics that Stick",
         "presenter": "Dr. Susan Winstead, Math Instructional Coach, OCES",
+        "title": "Hands-On Statistics that Stick",
         "description": "This interactive professional learning session immerses teachers in hands-on statistical investigations aligned to elementary standards. Participants will explore data collection, representation, and analysis through concrete materials and real-world contexts while gaining practical strategies to implement immediately in their classrooms.",
         "category": "Instruction",
-        "session": 4,
-        "room": "614",
+        "session": "4",
         "capacity": 15,
+        "room": "614",
         "audience": "Teachers PK-5, SpED"
     },
     {
         "id": 18,
-        "title": "Hot as H*LL, Tired & Still Brilliant",
         "presenter": "Dr. Tess Vaughn, DPT, OCS, COMT, PCES, DN",
-        "description": "\"Is peri/menopause beating you (or your spouse) up and you want to get some control back?\n\nThis session will cover the ins and outs of peri/menopause and go over practical ways to help manage the symptoms and allow you to continue to show up, lead, and inspire.\n\nWe will talk honestly about:  \n- The signs, the symptoms,\n      and the whys\n- Food choices\n- Supplement choices \n- The elephant in the room - \n    HRT\n- The elusive 8 hours of sleep \n- Appropriate exercises: \u201cThe \n   Teacher Reset\u201d\n      - be ready to do some of the exercises in \n         the session\n  -   Questions \"",
+        "title": "Hot as H*LL, Tired & Still Brilliant",
+        "description": "Is peri/menopause beating you (or your spouse) up and you want to get some control back? This session will cover the ins and outs of peri/menopause and go over practical ways to help manage the symptoms and allow you to continue to show up, lead, and inspire. We will talk honestly about: the signs, symptoms, and whys; food choices; supplement choices; the elephant in the room - HRT; the elusive 8 hrs of sleep; and appropriate exercises including 'The Teacher Reset' - be ready to do some in the session!",
         "category": "Wellness",
-        "session": 1,
-        "room": "Cafeteria",
+        "session": "1",
         "capacity": 25,
+        "room": "Cafeteria",
         "audience": "All Women"
     },
     {
         "id": 19,
-        "title": "Hot as H*LL, Tired & Still Brilliant",
         "presenter": "Dr. Tess Vaughn, DPT, OCS, COMT, PCES, DN",
-        "description": "\"Is peri/menopause beating you (or your spouse) up and you want to get some control back?\n\nThis session will cover the ins and outs of peri/menopause and go over practical ways to help manage the symptoms and allow you to continue to show up, lead, and inspire.\n\nWe will talk honestly about:  \n- The signs, the symptoms,\n      and the whys\n- Food choices\n- Supplement choices \n- The elephant in the room - \n    HRT\n- The elusive 8 hours of sleep \n- Appropriate exercises: \u201cThe \n   Teacher Reset\u201d\n      - be ready to do some of the exercises in \n         the session\n  -   Questions \"",
+        "title": "Hot as H*LL, Tired & Still Brilliant",
+        "description": "Is peri/menopause beating you (or your spouse) up and you want to get some control back? This session will cover the ins and outs of peri/menopause and go over practical ways to help manage the symptoms and allow you to continue to show up, lead, and inspire. We will talk honestly about: the signs, symptoms, and whys; food choices; supplement choices; the elephant in the room - HRT; the elusive 8 hrs of sleep; and appropriate exercises including 'The Teacher Reset' - be ready to do some in the session!",
         "category": "Wellness",
-        "session": 2,
-        "room": "Cafeteria",
+        "session": "2",
         "capacity": 25,
+        "room": "Cafeteria",
         "audience": "All Women"
     },
     {
         "id": 20,
-        "title": "Your AI Treasure Chest: Creating & Sharing Gemini Gems",
         "presenter": "Eric Curts, Nationally Known Technology Integration Specialist",
+        "title": "Your AI Treasure Chest: Creating & Sharing Gemini Gems",
         "description": "Gems are reusable, custom prompts that save your best AI workflows for instant access, and they are a game-changer for educators! In this deep-dive session we'll start by using Google's pre-made Gems (like Brainstormer and Storybook Creator), then learn to create your own, with tips for effective prompting and uploading reference files. We'll also cover how to share your Gems with colleagues and how schools can build a shared, high-quality Gem repository for staff and students. To see their full potential, we will tour my \"EduGems\" website and demonstrate powerful, ready-to-use prompts for lesson hooks, rubric generation, DOK analysis, and even creating AI-powered classroom games.",
         "category": "Technology",
-        "session": 1,
-        "room": "Fellowship Hall",
+        "session": "1",
         "capacity": 35,
+        "room": "Fellowship Hall",
         "audience": "All"
     },
     {
         "id": 21,
-        "title": "Promptcraft? Building a Better AI Prompt",
         "presenter": "Eric Curts, Nationally Known Technology Integration Specialist",
+        "title": "Promptcraft? Building a Better AI Prompt",
         "description": "AI can have a powerful impact on teaching and learning, but the value of what you get out can often depend on the quality of what you put in. How can you craft better prompts to get the best results? In this session we will explore examples of excellent prompts, models for building better prompts, using a \"super prompt\" to create prompts, using the \"collaborative prompt\" technique, activities to practice prompting, and more.",
         "category": "Technology",
-        "session": 2,
-        "room": "Fellowship Hall",
+        "session": "2",
         "capacity": 35,
+        "room": "Fellowship Hall",
         "audience": "All"
     },
     {
         "id": 22,
-        "title": "Full Bleed: Finding Balance between Technology and Life",
         "presenter": "Eric Curts, Nationally Known Technology Integration Specialist",
+        "title": "Full Bleed: Finding Balance between Technology and Lift",
         "description": "Technology is a wonderful tool, but it can also consume our lives. In this session we will explore Googley tools as well as other tech resources (for ourselves and our students) to help monitor and manage the time we spend using technology, as well as how we can use technology to increase mindfulness and promote better mental, emotional, and physical health.",
         "category": "Technology",
-        "session": 3,
-        "room": "Fellowship Hall",
+        "session": "3",
         "capacity": 35,
+        "room": "Fellowship Hall",
         "audience": "All"
     },
     {
         "id": 23,
-        "title": "Did a Robot Write This Report? Managing AI Cheating",
         "presenter": "Eric Curts, Nationally Known Technology Integration Specialist",
-        "description": "Although AI can help support students in their learning and work, unfortunately it can also be misused for cheating purposes. In this session we will explore ways to address academic integrity concerns in the age of AI. This will include creating student AI guidelines, adjustments to make assignments more AI-resistant, tools to monitor the use of AI and see what work students have done themselves and educating students on the proper use of AI.",
+        "title": "Did a Robot Write This Report? Managing AI Cheating",
+        "description": "Although AI can help support students in their learning and work, unfortunately it can also be misused for cheating purposes. In this session we will explore ways to address academic integrity concerns in the age of AI. This will include creating student AI guidelines, adjustments to make assignments more AI-resistant, tools to monitor the use of AI and see what work students have done themselves, and educating students on the proper use of AI.",
         "category": "Technology",
-        "session": 4,
-        "room": "Fellowship Hall",
+        "session": "4",
         "capacity": 35,
+        "room": "Fellowship Hall",
         "audience": "All"
     },
     {
         "id": 24,
-        "title": "Beat the Stress Away",
         "presenter": "Erin Serrian, OCMS",
-        "description": "Have you ever wanted a chance\u00a0to\u00a0create music with a community but didn't believe you had the skills\u00a0to\u00a0complete the task? Have you ever felt like you needed\u00a0to\u00a0productively put your energy into something\u00a0to\u00a0lower your stress? If so, this is the class for you! Come join the bucket drumming brigade and learn how\u00a0to\u00a0play a musical tune with just two sticks and a 5- gallon bucket. No musical experience is necessary, but health benefits might be found!\"",
+        "title": "Beat the Stress Away",
+        "description": "Have you ever wanted a chance\u00a0to\u00a0create music with a community but didn't believe you had the skills\u00a0to\u00a0complete the task? Have you ever felt like you needed\u00a0to\u00a0productively put your energy into something\u00a0to\u00a0lower your stress? If so, this is the class for you! Come join the bucket drumming brigade and learn how\u00a0to\u00a0play a musical tune with just two sticks and a 5- gallon bucket. No musical experience necessary, but health benefits might be found!\"",
         "category": "Wellness",
-        "session": 3,
-        "room": "401",
+        "session": "3",
         "capacity": 22,
+        "room": "401",
         "audience": "All"
     },
     {
         "id": 25,
-        "title": "Beat the Stress Away",
         "presenter": "Erin Serrian, OCMS",
-        "description": "Have you ever wanted a chance\u00a0to\u00a0create music with a community but didn't believe you had the skills\u00a0to\u00a0complete the task? Have you ever felt like you needed\u00a0to\u00a0productively put your energy into something\u00a0to\u00a0lower your stress? If so, this is the class for you! Come join the bucket drumming brigade and learn how\u00a0to\u00a0play a musical tune with just two sticks and a 5- gallon bucket. No musical experience is necessary, but health benefits might be found!\"",
+        "title": "Beat the Stress Away",
+        "description": "Have you ever wanted a chance\u00a0to\u00a0create music with a community but didn't believe you had the skills\u00a0to\u00a0complete the task? Have you ever felt like you needed\u00a0to\u00a0productively put your energy into something\u00a0to\u00a0lower your stress? If so, this is the class for you! Come join the bucket drumming brigade and learn how\u00a0to\u00a0play a musical tune with just two sticks and a 5- gallon bucket. No musical experience necessary, but health benefits might be found!\"",
         "category": "Wellness",
-        "session": 4,
-        "room": "401",
+        "session": "4",
         "capacity": 22,
+        "room": "401",
         "audience": "All"
     },
     {
         "id": 26,
-        "title": "Core Balance and Stretch",
         "presenter": "Jamie Parker, Fitness Instructor",
+        "title": "Core Balance and Stretch",
         "description": "A gentle workout designed for all levels. This workout will include standing abs and balance, ending with a nice long stretch. (For all levels, all standing, and no floor work).",
         "category": "Wellness",
-        "session": 1,
-        "room": "Gym",
+        "session": "1",
         "capacity": 25,
+        "room": "Gym",
         "audience": "All"
     },
     {
         "id": 27,
-        "title": "Core Balance and Stretch",
         "presenter": "Jamie Parker, Fitness Instructor",
+        "title": "Core Balance and Stretch",
         "description": "A gentle workout designed for all levels. This workout will include standing abs and balance, ending with a nice long stretch. (For all levels, all standing, and no floor work).",
         "category": "Wellness",
-        "session": 2,
-        "room": "Gym",
+        "session": "2",
         "capacity": 25,
+        "room": "Gym",
         "audience": "All"
     },
     {
         "id": 28,
-        "title": "Core Balance and Stretch",
         "presenter": "Jamie Parker, Fitness Instructor",
+        "title": "Core Balance and Stretch",
         "description": "A gentle workout designed for all levels. This workout will include standing abs and balance, ending with a nice long stretch. (For all levels, all standing, and no floor work).",
         "category": "Wellness",
-        "session": 3,
-        "room": "Gym",
+        "session": "3",
         "capacity": 25,
+        "room": "Gym",
         "audience": "All"
     },
     {
         "id": 29,
-        "title": "Core Balance and Stretch",
         "presenter": "Jamie Parker, Fitness Instructor",
+        "title": "Core Balance and Stretch",
         "description": "A gentle workout designed for all levels. This workout will include standing abs and balance, ending with a nice long stretch. (For all levels, all standing, and no floor work).",
         "category": "Wellness",
-        "session": 4,
-        "room": "Gym",
+        "session": "4",
         "capacity": 25,
+        "room": "Gym",
         "audience": "All"
     },
     {
         "id": 30,
+        "presenter": "Jason Byars, School Climate Dir.,  NeGaRESA",
         "title": "The Safe Harbor Classroom: Navigating Trauma with Care and Connection",
-        "presenter": "Jason Byars, School Climate Dir., NEGA RESA",
         "description": "Educators will explore how to create a \u201csafe harbor\u201d classroom where students feel grounded, supported, and ready to learn. Participants will learn how trauma and stress shape student behavior, practice recognizing common regulation needs, and discover trauma-informed strategies that build safety, predictability, and strong teacher\u2013student connections. Through practical examples and classroom-ready tools, this session equips teachers to navigate challenging moments with compassion and to foster a learning environment where every student can thrive.",
         "category": "SEL",
-        "session": 2,
-        "room": "705",
+        "session": "2",
         "capacity": 15,
+        "room": "705",
         "audience": "All"
     },
     {
         "id": 31,
+        "presenter": "Jason Byars, School Climate Dir.,  NeGaRESA",
         "title": "The Safe Harbor Classroom: Navigating Trauma with Care and Connection",
-        "presenter": "Jason Byars, School Climate Dir., NEGA RESA",
         "description": "Educators will explore how to create a \u201csafe harbor\u201d classroom where students feel grounded, supported, and ready to learn. Participants will learn how trauma and stress shape student behavior, practice recognizing common regulation needs, and discover trauma-informed strategies that build safety, predictability, and strong teacher\u2013student connections. Through practical examples and classroom-ready tools, this session equips teachers to navigate challenging moments with compassion and to foster a learning environment where every student can thrive.",
         "category": "SEL",
-        "session": 3,
-        "room": "705",
+        "session": "3",
         "capacity": 15,
+        "room": "705",
         "audience": "All"
     },
     {
         "id": 32,
+        "presenter": "Jason Byars, School Climate Dir.,  NeGaRESA",
         "title": "The Safe Harbor Classroom: Navigating Trauma with Care and Connection",
-        "presenter": "Jason Byars, School Climate Dir., NEGA RESA",
         "description": "Educators will explore how to create a \u201csafe harbor\u201d classroom where students feel grounded, supported, and ready to learn. Participants will learn how trauma and stress shape student behavior, practice recognizing common regulation needs, and discover trauma-informed strategies that build safety, predictability, and strong teacher\u2013student connections. Through practical examples and classroom-ready tools, this session equips teachers to navigate challenging moments with compassion and to foster a learning environment where every student can thrive.",
         "category": "SEL",
-        "session": 4,
-        "room": "705",
+        "session": "4",
         "capacity": 15,
+        "room": "705",
         "audience": "All"
     },
     {
         "id": 33,
+        "presenter": "Jennifer Kimbel, OCHS and Lindsay Gregor; OCES",
         "title": "So, You're Finished, Now What?",
-        "presenter": "Jennifer Kimbel, OCHS and Lindsay Gregory; OCES",
         "description": "We\u2019ve all seen it: that one student who finishes a 30-minute task in approximately 45 seconds and is now staring into your soul. Instead of panicking or handing out \"busy work\" that everyone hates, come learn how to channel that chaotic speed into something meaningful.\u00a0This session provides a toolkit of independent tasks and brain-bending challenges designed to keep early finishers challenged and actively engaged in critical thinking tasks.",
         "category": "Instruction",
-        "session": 1,
-        "room": "712",
+        "session": "1",
         "capacity": 15,
+        "room": "712",
         "audience": "All"
     },
     {
         "id": 34,
-        "title": "Inspire",
         "presenter": "Jennifer Yauck, OCHS Instructional Coach",
+        "title": "Inspire",
         "description": "Come and learn more about the GA Inspire platform! In this session we will look at the social studies and science courses to find lessons to help your students in all grade levels! We will focus on multimodality lessons for English Learners and so much more! You will walk away with new lessons and activities!",
         "category": "Technology",
-        "session": 1,
-        "room": "620",
+        "session": "1",
         "capacity": 15,
+        "room": "620",
         "audience": "All"
     },
     {
         "id": 35,
+        "presenter": "Jennifer Yauck; OCHS Instructional Coach",
         "title": "Inspire",
-        "presenter": "Jennifer Yauck, OCHS Instructional Coach",
         "description": "Come and learn more about the GA Inspire platform! In this session we will look at the social studies and science courses to find lessons to help your students in all grade levels! We will focus on multimodality lessons for English Learners and so much more! You will walk away with new lessons and activities!",
         "category": "Technology",
-        "session": 2,
-        "room": "620",
+        "session": "2",
         "capacity": 15,
+        "room": "620",
         "audience": "All"
     },
     {
         "id": 36,
-        "title": "Supporting Diverse Learners with Notebook LM",
         "presenter": "Jessica Tipton, Ed.S. (OCHS)",
+        "title": "Supporting Diverse Learners with Notebook LM",
         "description": "A practical overview of using Notebook LM features to help students navigate content more independently.",
         "category": "Technology",
-        "session": 2,
-        "room": "612",
+        "session": "2",
         "capacity": 15,
+        "room": "612",
         "audience": "All"
     },
     {
         "id": 37,
-        "title": "Fall Smart Workshop",
         "presenter": "Jessica Tipton, Ed.S. (OCHS)",
+        "title": "Fall Smart Workshop",
         "description": "An instructional training/demonstration on how to prevent injury during accidental falls.",
         "category": "Safety",
-        "session": 3,
-        "room": "612",
+        "session": "3",
         "capacity": 15,
+        "room": "612",
         "audience": "All"
     },
     {
         "id": 38,
-        "title": "Behavior Strategies for the K-12 Classroom",
         "presenter": "Jim Synan, Education Specialist in School Counseling & Behavior Specialist, Clarke County Schools",
-        "description": "In this session, we will review effective Tier 1 Classroom Management Strategies, examine how to verbally de-escalate a student, and also touch on how trauma can impact the brain of students.",
+        "title": "Behavior Strategies for the K-12 Classroom",
+        "description": "In this session, we will review effective Tier 1 Classroom Management Strategies, examine how to verbally de-escalate a student, and also touch on how trauma can impact the brain of students",
         "category": "SEL",
-        "session": 1,
-        "room": "601",
+        "session": "1",
         "capacity": 20,
+        "room": "601",
         "audience": "All"
     },
     {
         "id": 39,
-        "title": "Behavior Strategies for the K-12 Classroom",
         "presenter": "Jim Synan, Education Specialist in School Counseling & Behavior Specialist, Clarke County Schools",
-        "description": "In this session, we will review effective Tier 1 Classroom Management Strategies, examine how to verbally de-escalate a student, and also touch on how trauma can impact the brain of students.",
+        "title": "Behavior Strategies for the K-12 Classroom",
+        "description": "In this session, we will review effective Tier 1 Classroom Management Strategies, examine how to verbally de-escalate a student, and also touch on how trauma can impact the brain of students",
         "category": "SEL",
-        "session": 2,
-        "room": "601",
+        "session": "2",
         "capacity": 20,
+        "room": "601",
         "audience": "All"
     },
     {
         "id": 40,
-        "title": "Behavior Strategies for the K-12 Classroom",
         "presenter": "Jim Synan, Education Specialist in School Counseling & Behavior Specialist, Clarke County Schools",
-        "description": "In this session, we will review effective Tier 1 Classroom Management Strategies, examine how to verbally de-escalate a student, and touch on how trauma can impact the brain of students.",
+        "title": "Behavior Strategies for the K-12 Classroom",
+        "description": "In this session, we will review effective Tier 1 Classroom Management Strategies, examine how to verbally de-escalate a student, and also touch on how trauma can impact the brain of students",
         "category": "SEL",
-        "session": 3,
-        "room": "601",
+        "session": "3",
         "capacity": 20,
+        "room": "601",
         "audience": "All"
     },
     {
         "id": 41,
-        "title": "A Day in the Life of a SpED Student",
         "presenter": "Karyn Gunter, Director of Special Education, OCSD",
-        "description": "Experience a school day through the eyes of a special education student in this powerful simulation-based session. Participants will rotate through scenarios reflecting common academic, social, sensory, and communication challenges, building empathy, and deepening understanding of diverse learning needs. Through guided reflection, educators will connect these experiences to practical classroom strategies, IEP implementation, and inclusive practices. Leave with a renewed perspective on accessibility, student engagement, and creating truly supportive learning environments for all students.",
+        "title": "A Day in the Life of a SpED Student",
+        "description": "Experience a school day through the eyes of a special education student in this powerful simulation-based session. Participants will rotate through scenarios reflecting common academic, social, sensory, and communication challenges, building empathy and deepening understanding of diverse learning needs. Through guided reflection, educators will connect these experiences to practical classroom strategies, IEP implementation, and inclusive practices. Leave with a renewed perspective on accessibility, student engagement, and creating truly supportive learning environments for all students.",
         "category": "SEL",
-        "session": 1,
-        "room": "726",
+        "session": "1",
         "capacity": 25,
+        "room": "726",
         "audience": "All"
     },
     {
         "id": 42,
-        "title": "A Day in the Life of a SpEd Student",
         "presenter": "Karyn Gunter, Director of Special Education, OCSD",
+        "title": "A Day in the Life of a SpEd Student",
         "description": "Experience a school day through the eyes of a special education student in this powerful simulation-based session. Participants will rotate through scenarios reflecting common academic, social, sensory, and communication challenges, building empathy and deepening understanding of diverse learning needs. Through guided reflection, educators will connect these experiences to practical classroom strategies, IEP implementation, and inclusive practices. Leave with a renewed perspective on accessibility, student engagement, and creating truly supportive learning environments for all students.",
         "category": "SEL",
-        "session": 2,
-        "room": "726",
+        "session": "2",
         "capacity": 25,
+        "room": "726",
         "audience": "All"
     },
     {
         "id": 43,
-        "title": "Tai Chi for Balance Improvement",
         "presenter": "Katie Calkin, MPH, MCHES Health Educator, Piedmont Hospital",
-        "description": "Clinical studies show tai chi can improve strength, flexibility, balance, and quality of sleep. This mind-body practice can increase feelings of relaxation and focus. We will warm up with gentle qigong exercises and will practice a simple Tai Chi for Health Institute form. Movements can be done standing or seated and can be adapted to your body. No experience is necessary.",
+        "title": "Tai Chi for Balance Improvement",
+        "description": "Clinical studies show tai chi can improve strength, flexibility, balance & quality of sleep. This mind-body practice can increase feelings of relaxation and focus. We will warm up with gentle qigong exercises and will practice a simple Tai Chi for Health Institute form. Movements can be done standing or seated and can be adapted to your body. No experience necessary.",
         "category": "Wellness",
-        "session": 1,
-        "room": "410/weight",
+        "session": "1",
         "capacity": 20,
+        "room": "410/weight",
         "audience": "All"
     },
     {
         "id": 44,
-        "title": "Tai Chi for Balance Improvement",
         "presenter": "Katie Calkin, MPH, MCHES Health Educator, Piedmont Hospital",
-        "description": "Clinical studies show tai chi can improve strength, flexibility, balance, and quality of sleep. This mind-body practice can increase feelings of relaxation and focus. We will warm up with gentle qigong exercises and will practice a simple Tai Chi for Health Institute form. Movements can be done standing or seated and can be adapted to your body. No experience is necessary.",
+        "title": "Tai Chi for Balance Improvement",
+        "description": "Clinical studies show tai chi can improve strength, flexibility, balance & quality of sleep. This mind-body practice can increase feelings of relaxation and focus. We will warm up with gentle qigong exercises and will practice a simple Tai Chi for Health Institute form. Movements can be done standing or seated and can be adapted to your body. No experience necessary.",
         "category": "Wellness",
-        "session": 2,
-        "room": "410/weight",
+        "session": "2",
         "capacity": 20,
+        "room": "410/weight",
         "audience": "All"
     },
     {
         "id": 45,
+        "presenter": "Kelly Allgood, Janet High, and Penny Miller; OCMS",
         "title": "Power Up Participation: 3 Digital Tools to Supercharge Student Thinking and Writing",
-        "presenter": "Kelly Allgood, Janet High & Penny Miller; OCMS",
         "description": "In this session, participants will explore Curipod, ShortAnswer.com, and WeWrite\u2014three easy-to-use tools designed to increase student engagement and writing. Attendees will experience each tool from a student\u2019s perspective and learn practical strategies for using them. The session will focus on promoting active thinking, real-time participation, and meaningful writing without adding extra grading.",
         "category": "Technology",
-        "session": 3,
-        "room": "610",
+        "session": "3",
         "capacity": 15,
+        "room": "610",
         "audience": "Teachers 3-12, ESOL, SpED, Inst. Coaches, Paras, Media Specialist"
     },
     {
         "id": 46,
+        "presenter": "Ken Howard, Special Agent in Charge (GBI Gang Task Force) Katie Walker, Assistant Special Agent in Charge &  Dr. Tonia Willis",
         "title": "Gang Culture and Our Children",
-        "presenter": "Katie Walker, Assistant Special Agent in Charge (GBI Gang Task Force) & Dr. Tonia Willis",
         "description": "\u201cGang affiliation is not something that students leave behind when they enter the school building. If a gang presence exists at school, it cannot be ignored. . . Gang-related issues should be addressed head-on or they will fester, harm school climate, and impede the learning environment\u201d (Georgia Department of Education). Kids are being recruited to join gangs now when they are in high school, middle school, and yes, even elementary school! Learn about active gangs in surrounding areas and how to identify them, as well as how gang involvement impacts kids in school and out of school.",
         "category": "Safety",
-        "session": 1,
-        "room": "720",
+        "session": "1",
         "capacity": 15,
+        "room": "720",
         "audience": "All"
     },
     {
         "id": 47,
+        "presenter": "Ken Howard, Special Agent in Charge (GBI Gang Task Force) Katie Walker, Assistant Special Agent in Charge & Dr. Tonia Willis",
         "title": "Gang Culture and Our Children",
-        "presenter": "Katie Walker, Assistant Special Agent in Charge (GBI Gang Task Force) & Dr. Tonia Willis",
         "description": "\u201cGang affiliation is not something that students leave behind when they enter the school building. If a gang presence exists at school, it cannot be ignored. . . Gang-related issues should be addressed head-on or they will fester, harm school climate, and impede the learning environment\u201d (Georgia Department of Education). Kids are being recruited to join gangs now when they are in high school, middle school, and yes, even elementary school! Learn about active gangs in surrounding areas and how to identify them, as well as how gang involvement impacts kids in school and out of school.",
         "category": "Safety",
-        "session": 2,
-        "room": "720",
+        "session": "2",
         "capacity": 15,
+        "room": "720",
         "audience": "All"
     },
     {
         "id": 48,
+        "presenter": "Ken Howard, Special Agent in Charge (GBI Gang Task Force) Katie Walker, Assistant Special Agent in Charge & Dr. Tonia Willis",
         "title": "Gang Culture and Our Children",
-        "presenter": "Katie Walker, Assistant Special Agent in Charge (GBI Gang Task Force) & Dr. Tonia Willis",
         "description": "\u201cGang affiliation is not something that students leave behind when they enter the school building. If a gang presence exists at school, it cannot be ignored. . . Gang-related issues should be addressed head-on or they will fester, harm school climate, and impede the learning environment\u201d (Georgia Department of Education). Kids are being recruited to join gangs now when they are in high school, middle school, and yes, even elementary school! Learn about active gangs in surrounding areas and how to identify them, as well as how gang involvement impacts kids in school and out of school.",
         "category": "Safety",
-        "session": 3,
-        "room": "720",
+        "session": "3",
         "capacity": 15,
+        "room": "720",
         "audience": "All"
     },
     {
         "id": 49,
+        "presenter": "Ken Howard, Special Agent in Charge (GBI Gang Task Force) Katie Walker, Assistant Special Agent in Charge & Dr. Tonia Willis",
         "title": "Gang Culture and Our Children",
-        "presenter": "Katie Walker, Assistant Special Agent in Charge (GBI Gang Task Force) & Dr. Tonia Willis",
         "description": "\u201cGang affiliation is not something that students leave behind when they enter the school building. If a gang presence exists at school, it cannot be ignored. . . Gang-related issues should be addressed head-on or they will fester, harm school climate, and impede the learning environment\u201d (Georgia Department of Education). Kids are being recruited to join gangs now when they are in high school, middle school, and yes, even elementary school! Learn about active gangs in surrounding areas and how to identify them, as well as how gang involvement impacts kids in school and out of school.",
         "category": "Safety",
-        "session": 4,
-        "room": "720",
+        "session": "4",
         "capacity": 15,
+        "room": "720",
         "audience": "All"
     },
     {
         "id": 50,
-        "title": "Suno: More Than a Jingle",
         "presenter": "Kevin Southall, OCES",
+        "title": "Suno: More Than a Jingle",
         "description": "Suno shows teachers how to use AI music to boost engagement, spark creativity, and make learning stick across any subject. Educators will create their own classroom-ready songs and leave with fresh, fun ideas they can use for students and themselves immediately.",
         "category": "Technology",
-        "session": 4,
-        "room": "612",
+        "session": "4",
         "capacity": 15,
+        "room": "612",
         "audience": "Teachers 3-12, ESOL, Media Specialist"
     },
     {
         "id": 51,
-        "title": "Absent Intelligence",
         "presenter": "Kristine Heckman & Robin Guest, OCES",
+        "title": "Absent Intelligence",
         "description": "Overwhelmed with all the AI choices out there? Come to this class to learn how to start a chat with ChatGPT. This course is designed to help teachers incorporate AI into their classrooms without being overwhelmed. Basic tips and helpful hints will be the focus, so you can begin or even continue your journey from Absent Intelligence to Amazing Integration.",
         "category": "Technology",
-        "session": 1,
-        "room": "722",
+        "session": "1",
         "capacity": 15,
+        "room": "722",
         "audience": "All"
     },
     {
         "id": 52,
-        "title": "Digital Locks: The Key to Student Engagement",
         "presenter": "Lindsay Gregory, OCES",
+        "title": "Digital Locks: The Key to Student Engagement",
         "description": "Transform traditional classroom materials into\u00a0interactive challenges\u00a0by incorporating digital locks. This session explores how embedding game-like mechanics into everyday tasks can spark curiosity and increase student engagement. Participants will learn how to create their own digital locks to breathe new life into standard worksheets and create immersive, multi-layered learning adventures.",
         "category": "Instruction",
-        "session": 3,
-        "room": "712",
+        "session": "3",
         "capacity": 15,
+        "room": "712",
         "audience": "All"
     },
     {
         "id": 53,
-        "title": "AI Early Finisher Activities",
         "presenter": "Mara Hardy, OCMS",
+        "title": "AI Early Finisher Activities",
         "description": "Discover how to engage your early finishers with meaningful, challenging work using AI-powered extension activities. In this hands-on session, you'll learn to use ChatGPT to create Depth of Knowledge (DOK) leveled tasks that push students beyond surface learning while keeping them motivated through digital badge-earning opportunities. Participants will leave with their own content-specific early finisher activities and a personalized badge system ready to implement in their classrooms. Transform those extra minutes into powerful learning moments that celebrate student achievement!",
         "category": "Technology",
-        "session": 3,
-        "room": "726",
+        "session": "3",
         "capacity": 15,
+        "room": "726",
         "audience": "Teachers PK-12, SpED"
     },
     {
         "id": 54,
-        "title": "Peardeck",
         "presenter": "Michael Weis, OCHS",
+        "title": "Peardeck",
         "description": "Integrating digital interactive formative assessments for understanding into digital presentations (Google Slides/Powerpoint) to make the most of your class time instruction and notetaking.",
         "category": "Technology",
-        "session": 1,
-        "room": "610",
+        "session": "1",
         "capacity": 15,
+        "room": "610",
         "audience": "Teachers PK-12"
     },
     {
         "id": 55,
-        "title": "Foster Care: The Most Difficult Job You Will Ever Love",
-        "presenter": "Norma M. Heninger, MSW, Field Program Specialist, Georgia Department of Human Services",
-        "description": "Take a journey through the myths and truths about foster care, the way foster care is managed in Georgia, and how you can help children in our state in many different ways to support them before, during and after foster care.",
+        "presenter": "Norma Heninger, County Dir. DFACS",
+        "title": "Foster Care and DFACS",
+        "description": "Information about the foster care system and how DFACS works to support children and families in our community.",
         "category": "SEL",
-        "session": 1,
-        "room": "821",
+        "session": "1",
         "capacity": 15,
+        "room": "821",
         "audience": "All"
     },
     {
         "id": 56,
-        "title": "Foster Care: The Most Difficult Job You Will Ever Love",
-        "presenter": "Norma M. Heninger, MSW, Field Program Specialist, Georgia Department of Human Services",
-        "description": "Take a journey through the myths and truths about foster care, the way foster care is managed in Georgia, and how you can help children in our state in many different ways to support them before, during and after foster care.",
+        "presenter": "Norma Heninger, County Dir. DFACS",
+        "title": "Foster Care and DFACS",
+        "description": "Information about the foster care system and how DFACS works to support children and families in our community.",
         "category": "SEL",
-        "session": 2,
-        "room": "821",
+        "session": "2",
         "capacity": 15,
+        "room": "821",
         "audience": "All"
     },
     {
         "id": 57,
-        "title": "Mastering Classroom Management with LanSchool",
         "presenter": "Paul Thiel, Director of Operations OCSS",
+        "title": "Mastering Classroom Management with LanSchool",
         "description": "Take control of your digital classroom! Discover how LanSchool can transform your ability to monitor student devices, guide online learning, and keep students focused on the task at hand. Learn essential features like screen monitoring, website management, messaging tools, and attention-grabbing techniques that help you maintain engagement during instruction. Whether you're new to LanSchool or looking to unlock its full potential, you'll leave with practical skills to create a more productive and focused learning environment.",
         "category": "Technology",
-        "session": 3,
-        "room": "821",
+        "session": "3",
         "capacity": 20,
+        "room": "821",
         "audience": "Teachers PK-12"
     },
     {
         "id": 58,
-        "title": "Mystery Skype: Making Geography Engaging",
         "presenter": "Rebecca Crook, Instructional Coach, OCES",
-        "description": "Mystery Skype: Making Geography Engaging: Take your geography standards to the next level with an interactive, inquiry-based learning experience! In this session, you'll learn how Mystery Skype transform map skills and geographic reasoning into an exciting game that connects your students with classrooms around the world. We'll explore how to prepare students for the game, assign the roles, and align the activity to any grade level and any geography standards. Walk away with everything you need to bring high-energy, authentic global learning into your classroom.",
+        "title": "Mystery Skype: Making Geography Engaging",
+        "description": "Mystery Skype: Making Geography Engaging: Take your geography standards to the next level with an interactive, inquiry-based learning experience! In this session, you'll learn how Mystery Skype transform map skills and geographic reasoning into an exciting game that connects your students with classrooms around the world. We'll explore how to prepare students for the game, assign the roles, and align the activity to any grad level and any geography standards. Walk away with everything you need to bring high-energy, authentic global learning into your classroom.",
         "category": "Instruction",
-        "session": 2,
-        "room": "614",
+        "session": "2",
         "capacity": 20,
+        "room": "614",
         "audience": "Teachers PK-8"
     },
     {
         "id": 59,
-        "title": "Using & Choosing Decodable Texts (Wiley Blevins approach)",
         "presenter": "Rebecca Crook, Instructional Coach, OCES",
+        "title": "Using & Choosing Decodable Texts (Wiley Blevins approach)",
         "description": "Using & Choosing Decodable Texts (Wiley Blevins Approach): Strong decoding is the foundation of reading success, and decodable texts are a powerful tool when used well. Designed for K-2 teachers and any educators supporting students with phonics gaps, this session breaks down how to select, introduce, and use decodable texts effectively using Wiley Blevins book. We'll look at the key criteria for high-quality decodables, and simple routines that build accuracy, automaticity, and confidence in emerging readers. Participants will leave with practical examples, planning tools, and ready-to-use strategies for small-group instruction.",
         "category": "Instruction",
-        "session": 3,
-        "room": "614",
+        "session": "3",
         "capacity": 20,
+        "room": "614",
         "audience": "Teachers PK-5"
     },
     {
         "id": 60,
-        "title": "Unlocking the Magic of Canva",
         "presenter": "Julie Sartor, Media Specialist, OCHS & Rosanna Ames, PR Consultant",
+        "title": "Unlocking the Magic of Canva",
         "description": "Canva is one of the most user-friendly design tools available to educators, and we have free access to the pro version. Canva is constantly improving functionality and adding new features. Join us for this session to check out some of the new features, including AI tools.",
         "category": "Technology",
-        "session": 3,
-        "room": "605",
+        "session": "3",
         "capacity": 15,
+        "room": "605",
         "audience": "All"
     },
     {
         "id": 61,
-        "title": "Unlocking the Magic of Canva",
         "presenter": "Julie Sartor, Media Specialist, OCHS & Rosanna Ames, PR Consultant",
+        "title": "Unlocking the Magic of Canva",
         "description": "Canva is one of the most user-friendly design tools available to educators, and we have free access to the pro version. Canva is constantly improving functionality and adding new features. Join us for this session to check out some of the new features, including AI tools.",
         "category": "Technology",
-        "session": 4,
-        "room": "605",
+        "session": "4",
         "capacity": 15,
+        "room": "605",
         "audience": "All"
     },
     {
         "id": 62,
-        "title": "Communication Strategies for Teachers",
         "presenter": "Rosanna Ames, PR Consultant & Maurice Freeman, OCHS",
+        "title": "Communication Strategies for Teachers",
         "description": "**Communication Strategies for Teachers**\n\nEffective communication with families extends far beyond newsletters and emails. This hands-on session explores how visual media\u2014video and photography\u2014can strengthen connections between schools and parents while keeping students at the center of the story. Participants will learn when and how to use visual content appropriately, discover principles of clear visual storytelling, and create their own simple communication piece to share with families. The session also addresses essential considerations around student privacy, consent, and accessibility to ensure visual communications are both impactful and responsible.",
         "category": "Technology",
-        "session": 1,
-        "room": "605",
+        "session": "1",
         "capacity": 15,
+        "room": "605",
         "audience": "All"
     },
     {
         "id": 63,
-        "title": "Communication Strategies for Teachers",
         "presenter": "Rosanna Ames, PR Consultant & Maurice Freeman, OCHS",
+        "title": "Communication Strategies for Teachers",
         "description": "**Communication Strategies for Teachers**\n\nEffective communication with families extends far beyond newsletters and emails. This hands-on session explores how visual media\u2014video and photography\u2014can strengthen connections between schools and parents while keeping students at the center of the story. Participants will learn when and how to use visual content appropriately, discover principles of clear visual storytelling, and create their own simple communication piece to share with families. The session also addresses essential considerations around student privacy, consent, and accessibility to ensure visual communications are both impactful and responsible.",
         "category": "Technology",
-        "session": 2,
-        "room": "605",
+        "session": "2",
         "capacity": 15,
+        "room": "605",
         "audience": "All"
     },
     {
         "id": 64,
-        "title": "Be Aware, Stay Safe: Practical Strategies for Everyday Life",
         "presenter": "Samantha Mathe, OCES",
+        "title": "Be Aware, Stay Safe: Practical Strategies for Everyday Life",
         "description": "From online threats to real-world encounters, this session equips you with practical knowledge to protect yourself in today's world. Learn what you may not know about internet safety, how to recognize and avoid common scams (whether they come through phone calls or emails), and what to watch for when you're out and about on your own. The session wraps up with physical tactics you can use if you ever find yourself in a dangerous situation. Walk away with actionable strategies you can put into practice immediately.",
         "category": "Safety",
-        "session": 1,
-        "room": "705",
+        "session": "1",
         "capacity": 15,
+        "room": "712",
         "audience": "All"
     },
     {
         "id": 65,
-        "title": "Using AI to Create Stories with Differentiated Lexile Levels",
         "presenter": "Sarah Gray and Ela McAllister, OCES",
+        "title": "Using AI to Create Stories with Differentiated Lexile Levels",
         "description": "Imagine being able to create perfectly leveled stories in minutes. In this session, participants will learn how to use AI tools to generate engaging texts at specific Lexile levels and design meaningful questions that support comprehension. You\u2019ll leave with practical techniques to personalize literacy experiences for every learner.",
         "category": "Technology",
-        "session": 4,
-        "room": "726",
+        "session": "4",
         "capacity": 15,
-        "audience": "All"
+        "room": "726"
     },
     {
         "id": 66,
+        "presenter": "Shannon Hammond, Executive Director of Adult Literacy Barrow",
         "title": "Strategies for Supporting English Learners in the Classroom",
-        "presenter": "Shannon Hammond, Consultant",
         "description": "Participants will leave with an understanding of the needs of English Learners and will be provided with strategies to meet their unique needs. The session is open to all educators who teach or otherwise support English Learners.",
         "category": "Instruction",
-        "session": 2,
-        "room": "701",
+        "session": "2",
         "capacity": 20,
+        "room": "701",
         "audience": "All"
     },
     {
         "id": 67,
+        "presenter": "Shannon Hammond, Executive Director of Adult Literacy Barrow",
         "title": "Strategies for Supporting English Learners in the Classroom",
-        "presenter": "Shannon Hammond, Consultant",
         "description": "Participants will leave with an understanding of the needs of English Learners and will be provided with strategies to meet their unique needs. The session is open to all educators who teach or otherwise support English Learners.",
         "category": "Instruction",
-        "session": 3,
-        "room": "701",
+        "session": "3",
         "capacity": 20,
+        "room": "701",
         "audience": "All"
     },
     {
         "id": 68,
+        "presenter": "Shannon Hammond, Executive Director of Adult Literacy Barrow",
         "title": "Strategies for Supporting English Learners in the Classroom",
-        "presenter": "Shannon Hammond, Consultant",
         "description": "Participants will leave with an understanding of the needs of English Learners and will be provided with strategies to meet their unique needs. The session is open to all educators who teach or otherwise support English Learners.",
         "category": "Instruction",
-        "session": 4,
-        "room": "701",
+        "session": "4",
         "capacity": 20,
+        "room": "701",
         "audience": "All"
     },
     {
         "id": 69,
-        "title": "Using NotebookLM to Support Teaching, Learning, and Planning",
         "presenter": "Shona Foster, Instructional Technology & Digital Learning Director, NEGA RESA",
-        "description": "NotebookLM is a powerful AI tool designed to help educators make sense of information using their own trusted sources. In this session, participants will explore how Notebook LM can support lesson planning, Instruction analysis, and instructional decision making by synthesizing documents, generating insights, creating summaries, and supporting multimodal learning experiences. Attendees will see practical classroom and professional use cases, including note-taking, question generation, concept mapping, and podcast creation, while gaining a clear understanding of how NotebookLM aligns with instructional goals and standards-based teaching. This hands-on session is ideal for educators looking to use AI thoughtfully, safely, and efficiently to support both teaching and learning.",
+        "title": "Using NotebookLM to Support Teaching, Learning, and Planning",
+        "description": "NotebookLM is a powerful AI tool designed to help educators make sense of information using their own trusted sources. In this session, participants will explore how Notebook LM can support lesson planning, Instruction analysis, and instructional decision making by synthesizing documents, generating insights, creating summaries, and supporting multimodal learning experiences. Attendees will see practical classroom and professional use cases, including note-taking, question generation, concept mapping, and podcast creation, while gaining a clear understanding of how NotebookLM aligns with instructional goals and standards based teaching. This hands-on session is ideal for educators looking to use AI thoughtfully, safely, and efficiently to support both teaching and learning",
         "category": "Technology",
-        "session": 1,
-        "room": "621",
+        "session": "1",
         "capacity": 20,
+        "room": "621",
         "audience": "All"
     },
     {
         "id": 70,
-        "title": "Using AI Tools to Support Life, Work, and Well-Being",
         "presenter": "Shona Foster, Instructional Technology & Digital Learning Director, NEGA RESA",
-        "description": "AI tools can do more than support instruction. They can also help educators manage the demands of everyday life. In this session, participants will learn how to use AI as a personal assistant to streamline tasks such as planning a vacation, grocery lists, budgeting and financial planning, workout routines, meal planning, and more. Through real-world examples and guided demonstrations, attendees will see how AI can support organization, decision making, and productivity while modeling responsible and ethical use. Participants will leave with practical strategies they can use immediately to reclaim time!",
+        "title": "Using AI Tools to Support Life, Work, and Well-Being",
+        "description": "NotebookLM is a powerful AI tool designed to help educators make sense of information using their own trusted sources. In this session, participants will explore how Notebook LM can support lesson planning, Instruction analysis, and instructional decision making by synthesizing documents, generating insights, creating summaries, and supporting multimodal learning experiences. Attendees will see practical classroom and professional use cases, including note-taking, question generation, concept mapping, and podcast creation, while gaining a clear understanding of how NotebookLM aligns with instructional goals and standards based teaching. This hands-on session is ideal for educators looking to use AI thoughtfully, safely, and efficiently to support both teaching and learning",
         "category": "Technology",
-        "session": 2,
-        "room": "621",
+        "session": "2",
         "capacity": 20,
+        "room": "621",
         "audience": "All"
     },
     {
         "id": 71,
-        "title": "Using NotebookLM to Support Teaching, Learning, and Planning",
         "presenter": "Shona Foster, Instructional Technology & Digital Learning Director, NEGA RESA",
-        "description": "NotebookLM is a powerful AI tool designed to help educators make sense of information using their own trusted sources. In this session, participants will explore how Notebook LM can support lesson planning, Instruction analysis, and instructional decision making by synthesizing documents, generating insights, creating summaries, and supporting multimodal learning experiences. Attendees will see practical classroom and professional use cases, including notetaking, question generation, concept mapping, and podcast creation, while gaining a clear understanding of how NotebookLM aligns with instructional goals and standards-based teaching. This hands-on session is ideal for educators looking to use AI thoughtfully, safely, and efficiently to support both teaching and learning.",
+        "title": "Using NotebookLM to Support Teaching, Learning, and Planning",
+        "description": "NotebookLM is a powerful AI tool designed to help educators make sense of information using their own trusted sources. In this session, participants will explore how Notebook LM can support lesson planning, Instruction analysis, and instructional decision making by synthesizing documents, generating insights, creating summaries, and supporting multimodal learning experiences. Attendees will see practical classroom and professional use cases, including note-taking, question generation, concept mapping, and podcast creation, while gaining a clear understanding of how NotebookLM aligns with instructional goals and standards based teaching. This hands-on session is ideal for educators looking to use AI thoughtfully, safely, and efficiently to support both teaching and learning",
         "category": "Technology",
-        "session": 3,
-        "room": "621",
+        "session": "3",
         "capacity": 20,
+        "room": "621",
         "audience": "All"
     },
     {
         "id": 72,
-        "title": "Using AI Tools to Support Life, Work, and Well-Being",
         "presenter": "Shona Foster, Instructional Technology & Digital Learning Director, NEGA RESA",
-        "description": "AI tools can do more than support instruction. They can also help educators manage the demands of everyday life. In this session, participants will learn how to use AI as a personal assistant to streamline tasks such as planning a vacation, grocery lists, budgeting and financial planning, workout routines, meal planning, and more. Through real-world examples and guided demonstrations, attendees will see how AI can support organization, decision making, and productivity while modeling responsible and ethical use. Participants will leave with practical strategies they can use immediately to reclaim time!",
+        "title": "Using AI Tools to Support Life, Work, and Well-Being",
+        "description": "NotebookLM is a powerful AI tool designed to help educators make sense of information using their own trusted sources. In this session, participants will explore how Notebook LM can support lesson planning, Instruction analysis, and instructional decision making by synthesizing documents, generating insights, creating summaries, and supporting multimodal learning experiences. Attendees will see practical classroom and professional use cases, including note-taking, question generation, concept mapping, and podcast creation, while gaining a clear understanding of how NotebookLM aligns with instructional goals and standards based teaching. This hands-on session is ideal for educators looking to use AI thoughtfully, safely, and efficiently to support both teaching and learning",
         "category": "Technology",
-        "session": 4,
-        "room": "621",
+        "session": "4",
         "capacity": 20,
+        "room": "621",
         "audience": "All"
-    },
-    {
-        "id": 73,
-        "title": "Employing AI Tools in the Science Classroom",
-        "presenter": "Steven King, OCMS",
-        "description": "Students often use AI to make it easy to complete their assignments, so why shouldn\u2019t you make your job easier by using AI?  We will look at some great uses of implementing AI to make your science lessons engaging and assist with lesson planning, classroom management, and instruction.  Attendees will also be given the opportunity to share uses of AI that they have found beneficial in their own classroom.",
-        "category": "Technology",
-        "session": 3,
-        "room": "805",
-        "capacity": 15,
-        "audience": "Teachers 3-12"
     },
     {
         "id": 74,
-        "title": "\"Wordless Stories\" for English Learners",
-        "presenter": "Suzanne Hughes, ESOL Teacher, OCES",
-        "description": "Wordless Stories for English Learners- In this session I will demonstrate how I use wordless stories to help English Learners of various levels of English Language Proficiency to create/retell narrative stories.  Students watch a wordless video, then they practice sequencing still images from the story.  Vocabulary and language are taught and developed through modeling and peer interaction.  Mini-lessons are used throughout the unit to teach and review concepts such as beginning/middle/end and transition words/phrases.  Students work through the writing process with varying levels of support (pre-write, draft, edit, and publish).",
-        "category": "Instruction",
-        "session": 1,
-        "room": "805",
+        "presenter": "Steven King, OCMS",
+        "title": "Employing AI Tools in the Science Classroom",
+        "description": "Students often use AI to make it easy to complete their assignments, so why shouldn\u2019t you make your job easier by using AI?  We will look at some great uses of implementing AI to make your science lessons engaging and assist with lesson planning, classroom management, and instruction.  Attendees will also be given the opportunity to share uses of AI that they have found beneficial in their own classroom.",
+        "category": "Technology",
+        "session": "3",
         "capacity": 15,
-        "audience": "Teachers PK-5, ESOL & SpED"
+        "room": "805"
     },
     {
         "id": 75,
-        "title": "Navigating Crucial Conversations with Confidence",
-        "presenter": "Tamara Byars, Director of Professional Learning, Northeast Georgia RESA",
-        "description": "Set sail on a learning voyage designed to help educators navigate high-stakes conversations with clarity, confidence, and care. Learn to recognize when a conversation has entered \"rough waters,\" stay oriented to shared purpose while managing strong emotions, and navigate differing viewpoints with respect and professionalism. Whether you're addressing student concerns with parents, collaborating with colleagues, or managing personal conversations at home, you'll gain practical communication tools to steer conversations toward understanding and positive outcomes.",
-        "category": "SEL",
-        "session": 2,
-        "room": "722",
+        "presenter": "Suzanne Hughes, ESOL Teacher, OCES",
+        "title": "\"Wordless Stories\" for English Learners",
+        "description": "Wordless Stories for English Learners- In this session I will demonstrate how I use wordless stories to help English Learners of various levels of English Language Proficiency to create/retell narrative stories.  Students watch a wordless video, then they practice sequencing still images from the story.  Vocabulary and language are taught and developed through modeling and peer interaction.  Mini-lessons are used throughout the unit to teach and review concepts such as beginning/middle/end and transition words/phrases.  Students work through the writing process with varying levels of support (pre-write, draft, edit, and publish).",
+        "category": "Instruction",
+        "session": "1",
         "capacity": 15,
-        "audience": "All"
+        "room": "805",
+        "audience": "Teachers PK-5, ESOL & SpED"
     },
     {
         "id": 76,
-        "title": "Navigating Crucial Conversations with Confidence",
         "presenter": "Tamara Byars, Director of Professional Learning, Northeast Georgia RESA",
+        "title": "Navigating Crucial Conversations with Confidence",
         "description": "Set sail on a learning voyage designed to help educators navigate high-stakes conversations with clarity, confidence, and care. Learn to recognize when a conversation has entered \"rough waters,\" stay oriented to shared purpose while managing strong emotions, and navigate differing viewpoints with respect and professionalism. Whether you're addressing student concerns with parents, collaborating with colleagues, or managing personal conversations at home, you'll gain practical communication tools to steer conversations toward understanding and positive outcomes.",
         "category": "SEL",
-        "session": 3,
-        "room": "722",
+        "session": "2",
         "capacity": 15,
+        "room": "722",
         "audience": "All"
     },
     {
         "id": 77,
-        "title": "Navigating Crucial Conversations with Confidence",
         "presenter": "Tamara Byars, Director of Professional Learning, Northeast Georgia RESA",
+        "title": "Navigating Crucial Conversations with Confidence",
         "description": "Set sail on a learning voyage designed to help educators navigate high-stakes conversations with clarity, confidence, and care. Learn to recognize when a conversation has entered \"rough waters,\" stay oriented to shared purpose while managing strong emotions, and navigate differing viewpoints with respect and professionalism. Whether you're addressing student concerns with parents, collaborating with colleagues, or managing personal conversations at home, you'll gain practical communication tools to steer conversations toward understanding and positive outcomes.",
         "category": "SEL",
-        "session": 4,
-        "room": "722",
+        "session": "3",
         "capacity": 15,
+        "room": "722",
         "audience": "All"
     },
     {
         "id": 78,
-        "title": "Writing IEPs using AI",
-        "presenter": "Tannis Hillis, Speech Language Therapist & Amanda Taves, Autism SPED Teacher: OCES",
-        "description": "Participants will leave our session knowing how to efficiently and effectively use Chat GPT to construct SMART (Specific, Measurable, Attainable, Relevant and Timely) goals for IEPs.",
-        "category": "Technology",
-        "session": 2,
-        "room": "116",
-        "capacity": 15,
-        "audience": "Teachers PK-12, ESOL, & SpED"
-    },
-    {
-        "id": 79,
-        "title": "Student Survival for the Progressive Teacher",
-        "presenter": "Theresa Maxwell, OCHS",
-        "description": "Effective and consistent classroom management skills are essential for every teacher to maintain a quality learning environment for all students. This workshop will equip teachers with the necessary tools to establish classroom guidelines, procedures, and behavior management techniques.Effective and consistent classroom management skills are essential for every teacher to maintain a quality learning environment for all students. This workshop will equip teachers with the necessary tools to establish classroom guidelines, procedures, and behavior management techniques.",
+        "presenter": "Tamara Byars, Director of Professional Learning, Northeast Georgia RESA",
+        "title": "Navigating Crucial Conversations with Confidence",
+        "description": "Set sail on a learning voyage designed to help educators navigate high-stakes conversations with clarity, confidence, and care. Learn to recognize when a conversation has entered \"rough waters,\" stay oriented to shared purpose while managing strong emotions, and navigate differing viewpoints with respect and professionalism. Whether you're addressing student concerns with parents, collaborating with colleagues, or managing personal conversations at home, you'll gain practical communication tools to steer conversations toward understanding and positive outcomes.",
         "category": "SEL",
-        "session": 3,
-        "room": "116",
-        "capacity": 22,
+        "session": "4",
+        "capacity": 15,
+        "room": "722",
         "audience": "All"
     },
     {
-        "id": 80,
-        "title": "Student Survival for the Progressive Teacher",
-        "presenter": "Theresa Maxwell, OCHS",
-        "description": "Effective and consistent classroom management skills are essential for every teacher to maintain a quality learning environment for all students. This workshop will equip teachers with the necessary tools to establish classroom guidelines, procedures, and behavior management techniques.Effective and consistent classroom management skills are essential for every teacher to maintain a quality learning environment for all students. This workshop will equip teachers with the necessary tools to establish classroom guidelines, procedures, and behavior management techniques.",
-        "category": "SEL",
-        "session": 4,
+        "id": 79,
+        "presenter": "Tannis Hillis, Speech Language Therapist & Amanda Taves, Autism SPED Teacher: OCES",
+        "title": "Writing IEPs using AI",
+        "description": "Participants will leave our session knowing how to efficiently and effectively use Chat GPT to construct SMART (Specific, Measurable, Attainable, Relevant and Timely) goals for IEPs.",
+        "category": "Technology",
+        "session": "2",
+        "capacity": 15,
         "room": "116",
+        "audience": "Teachers PK-12, ESOL, & SpED"
+    },
+    {
+        "id": 80,
+        "presenter": "Theresa Maxwell, OCHS",
+        "title": "Student Survival for the Progressive Teacher",
+        "description": "Effective and consistent classroom management skills are essential for every teacher in order to maintain a quality learning environment for all students. This workshop will equip teachers with the necessary tools in order to establish classroom guidelines, procedures, and behavior management techniques.Effective and consistent classroom management skills are essential for every teacher in order to maintain a quality learning environment for all students. This workshop will equip teachers with the necessary tools in order to establish classroom guidelines, procedures, and behavior management techniques.",
+        "category": "SEL",
+        "session": "3",
         "capacity": 22,
+        "room": "116",
         "audience": "All"
     },
     {
         "id": 81,
-        "title": "Strategies for Self Defense",
-        "presenter": "Tommy Wilson and Ruth Wilson, OCES",
-        "description": "Participants will learn techniques for survival in an uncertain world.  \nThey will learn to identify potential threats and countermeasures to defend against those threats.\nThey will learn how situational awareness and self-awareness can act as proactive measures.",
-        "category": "Safety",
-        "session": 2,
-        "room": "115/Art",
-        "capacity": 20,
+        "presenter": "Theresa Maxwell, OCHS",
+        "title": "Student Survival for the Progressive Teacher",
+        "description": "Effective and consistent classroom management skills are essential for every teacher in order to maintain a quality learning environment for all students. This workshop will equip teachers with the necessary tools in order to establish classroom guidelines, procedures, and behavior management techniques.Effective and consistent classroom management skills are essential for every teacher in order to maintain a quality learning environment for all students. This workshop will equip teachers with the necessary tools in order to establish classroom guidelines, procedures, and behavior management techniques.",
+        "category": "SEL",
+        "session": "4",
+        "capacity": 22,
+        "room": "116",
         "audience": "All"
     },
     {
         "id": 82,
-        "title": "Let students use AI in the classroom?! Are you crazy?? Well, yes...yes I am!",
-        "presenter": "Jennifer Kimbel & Kelly Matthews, OCHS",
-        "description": "Don't let AI be a negative for you or students. Make expectations clear; we can show you how.  Use these fun techniques to help enhance classroom activities for everyone.",
-        "category": "Technology",
-        "session": 2,
-        "room": "712",
-        "capacity": 15,
+        "presenter": "Tommy Wilson and Ruth Wilson, OCES",
+        "title": "Strategies for Self Defense",
+        "description": "Participants will learn techniques for survival in an uncertain world.  \nThey will learn to identify potential threats and countermeasures to defend against those threats.\nThey will learn how situational awareness and self-awareness can act as proactive measures.",
+        "category": "Safety",
+        "session": "2",
+        "capacity": 20,
+        "room": "115/Art",
         "audience": "All"
     }
-];
+];;
 
         // Session time slots
         const SESSION_TIMES = {
@@ -2284,19 +1978,19 @@ const SESSIONS = [
                     
                     // THEN: Load existing session selections (only the ones they have)
                     if (fields.Session1) {
-                        const session = SESSIONS.find(s => s.title === fields.Session1 && s.session === 1);
+                        const session = SESSIONS.find(s => s.title === fields.Session1 && s.session === '1');
                         if (session) userRegistrations[1] = session.id;
                     }
                     if (fields.Session2) {
-                        const session = SESSIONS.find(s => s.title === fields.Session2 && s.session === 2);
+                        const session = SESSIONS.find(s => s.title === fields.Session2 && s.session === '2');
                         if (session) userRegistrations[2] = session.id;
                     }
                     if (fields.Session3) {
-                        const session = SESSIONS.find(s => s.title === fields.Session3 && s.session === 3);
+                        const session = SESSIONS.find(s => s.title === fields.Session3 && s.session === '3');
                         if (session) userRegistrations[3] = session.id;
                     }
                     if (fields.Session4) {
-                        const session = SESSIONS.find(s => s.title === fields.Session4 && s.session === 4);
+                        const session = SESSIONS.find(s => s.title === fields.Session4 && s.session === '4');
                         if (session) userRegistrations[4] = session.id;
                     }
                     
@@ -2375,7 +2069,6 @@ const SESSIONS = [
         function updateMobileSchedule() {
             const contentEl = document.getElementById('mobileScheduleContent');
             const countEl = document.getElementById('mobileScheduleCount');
-            const confirmContainer = document.getElementById('mobileConfirmContainer');
             
             const registeredSessions = Object.entries(userRegistrations)
                 .filter(([slot, id]) => id !== null)
@@ -2389,7 +2082,6 @@ const SESSIONS = [
 
             if (registeredSessions.length === 0) {
                 contentEl.innerHTML = '<div class="mobile-schedule-empty">No sessions selected yet.<br>Browse and register below!</div>';
-                confirmContainer.style.display = 'none';
                 return;
             }
 
@@ -2399,9 +2091,6 @@ const SESSIONS = [
                     <div class="mobile-schedule-title">${session.title}</div>
                 </div>
             `).join('');
-            
-            // Show confirm button when user has at least one session
-            confirmContainer.style.display = 'block';
         }
 
         // Load enrollment counts from Airtable
@@ -2418,52 +2107,39 @@ const SESSIONS = [
             }
 
             try {
-                // Fetch ALL registrations from Airtable (with pagination)
-                let allRecords = [];
-                let offset = null;
-                
-                do {
-                    let url = `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}?pageSize=100`;
-                    if (offset) {
-                        url += `&offset=${offset}`;
-                    }
-                    
-                    const response = await fetch(url, {
+                // Fetch all registrations from Airtable
+                const response = await fetch(
+                    `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}`,
+                    {
                         headers: {
                             'Authorization': `Bearer ${AIRTABLE_CONFIG.apiKey}`
                         }
-                    });
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        allRecords = allRecords.concat(data.records);
-                        offset = data.offset; // Will be undefined when no more pages
-                    } else {
-                        console.error('Error fetching enrollment data:', response.status);
-                        break;
                     }
-                } while (offset);
-                
-                console.log(`Loaded ${allRecords.length} total registrations from Airtable`);
-                
-                // Count registrations for each session
-                allRecords.forEach(record => {
-                    const fields = record.fields;
+                );
+
+                if (response.ok) {
+                    const data = await response.json();
                     
-                    // Check each session slot
-                    ['Session1', 'Session2', 'Session3', 'Session4'].forEach(slotField => {
-                        const sessionTitle = fields[slotField];
-                        if (sessionTitle) {
-                            // Find session by title and increment count
-                            const session = SESSIONS.find(s => s.title === sessionTitle);
-                            if (session) {
-                                sessionEnrollments[session.id] = (sessionEnrollments[session.id] || 0) + 1;
+                    // Count registrations for each session
+                    data.records.forEach(record => {
+                        const fields = record.fields;
+                        
+                        // Check each session slot
+                        ['Session1', 'Session2', 'Session3', 'Session4'].forEach((slotField, index) => {
+                            const sessionTitle = fields[slotField];
+                            const sessionSlot = String(index + 1); // '1', '2', '3', or '4'
+                            if (sessionTitle) {
+                                // Find session by title AND session slot to handle repeated sessions
+                                const session = SESSIONS.find(s => s.title === sessionTitle && s.session === sessionSlot);
+                                if (session) {
+                                    sessionEnrollments[session.id] = (sessionEnrollments[session.id] || 0) + 1;
+                                }
                             }
-                        }
+                        });
                     });
-                });
-                
-                console.log('Enrollment counts loaded:', sessionEnrollments);
+                    
+                    console.log('Enrollment counts loaded:', sessionEnrollments);
+                }
             } catch (error) {
                 console.error('Error loading enrollment counts:', error);
             }
@@ -2589,19 +2265,19 @@ const SESSIONS = [
                     // Load their existing session selections (sessions already cleared at start)
                     const existingRecord = checkData.records[0].fields;
                     if (existingRecord.Session1) {
-                        const session = SESSIONS.find(s => s.title === existingRecord.Session1 && s.session === 1);
+                        const session = SESSIONS.find(s => s.title === existingRecord.Session1 && s.session === '1');
                         if (session) userRegistrations[1] = session.id;
                     }
                     if (existingRecord.Session2) {
-                        const session = SESSIONS.find(s => s.title === existingRecord.Session2 && s.session === 2);
+                        const session = SESSIONS.find(s => s.title === existingRecord.Session2 && s.session === '2');
                         if (session) userRegistrations[2] = session.id;
                     }
                     if (existingRecord.Session3) {
-                        const session = SESSIONS.find(s => s.title === existingRecord.Session3 && s.session === 3);
+                        const session = SESSIONS.find(s => s.title === existingRecord.Session3 && s.session === '3');
                         if (session) userRegistrations[3] = session.id;
                     }
                     if (existingRecord.Session4) {
-                        const session = SESSIONS.find(s => s.title === existingRecord.Session4 && s.session === 4);
+                        const session = SESSIONS.find(s => s.title === existingRecord.Session4 && s.session === '4');
                         if (session) userRegistrations[4] = session.id;
                     }
 
@@ -3068,145 +2744,6 @@ const SESSIONS = [
             updateMobileSchedule();
         }
 
-        // Confetti animation function
-        function launchConfetti() {
-            const duration = 3000;
-            const end = Date.now() + duration;
-            
-            const colors = ['#1e4d7b', '#5b9bd5', '#d4a574', '#27ae60', '#f39c12', '#e74c3c'];
-            
-            (function frame() {
-                // Create confetti pieces
-                for (let i = 0; i < 3; i++) {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti-piece';
-                    confetti.style.left = Math.random() * 100 + 'vw';
-                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                    document.body.appendChild(confetti);
-                    
-                    // Remove after animation
-                    setTimeout(() => confetti.remove(), 4000);
-                }
-                
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
-            }());
-        }
-
-        // Confirm Sessions Function - gives users feedback that sessions are saved
-        async function confirmSessions() {
-            const btn = document.getElementById('confirmSessionsBtn');
-            const mobileBtn = document.querySelector('.mobile-confirm-btn');
-            const messageDiv = document.getElementById('confirmationMessage');
-            const userName = document.getElementById('userName').value.trim();
-            const userEmail = document.getElementById('userEmail').value.trim();
-            
-            // Count selected sessions
-            const selectedCount = Object.values(userRegistrations).filter(id => id !== null).length;
-            
-            // Check if user is registered
-            const savedInfo = localStorage.getItem('voyageUserInfo');
-            if (!savedInfo || !JSON.parse(savedInfo).airtableRecordId) {
-                showAlert('Please click "Register for the Day" first before confirming sessions.', 'error');
-                return;
-            }
-            
-            // Disable buttons and show loading
-            btn.disabled = true;
-            btn.innerHTML = '⏳ Saving...';
-            btn.className = 'confirm-btn confirming';
-            if (mobileBtn) {
-                mobileBtn.disabled = true;
-                mobileBtn.innerHTML = '⏳ Saving...';
-            }
-            
-            try {
-                // Force save to Airtable
-                await saveToAirtable();
-                
-                // Show confirmation message
-                messageDiv.style.display = 'block';
-                
-                if (selectedCount === 4) {
-                    // FULL SUCCESS - Launch confetti!
-                    launchConfetti();
-                    
-                    // Change button to confirmed state
-                    btn.innerHTML = '🎉 CONFIRMED!';
-                    btn.className = 'confirm-btn confirmed';
-                    btn.disabled = false;
-                    if (mobileBtn) {
-                        mobileBtn.innerHTML = '🎉 CONFIRMED!';
-                        mobileBtn.className = 'mobile-confirm-btn confirmed';
-                        mobileBtn.disabled = false;
-                    }
-                    
-                    messageDiv.className = 'confirmation-message success';
-                    messageDiv.innerHTML = `
-                        <div style="font-size: 1.8rem; margin-bottom: 0.5rem;">🎉 ALL SESSIONS CONFIRMED! 🎉</div>
-                        <div style="font-size: 1.1rem;">${userName}, your schedule is complete and saved!</div>
-                        <div style="font-size: 0.95rem; margin-top: 0.75rem; color: #155724;">
-                            ✓ You can print your schedule or close this page.<br>
-                            ✓ Your sessions will be here when you return.
-                        </div>
-                    `;
-                } else if (selectedCount > 0) {
-                    // Partial - sessions saved but not complete
-                    btn.innerHTML = '✓ Saved! Select More Sessions';
-                    btn.className = 'confirm-btn partial';
-                    btn.disabled = false;
-                    if (mobileBtn) {
-                        mobileBtn.innerHTML = '✓ Saved! (' + selectedCount + '/4)';
-                        mobileBtn.className = 'mobile-confirm-btn partial';
-                        mobileBtn.disabled = false;
-                    }
-                    
-                    messageDiv.className = 'confirmation-message incomplete';
-                    messageDiv.innerHTML = `
-                        <div style="font-size: 1.3rem; margin-bottom: 0.5rem;">✓ ${selectedCount} Session${selectedCount > 1 ? 's' : ''} Saved!</div>
-                        <div>${userName}, you still have <strong>${4 - selectedCount} session${4 - selectedCount > 1 ? 's' : ''}</strong> to choose.</div>
-                        <div style="font-size: 0.9rem; margin-top: 0.5rem;">
-                            👇 Scroll down to browse and select more sessions.
-                        </div>
-                    `;
-                } else {
-                    // No sessions selected
-                    btn.innerHTML = '✅ Confirm My Sessions';
-                    btn.className = 'confirm-btn';
-                    btn.disabled = false;
-                    if (mobileBtn) {
-                        mobileBtn.innerHTML = '✅ Confirm My Sessions';
-                        mobileBtn.className = 'mobile-confirm-btn';
-                        mobileBtn.disabled = false;
-                    }
-                    
-                    messageDiv.className = 'confirmation-message incomplete';
-                    messageDiv.innerHTML = `
-                        <div style="font-size: 1.3rem; margin-bottom: 0.5rem;">⚠️ No Sessions Selected</div>
-                        <div>Please scroll down and click "Register" on the sessions you want to attend.</div>
-                    `;
-                }
-                
-                // Scroll to make sure they see the message
-                messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                
-            } catch (error) {
-                console.error('Error confirming sessions:', error);
-                btn.disabled = false;
-                btn.innerHTML = '✅ Confirm My Sessions';
-                btn.className = 'confirm-btn';
-                if (mobileBtn) {
-                    mobileBtn.disabled = false;
-                    mobileBtn.innerHTML = '✅ Confirm My Sessions';
-                    mobileBtn.className = 'mobile-confirm-btn';
-                }
-                messageDiv.style.display = 'none';
-                showAlert('There was an error saving your sessions. Please try again.', 'error');
-            }
-        }
-
         // Print Schedule Function
         function printSchedule() {
             const userName = document.getElementById('userName').value || 'Attendee';
@@ -3412,83 +2949,6 @@ const SESSIONS = [
                 alert.remove();
             }, 5000);
         }
-
-        // Favorites hint and onboarding functions
-        function dismissHint() {
-            const hint = document.getElementById('favoritesHint');
-            hint.style.transition = 'all 0.3s ease';
-            hint.style.opacity = '0';
-            hint.style.transform = 'translateY(-10px)';
-            setTimeout(() => hint.style.display = 'none', 300);
-            localStorage.setItem('vtl_hint_dismissed', 'true');
-        }
-
-        function showOnboarding() {
-            const overlay = document.getElementById('onboardingOverlay');
-            overlay.classList.add('show');
-        }
-
-        function closeOnboarding() {
-            const overlay = document.getElementById('onboardingOverlay');
-            overlay.classList.remove('show');
-            localStorage.setItem('vtl_onboarding_seen', 'true');
-            
-            // Trigger pulse animation on first few visible stars
-            setTimeout(() => {
-                const stars = document.querySelectorAll('.favorite-btn');
-                stars.forEach((star, index) => {
-                    if (index < 6) { // Pulse first 6 visible stars
-                        setTimeout(() => {
-                            star.classList.add('pulse-hint');
-                            setTimeout(() => star.classList.remove('pulse-hint'), 3000);
-                        }, index * 200);
-                    }
-                });
-            }, 300);
-        }
-
-        // Check if user has seen onboarding
-        function checkOnboarding() {
-            const seen = localStorage.getItem('vtl_onboarding_seen');
-            const hintDismissed = localStorage.getItem('vtl_hint_dismissed');
-            
-            if (!seen) {
-                setTimeout(showOnboarding, 1500); // Show after 1.5 seconds
-            }
-            
-            if (hintDismissed) {
-                const hint = document.getElementById('favoritesHint');
-                if (hint) hint.style.display = 'none';
-            }
-        }
-
-        // Initialize onboarding check when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            checkOnboarding();
-        });
     </script>
-
-    <!-- Onboarding Modal -->
-    <div class="onboarding-overlay" id="onboardingOverlay">
-        <div class="onboarding-modal">
-            <div class="tip-icon">⭐</div>
-            <h3>Welcome to Session Registration!</h3>
-            <p>With 80+ sessions to choose from, it can be hard to decide! Click the <strong>star icon</strong> on any session to save it as a favorite. Then use <strong>"Show Favorites Only"</strong> to compare your top picks side-by-side before making your final selections.</p>
-            <p style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e0e0e0;"><strong>🔍 Finding Sessions:</strong></p>
-            <ul style="text-align: left; margin: 0.75rem 0 1rem 1.5rem; line-height: 1.8;">
-                <li>Use the <strong>Search</strong> bar to find sessions by title, presenter, or keyword.</li>
-                <li>Filter by <strong>Session Time</strong>, <strong>Category</strong>, or <strong>Presenter</strong> to narrow your options.</li>
-            </ul>
-            <p style="padding-top: 0.75rem; border-top: 1px solid #e0e0e0;"><strong>📋 Important Notes:</strong></p>
-            <ul style="text-align: left; margin: 0.75rem 0 1rem 1.5rem; line-height: 1.8;">
-                <li>Presenters do <strong>not</strong> need to sign up for their own session.</li>
-                <li>Unless you are presenting, please sign up for <strong>four (4) sessions</strong>.</li>
-                <li>You can't remove a session once you register, but you <strong>can switch</strong> sessions if the one you want is not full.</li>
-            </ul>
-            <p style="padding-top: 0.75rem; border-top: 1px solid #e0e0e0;"><strong>🖨️ Print Your Schedule:</strong></p>
-            <p style="margin-bottom: 1.5rem;">Once you have finalized your registration, you can <strong>print your schedule</strong> for easy reference on conference day!</p>
-            <button class="got-it-btn" onclick="closeOnboarding()">Got it, let's go!</button>
-        </div>
-    </div>
 </body>
 </html>
