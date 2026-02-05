@@ -832,15 +832,15 @@
             { title: "Digital Locks: The Key to Student Engagement", session: "3", capacity: 15 },
             { title: "AI Early Finisher Activities", session: "3", capacity: 15 },
             { title: "Peardeck", session: "1", capacity: 15 },
-            { title: "Foster Care: The Most Difficult Job You Will Ever Love", session: "1", capacity: 15 },
-            { title: "Foster Care: The Most Difficult Job You Will Ever Love", session: "2", capacity: 15 },
+            { title: "\"Foster Care:  The Most Difficult Job You Will Ever Love\"", session: "1", capacity: 15 },
+            { title: "\"Foster Care:  The Most Difficult Job You Will Ever Love\"", session: "2", capacity: 15 },
             { title: "Mastering Classroom Management with LanSchool", session: "3", capacity: 20 },
             { title: "Mystery Skype: Making Geography Engaging", session: "2", capacity: 20 },
             { title: "Using & Choosing Decodable Texts (Wiley Blevins approach)", session: "3", capacity: 20 },
+            { title: "Unlocking the Magic of Canva", session: "2", capacity: 15 },
             { title: "Unlocking the Magic of Canva", session: "3", capacity: 15 },
             { title: "Unlocking the Magic of Canva", session: "4", capacity: 15 },
             { title: "Communication Strategies for Teachers", session: "1", capacity: 15 },
-            { title: "Communication Strategies for Teachers", session: "2", capacity: 15 },
             { title: "Be Aware, Stay Safe: Practical Strategies for Everyday Life", session: "1", capacity: 15 },
             { title: "Using AI to Create Stories with Differentiated Lexile Levels", session: "4", capacity: 15 },
             { title: "Strategies for Supporting English Learners in the Classroom", session: "2", capacity: 20 },
@@ -877,52 +877,52 @@
             "A Day in the Life of a SpEd Student": "SEL",
             "AI Early Finisher Activities": "Technology",
             "Absent Intelligence": "Technology",
-            "Adobe Express for Education": "Technology",
+            "Adobe Express: The Legal \"Cheat Code\" for Busy Teachers": "Technology",
             "Be Aware, Stay Safe: Practical Strategies for Everyday Life": "Safety",
             "Beat the Stress Away": "Wellness",
             "Behavior Strategies for the K-12 Classroom": "SEL",
             "Brisk": "Technology",
-            "Communication Strategies": "Technology",
+            "Communication Strategies for Teachers": "Technology",
             "Core Balance and Stretch": "Wellness",
             "Did a Robot Write This Report? Managing AI Cheating": "Technology",
             "Employing AI Tools in the Science Classroom": "Technology",
-            "Escape Room": "Instruction",
             "Fall Smart Workshop": "Safety",
-            "Foster Care and DFACS": "SEL",
-            "Full Bleed: Finding Balance between technology and Lift": "Technology",
+            "\"Foster Care:  The Most Difficult Job You Will Ever Love\"": "SEL",
+            "Full Bleed: Finding Balance between Technology and Life": "Technology",
             "Gang Culture and Our Children": "Safety",
-            "Google Maps across Instruction (writing, cultures, science, math)": "Technology",
+            "Google Maps across Instruction": "Technology",
             "Hands-On Statistics that Stick": "Instruction",
-            "Healthy Meal Prep": "Wellness",
-            "How to Support Students with Mental Health Issues": "SEL",
+            "Hot as H*LL, Tired & Still Brilliant": "Wellness",
             "Inspire": "Technology",
+            "Let students use AI in the classroom?! Are you crazy?? Well, yes...yes I am!": "Technology",
             "Mastering Classroom Management with LanSchool": "Technology",
             "Mystery Skype: Making Geography Engaging": "Instruction",
             "Navigating Crucial Conversations with Confidence": "SEL",
-            "Peardeck and Flexiquiz": "Technology",
+            "Peardeck": "Technology",
             "Power Up Participation: 3 Digital Tools to Supercharge Student Thinking and Writing": "Technology",
             "Promptcraft? Building a Better AI Prompt": "Technology",
-            "Protecting your Personal Mental Health": "SEL",
+            "Read Like a Scientist": "Instruction",
             "So, You're Finished, Now What?": "Instruction",
             "Strategies for Self Defense": "Safety",
             "Strategies for Supporting English Learners in the Classroom": "Instruction",
-            "Strengthen Your Core, Posture, Pressure and Presence": "Wellness",
             "Student Survival for the Progressive Teacher": "SEL",
             "Suno: More Than a Jingle": "Technology",
             "Supporting Diverse Learners with Notebook LM": "Technology",
+            "Supporting Students with Mental Health Needs": "SEL",
             "Tai Chi for Balance Improvement": "Wellness",
+            "Taking Care of You": "SEL",
             "The Safe Harbor Classroom: Navigating Trauma with Care and Connection": "SEL",
             "Unlocking the Magic of Canva": "Technology",
-            "Using & Choosing Decodable Texts (Wiley Bleins approach)": "Instruction",
+            "Using & Choosing Decodable Texts (Wiley Blevins approach)": "Instruction",
             "Using AI Tools to Support Life, Work, and Well-Being": "Technology",
-            "Using AI to create stories with differentiated Lexile Levels": "Technology",
+            "Using AI to Create Stories with Differentiated Lexile Levels": "Technology",
             "Using NotebookLM to Support Teaching, Learning, and Planning": "Technology",
-            "Virtual Field Trips": "Instruction",
             "Wayground": "Technology",
             "Write On: Elevating Writing Instruction in Grades 3-5": "Instruction",
             "Write On: Elevating Writing Instruction in Grades K-2": "Instruction",
             "Writing IEPs using AI": "Technology",
-            "Your AI Treasure Chest: Creating & Sharing Gemini Gems": "Technology"
+            "Your AI Treasure Chest: Creating & Sharing Gemini Gems": "Technology",
+            "Digital Locks: The Key to Student Engagement": "Instruction"
         };
 
         // Chart instances
@@ -1248,7 +1248,13 @@
 
             const capacityData = CAPACITY_SESSIONS.map(session => {
                 const sessionField = `session${session.session}`;
-                const enrolled = allRegistrations.filter(reg => reg[sessionField] === session.title).length;
+                const enrolled = allRegistrations.filter(reg => {
+                    const regTitle = reg[sessionField];
+                    if (!regTitle) return false;
+                    // Strip (Session X) suffix for matching
+                    const normalizedRegTitle = regTitle.replace(/\s*\(Session\s*\d+\)\s*$/i, '');
+                    return normalizedRegTitle === session.title || regTitle === session.title;
+                }).length;
                 const percentage = (enrolled / session.capacity) * 100;
                 
                 let fillClass = '';
@@ -1284,15 +1290,20 @@
                 'Instruction': 0,
                 'SEL': 0,
                 'Wellness': 0,
-                'Safety': 0,
-                'Transportation': 0
+                'Safety': 0
             };
 
             // Count all session registrations
             allRegistrations.forEach(reg => {
                 [reg.session1, reg.session2, reg.session3, reg.session4].forEach(sessionTitle => {
-                    if (sessionTitle && SESSION_CATEGORIES[sessionTitle]) {
-                        categoryCounts[SESSION_CATEGORIES[sessionTitle]]++;
+                    if (sessionTitle) {
+                        // Strip (Session X) suffix for matching
+                        const normalizedTitle = sessionTitle.replace(/\s*\(Session\s*\d+\)\s*$/i, '');
+                        if (SESSION_CATEGORIES[normalizedTitle]) {
+                            categoryCounts[SESSION_CATEGORIES[normalizedTitle]]++;
+                        } else if (SESSION_CATEGORIES[sessionTitle]) {
+                            categoryCounts[SESSION_CATEGORIES[sessionTitle]]++;
+                        }
                     }
                 });
             });
