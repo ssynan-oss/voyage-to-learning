@@ -930,10 +930,16 @@
         let categoryPieChart = null;
 
         // Store all registrations
-        // Normalize titles: collapse all whitespace (including non-breaking spaces) into single spaces, trim, and lowercase for comparison
+        // Normalize titles: collapse all whitespace (including non-breaking spaces) into single spaces,
+        // convert smart/curly quotes to straight quotes, trim, and lowercase for comparison
         function normalizeTitle(str) {
             if (!str) return '';
-            return str.replace(/[\s\u00A0\u2000-\u200B\u202F\u205F\u3000]+/g, ' ').trim().toLowerCase();
+            return str
+                .replace(/[\u2018\u2019\u201A\u201B]/g, "'")  // smart single quotes to straight
+                .replace(/[\u201C\u201D\u201E\u201F\u2033\u2036]/g, '"')  // smart double quotes to straight
+                .replace(/[\s\u00A0\u2000-\u200B\u202F\u205F\u3000]+/g, ' ')  // all whitespace to single space
+                .trim()
+                .toLowerCase();
         }
 
         let allRegistrations = [];
