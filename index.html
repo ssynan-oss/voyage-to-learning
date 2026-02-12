@@ -2078,6 +2078,17 @@ const SESSIONS = [
             4: null
         };
 
+        // Normalize title for matching - converts curly quotes to straight, trims whitespace
+        function normalizeTitle(title) {
+            if (!title) return '';
+            return title
+                .replace(/[\u2018\u2019\u2032]/g, "'")   // curly single quotes → straight
+                .replace(/[\u201C\u201D\u2033]/g, '"')    // curly double quotes → straight
+                .replace(/[\u2013\u2014]/g, '-')          // en/em dashes → hyphen
+                .replace(/\s+/g, ' ')                      // normalize whitespace
+                .trim();
+        }
+
         // Track enrollment counts per session (by session id)
         let sessionEnrollments = {};
 
@@ -2145,19 +2156,19 @@ const SESSIONS = [
                     
                     // THEN: Load existing session selections (only the ones they have)
                     if (fields.Session1) {
-                        const session = SESSIONS.find(s => s.title === fields.Session1 && s.session === '1');
+                        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(fields.Session1) && s.session === '1');
                         if (session) userRegistrations[1] = session.id;
                     }
                     if (fields.Session2) {
-                        const session = SESSIONS.find(s => s.title === fields.Session2 && s.session === '2');
+                        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(fields.Session2) && s.session === '2');
                         if (session) userRegistrations[2] = session.id;
                     }
                     if (fields.Session3) {
-                        const session = SESSIONS.find(s => s.title === fields.Session3 && s.session === '3');
+                        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(fields.Session3) && s.session === '3');
                         if (session) userRegistrations[3] = session.id;
                     }
                     if (fields.Session4) {
-                        const session = SESSIONS.find(s => s.title === fields.Session4 && s.session === '4');
+                        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(fields.Session4) && s.session === '4');
                         if (session) userRegistrations[4] = session.id;
                     }
                     
@@ -2320,13 +2331,11 @@ const SESSIONS = [
                         const sessionSlot = String(index + 1); // Convert to "1", "2", "3", "4"
                         
                         if (sessionTitle) {
-                            // Normalize the title for matching (trim whitespace, normalize unicode)
-                            // Also strip "(Session X)" suffix that Airtable adds
-                            const normalizedTitle = sessionTitle.trim().normalize('NFC').replace(/\s*\(Session\s*\d+\)\s*$/i, '');
+                            const normalizedTitle = normalizeTitle(sessionTitle).replace(/\s*\(Session\s*\d+\)\s*$/i, '');
                             
                             // Find session by BOTH title AND session slot
                             const session = SESSIONS.find(s => 
-                                s.title.trim().normalize('NFC') === normalizedTitle &&
+                                normalizeTitle(s.title) === normalizedTitle &&
                                 String(s.session) === sessionSlot
                             );
                             if (session) {
@@ -2462,19 +2471,19 @@ const SESSIONS = [
                     // Load their existing session selections (sessions already cleared at start)
                     const existingRecord = checkData.records[0].fields;
                     if (existingRecord.Session1) {
-                        const session = SESSIONS.find(s => s.title === existingRecord.Session1 && s.session === '1');
+                        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(existingRecord.Session1) && s.session === '1');
                         if (session) userRegistrations[1] = session.id;
                     }
                     if (existingRecord.Session2) {
-                        const session = SESSIONS.find(s => s.title === existingRecord.Session2 && s.session === '2');
+                        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(existingRecord.Session2) && s.session === '2');
                         if (session) userRegistrations[2] = session.id;
                     }
                     if (existingRecord.Session3) {
-                        const session = SESSIONS.find(s => s.title === existingRecord.Session3 && s.session === '3');
+                        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(existingRecord.Session3) && s.session === '3');
                         if (session) userRegistrations[3] = session.id;
                     }
                     if (existingRecord.Session4) {
-                        const session = SESSIONS.find(s => s.title === existingRecord.Session4 && s.session === '4');
+                        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(existingRecord.Session4) && s.session === '4');
                         if (session) userRegistrations[4] = session.id;
                     }
 
