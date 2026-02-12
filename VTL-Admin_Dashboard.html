@@ -1002,6 +1002,41 @@
 
                 // Collect all unique sessions
                 allSessions.clear();
+                
+                // DEBUG: Show Foster Care data in a popup
+                let debugMsg = '=== FOSTER CARE DEBUG ===\n\n';
+                let fosterFound = 0;
+                allRegistrations.forEach(reg => {
+                    [reg.session1, reg.session2, reg.session3, reg.session4].forEach((val, i) => {
+                        if (val && val.toLowerCase().includes('foster')) {
+                            fosterFound++;
+                            debugMsg += `Person: ${reg.name}\n`;
+                            debugMsg += `Session${i+1} value: "${val}"\n`;
+                            debugMsg += `Char codes: ${[...val].map(c => '0x' + c.charCodeAt(0).toString(16)).join(', ')}\n`;
+                            debugMsg += `Normalized: "${normalizeTitle(val)}"\n\n`;
+                        }
+                    });
+                });
+                const fosterCapSession = CAPACITY_SESSIONS.find(s => s.title.toLowerCase().includes('foster'));
+                if (fosterCapSession) {
+                    debugMsg += `Dashboard title: "${fosterCapSession.title}"\n`;
+                    debugMsg += `Dashboard normalized: "${normalizeTitle(fosterCapSession.title)}"\n`;
+                }
+                if (fosterFound === 0) {
+                    debugMsg += 'NO Foster Care registrations found in Airtable data!\n';
+                    debugMsg += `Total registrations loaded: ${allRegistrations.length}\n`;
+                    // Show first registration's session fields as sample
+                    if (allRegistrations.length > 0) {
+                        const sample = allRegistrations[0];
+                        debugMsg += `\nSample record (${sample.name}):\n`;
+                        debugMsg += `  session1: "${sample.session1}"\n`;
+                        debugMsg += `  session2: "${sample.session2}"\n`;
+                        debugMsg += `  session3: "${sample.session3}"\n`;
+                        debugMsg += `  session4: "${sample.session4}"\n`;
+                    }
+                }
+                alert(debugMsg);
+
                 allRegistrations.forEach(reg => {
                     if (reg.session1) allSessions.add(`1|${reg.session1}`);
                     if (reg.session2) allSessions.add(`2|${reg.session2}`);
