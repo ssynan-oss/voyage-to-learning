@@ -930,6 +930,12 @@
         let categoryPieChart = null;
 
         // Store all registrations
+        // Normalize titles: collapse all whitespace (including non-breaking spaces) into single spaces, trim, and lowercase for comparison
+        function normalizeTitle(str) {
+            if (!str) return '';
+            return str.replace(/[\s\u00A0\u2000-\u200B\u202F\u205F\u3000]+/g, ' ').trim().toLowerCase();
+        }
+
         let allRegistrations = [];
         let allSessions = new Set();
 
@@ -1135,7 +1141,7 @@
             const [slot, title] = value.split('|');
             const sessionField = `session${slot}`;
 
-            const roster = allRegistrations.filter(reg => reg[sessionField] === title);
+            const roster = allRegistrations.filter(reg => normalizeTitle(reg[sessionField]) === normalizeTitle(title));
             
             const tbody = document.getElementById('rosterBody');
             tbody.innerHTML = roster.map((reg, index) => `
@@ -1161,7 +1167,7 @@
 
             const [slot, title] = select.value.split('|');
             const sessionField = `session${slot}`;
-            const roster = allRegistrations.filter(reg => reg[sessionField] === title);
+            const roster = allRegistrations.filter(reg => normalizeTitle(reg[sessionField]) === normalizeTitle(title));
 
             const printContent = `
                 <!DOCTYPE html>
@@ -1252,8 +1258,9 @@
                     const regTitle = reg[sessionField];
                     if (!regTitle) return false;
                     // Strip (Session X) suffix for matching
-                    const normalizedRegTitle = regTitle.replace(/\s*\(Session\s*\d+\)\s*$/i, '');
-                    return normalizedRegTitle === session.title || regTitle === session.title;
+                    const normalizedRegTitle = normalizeTitle(regTitle.replace(/\s*\(Session\s*\d+\)\s*$/i, ''));
+                    const normalizedSessionTitle = normalizeTitle(session.title);
+                    return normalizedRegTitle === normalizedSessionTitle;
                 }).length;
                 const percentage = (enrolled / session.capacity) * 100;
                 
@@ -1293,16 +1300,20 @@
                 'Safety': 0
             };
 
+            // Build a normalized lookup for SESSION_CATEGORIES
+            const normalizedCategoryMap = {};
+            Object.keys(SESSION_CATEGORIES).forEach(key => {
+                normalizedCategoryMap[normalizeTitle(key)] = SESSION_CATEGORIES[key];
+            });
+
             // Count all session registrations
             allRegistrations.forEach(reg => {
                 [reg.session1, reg.session2, reg.session3, reg.session4].forEach(sessionTitle => {
                     if (sessionTitle) {
-                        // Strip (Session X) suffix for matching
-                        const normalizedTitle = sessionTitle.replace(/\s*\(Session\s*\d+\)\s*$/i, '');
-                        if (SESSION_CATEGORIES[normalizedTitle]) {
-                            categoryCounts[SESSION_CATEGORIES[normalizedTitle]]++;
-                        } else if (SESSION_CATEGORIES[sessionTitle]) {
-                            categoryCounts[SESSION_CATEGORIES[sessionTitle]]++;
+                        // Strip (Session X) suffix and normalize for matching
+                        const normalizedTitle = normalizeTitle(sessionTitle.replace(/\s*\(Session\s*\d+\)\s*$/i, ''));
+                        if (normalizedCategoryMap[normalizedTitle]) {
+                            categoryCounts[normalizedCategoryMap[normalizedTitle]]++;
                         }
                     }
                 });
