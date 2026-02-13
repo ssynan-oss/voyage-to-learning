@@ -2156,20 +2156,37 @@ const SESSIONS = [
                     
                     // THEN: Load existing session selections (only the ones they have)
                     if (fields.Session1) {
-                        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(fields.Session1) && s.session === '1');
-                        if (session) userRegistrations[1] = session.id;
-                    }
-                    if (fields.Session2) {
-                        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(fields.Session2) && s.session === '2');
-                        if (session) userRegistrations[2] = session.id;
-                    }
-                    if (fields.Session3) {
-                        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(fields.Session3) && s.session === '3');
-                        if (session) userRegistrations[3] = session.id;
-                    }
-                    if (fields.Session4) {
-                        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(fields.Session4) && s.session === '4');
-                        if (session) userRegistrations[4] = session.id;
+    if (normalizeTitle(fields.Session1) === normalizeTitle('Presenting')) {
+        userRegistrations[1] = 'presenting';
+    } else {
+        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(fields.Session1) && s.session === '1');
+        if (session) userRegistrations[1] = session.id;
+    }
+}
+if (fields.Session2) {
+    if (normalizeTitle(fields.Session2) === normalizeTitle('Presenting')) {
+        userRegistrations[2] = 'presenting';
+    } else {
+        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(fields.Session2) && s.session === '2');
+        if (session) userRegistrations[2] = session.id;
+    }
+}
+if (fields.Session3) {
+    if (normalizeTitle(fields.Session3) === normalizeTitle('Presenting')) {
+        userRegistrations[3] = 'presenting';
+    } else {
+        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(fields.Session3) && s.session === '3');
+        if (session) userRegistrations[3] = session.id;
+    }
+}
+if (fields.Session4) {
+    if (normalizeTitle(fields.Session4) === normalizeTitle('Presenting')) {
+        userRegistrations[4] = 'presenting';
+    } else {
+        const session = SESSIONS.find(s => normalizeTitle(s.title) === normalizeTitle(fields.Session4) && s.session === '4');
+        if (session) userRegistrations[4] = session.id;
+    }
+}
                     }
                     
                     // Update button to show registered state
@@ -2249,13 +2266,13 @@ const SESSIONS = [
             const countEl = document.getElementById('mobileScheduleCount');
             const confirmSection = document.getElementById('mobileConfirmSection');
             
-            const registeredSessions = Object.entries(userRegistrations)
-                .filter(([slot, id]) => id !== null)
-                .map(([slot, id]) => ({
-                    slot,
-                    session: SESSIONS.find(s => s.id === id)
-                }))
-                .sort((a, b) => a.slot - b.slot);
+         const registeredSessions = Object.entries(userRegistrations)
+    .filter(([slot, id]) => id !== null)
+   .map(([slot, id]) => ({
+    slot,
+    session: id === 'presenting' ? 'presenting' : SESSIONS.find(s => s.id === id)
+}))
+    .sort((a, b) => a.slot - b.slot);    
 
             countEl.textContent = `${registeredSessions.length}/4`;
 
@@ -2265,12 +2282,12 @@ const SESSIONS = [
                 return;
             }
 
-            contentEl.innerHTML = registeredSessions.map(({ slot, session }) => `
-                <div class="mobile-schedule-item">
-                    <div class="mobile-schedule-slot">Session ${slot}: ${SESSION_TIMES[slot]}</div>
-                    <div class="mobile-schedule-title">${session.title}</div>
-                </div>
-            `).join('');
+           contentEl.innerHTML = registeredSessions.map(({ slot, session }) => `
+    <div class="mobile-schedule-item">
+        <div class="mobile-schedule-slot">Session ${slot}: ${SESSION_TIMES[slot]}</div>
+        <div class="mobile-schedule-title">${session === 'presenting' ? '🎤 PRESENTING' : session.title}</div>
+    </div>
+`).join('');
             
             // Show confirm button section when user has sessions
             if (confirmSection) {
@@ -2937,14 +2954,24 @@ const SESSIONS = [
             }
 
             scheduleDiv.style.display = 'block';
-            contentDiv.innerHTML = registeredSessions.map(({ slot, session }) => `
-                <div class="schedule-item">
-                    <div class="schedule-slot">Session ${slot}: ${SESSION_TIMES[slot]}</div>
-                    <div class="schedule-title">${session.title}</div>
-                    <div class="schedule-presenter">${session.presenter}</div>
-                    ${session.room ? `<div class="schedule-room">📍 ${session.room}</div>` : ''}
-                </div>
-            `).join('');
+           contentDiv.innerHTML = registeredSessions.map(({ slot, session }) => {
+    if (session === 'presenting') {
+        return `
+            <div class="schedule-item presenting">
+                <div class="schedule-slot">Session ${slot}: ${SESSION_TIMES[slot]}</div>
+                <div class="schedule-title">🎤 PRESENTING</div>
+            </div>
+        `;
+    }
+    return `
+        <div class="schedule-item">
+            <div class="schedule-slot">Session ${slot}: ${SESSION_TIMES[slot]}</div>
+            <div class="schedule-title">${session.title}</div>
+            <div class="schedule-presenter">${session.presenter}</div>
+            ${session.room ? `<div class="schedule-room">📍 ${session.room}</div>` : ''}
+        </div>
+    `;
+}).join('');
             
             // Also update mobile schedule bar
             updateMobileSchedule();
@@ -3093,12 +3120,12 @@ const SESSIONS = [
             const userName = document.getElementById('userName').value || 'Attendee';
             const userSchool = document.getElementById('userSchool').value || '';
             
-            const registeredSessions = Object.entries(userRegistrations)
-                .filter(([slot, id]) => id !== null)
-                .map(([slot, id]) => ({
-                    slot,
-                    session: SESSIONS.find(s => s.id === id)
-                }))
+         const registeredSessions = Object.entries(userRegistrations)
+    .filter(([slot, id]) => id !== null)
+    .map(([slot, id]) => ({
+        slot,
+        session: id === 'presenting' ? 'presenting' : SESSIONS.find(s => s.id === id)
+    }))
                 .sort((a, b) => a.slot - b.slot);
 
             if (registeredSessions.length === 0) {
@@ -3191,14 +3218,24 @@ const SESSIONS = [
                         <strong>Name:</strong> ${userName}<br>
                         ${userSchool ? `<strong>School/Department:</strong> ${userSchool}` : ''}
                     </div>
-                    ${registeredSessions.map(({ slot, session }) => `
-                        <div class="session-block">
-                            <span class="session-time">Session ${slot}: ${SESSION_TIMES[slot]}</span>
-                            <div class="session-title">${session.title}</div>
-                            <div class="session-presenter">👤 ${session.presenter}</div>
-                            ${session.room ? `<div class="session-room">📍 ${session.room}</div>` : ''}
-                        </div>
-                    `).join('')}
+                 ${registeredSessions.map(({ slot, session }) => {
+    if (session === 'presenting') {
+        return `
+            <div class="session-block">
+                <span class="session-time">Session ${slot}: ${SESSION_TIMES[slot]}</span>
+                <div class="session-title">🎤 PRESENTING</div>
+            </div>
+        `;
+    }
+    return `
+        <div class="session-block">
+            <span class="session-time">Session ${slot}: ${SESSION_TIMES[slot]}</span>
+            <div class="session-title">${session.title}</div>
+            <div class="session-presenter">👤 ${session.presenter}</div>
+            ${session.room ? `<div class="session-room">📍 ${session.room}</div>` : ''}
+        </div>
+    `;
+}).join('')}
                     <div class="footer">
                         Printed from Voyage to Learning 4.5 Registration System
                     </div>
