@@ -984,13 +984,13 @@
             card.dataset.presenter = session.presenter;
             card.dataset.sessionId = session.id;
 
-            const isRegistered = userRegistrations[session.session] === session.id;
+        const isRegistered = userRegistrations[session.session] === session.id;
             const slotFull = userRegistrations[session.session] !== null && !isRegistered;
             const isFav = favoriteSessions.has(session.id);
             const enrolled = sessionEnrollments[session.id] || 0;
             const spotsLeft = session.capacity - enrolled;
+            const fillingFast = session.capacity && spotsLeft > 0 && (enrolled / session.capacity) >= 0.75;
             const catBadgeClass = `cat-badge-${session.category.toLowerCase()}`;
-
             card.innerHTML = `
                 <div class="card-header">
                     <h3>${session.title}</h3>
@@ -1008,6 +1008,7 @@
                     <button class="read-more" onclick="toggleDescription(this)">Read more</button>
                 </div>
                 <div class="card-footer">
+                    ${fillingFast ? '<span class="filling-fast-badge">🔥 Filling Fast!</span>' : ''}
                     <span class="enrollment-info">${spotsLeft > 0 ? `${enrolled}/${session.capacity} spots` : 'FULL'}</span>
                     <button class="register-btn ${isRegistered ? 'registered-btn' : slotFull ? 'slot-full' : spotsLeft <= 0 ? 'slot-full' : 'available'}"
                         onclick="toggleRegistration(${session.id}, '${session.session}')"
