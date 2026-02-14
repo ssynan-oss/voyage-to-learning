@@ -2642,7 +2642,7 @@ if (fields.Session4) {
             const enrolled = sessionEnrollments[session.id] || 0;
             const spotsLeft = session.capacity - enrolled;
             const fillingFast = session.capacity && spotsLeft > 0 && (enrolled / session.capacity) >= 0.75;
-            const catBadgeClass = `cat-badge-${session.category.toLowerCase()}`;
+            const catBadgeClass = session.category.toLowerCase();
             card.innerHTML = `
                 <div class="card-header">
                     <h3>${session.title}</h3>
