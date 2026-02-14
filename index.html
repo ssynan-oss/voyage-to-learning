@@ -1008,7 +1008,7 @@
                     <button class="read-more" onclick="toggleDescription(this)">Read more</button>
                 </div>
                 <div class="card-footer">
-                    <span class="enrollment-info">${spotsLeft > 0 ? `${spotsLeft}/${session.capacity} spots` : 'FULL'}</span>
+                    <span class="enrollment-info">${spotsLeft > 0 ? `${enrolled}/${session.capacity} spots` : 'FULL'}</span>
                     <button class="register-btn ${isRegistered ? 'registered-btn' : slotFull ? 'slot-full' : spotsLeft <= 0 ? 'slot-full' : 'available'}"
                         onclick="toggleRegistration(${session.id}, '${session.session}')"
                         ${slotFull || (spotsLeft <= 0 && !isRegistered) ? 'disabled' : ''}>
