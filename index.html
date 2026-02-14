@@ -2674,8 +2674,8 @@ if (fields.Session4) {
         }
 
         // Toggle description expand/collapse
-        function toggleDescription(id, btn) {
-            const desc = document.getElementById(id);
+        function toggleDescription(btn) {
+            const desc = btn.previousElementSibling;
             desc.classList.toggle('expanded');
             if (desc.classList.contains('expanded')) {
                 btn.textContent = 'Read less ▲';
