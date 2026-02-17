@@ -1428,8 +1428,8 @@ body {
 // ═══════════════════════════════════════════════════════
 const AIRTABLE_CONFIG = {
   baseId: 'appGVgzw2GnMh3gii',
-  apiKey: 'pat4JfPWUNgr4NQxL',
-  checkInTable: 'CheckIn'             // <-- Your check-in table name
+  apiKey: 'pat4JfPWUNgr4NQxL.342aa5b23a4784cc789d0a9729b0c52cae067201249a0188661ced3b247571a7',
+  checkInTable: 'Registrations'       // Same table as check-in page
 };
 
 const ADMIN_PASSWORD = 'vtl2026';
@@ -1625,7 +1625,7 @@ async function loadCheckedIn() {
   const btn = document.getElementById('loadBtn');
   const status = document.getElementById('loadStatus');
 
-  if (AIRTABLE_CONFIG.apiKey === 'YOUR_AIRTABLE_API_KEY') {
+  if (!AIRTABLE_CONFIG.apiKey || AIRTABLE_CONFIG.apiKey === 'YOUR_AIRTABLE_API_KEY') {
     status.className = 'status-msg error';
     status.innerHTML = '\u26A0 Airtable API key not configured. Open this file and replace YOUR_AIRTABLE_API_KEY with your actual key.';
     return;
@@ -1641,7 +1641,7 @@ async function loadCheckedIn() {
     let offset = null;
 
     do {
-      let url = `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${encodeURIComponent(AIRTABLE_CONFIG.checkInTable)}?pageSize=100`;
+      let url = `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${encodeURIComponent(AIRTABLE_CONFIG.checkInTable)}?pageSize=100&filterByFormula=NOT(%7BCheckedIn%7D%3D'')`;
       if (offset) url += `&offset=${offset}`;
 
       const resp = await fetch(url, {
@@ -1653,9 +1653,9 @@ async function loadCheckedIn() {
 
       for (const rec of data.records) {
         const f = rec.fields;
-        if (f.FirstName || f.LastName) {
+        if (f.Name) {
           checkedInList.push({
-            name: `${(f.FirstName || '').trim()} ${(f.LastName || '').trim()}`.trim(),
+            name: (f.Name || '').trim(),
             email: (f.Email || '').trim(),
             school: (f.School || '').trim()
           });
@@ -1910,7 +1910,7 @@ function emailWinners() {
   });
 
   let body = 'Congratulations! You won a door prize at Voyage to Learning 4.5!%0A%0A';
-  body += 'Please come to the registration area to pick up your prize before leaving today.%0A%0A';
+  body += 'Please pick up your prize in the cafeteria on your way out.%0A%0A';
   body += 'Winners:%0A';
   Object.entries(winnerMap).forEach(([name, info]) => {
     body += `${name}: ${info.prizes.join('; ')}%0A`;
