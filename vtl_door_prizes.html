@@ -180,6 +180,310 @@ body {
     .grid { grid-template-columns: 1fr; padding: 15px; }
     .header h1 { font-size: 1.8em; }
 }
+
+/* ── WINNER DISPLAY ENHANCEMENTS ── */
+.winner-name.assigned {
+    color: #4ade80;
+    font-weight: 700;
+    font-size: 0.9em;
+    padding: 3px 8px;
+    background: rgba(74, 222, 128, 0.1);
+    border-radius: 6px;
+    display: inline-block;
+    margin-top: 2px;
+}
+
+.vendor-card.has-winner {
+    border-color: rgba(74, 222, 128, 0.4);
+    box-shadow: 0 0 15px rgba(74, 222, 128, 0.1);
+}
+
+.prize-item.awarded .prize-desc {
+    color: #e8edf3;
+}
+
+/* ── ADMIN TRIGGER BUTTON ── */
+.admin-trigger {
+    position: fixed;
+    bottom: 1.2rem;
+    right: 1.2rem;
+    background: rgba(201, 168, 76, 0.2);
+    color: #c9a84c;
+    border: 2px solid rgba(201, 168, 76, 0.3);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.3rem;
+    opacity: 0.4;
+    transition: opacity 0.3s, background 0.3s;
+    z-index: 100;
+}
+.admin-trigger:hover { opacity: 1; background: rgba(201, 168, 76, 0.35); }
+
+/* ── ADMIN OVERLAY ── */
+.admin-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 22, 40, 0.85);
+    z-index: 200;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem 1rem;
+    overflow-y: auto;
+    backdrop-filter: blur(4px);
+}
+.admin-overlay.active { display: flex; }
+
+.admin-panel {
+    background: linear-gradient(145deg, #1a2744, #0d2137);
+    border: 1px solid rgba(201, 168, 76, 0.3);
+    border-radius: 16px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 720px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    position: relative;
+    color: #e8edf3;
+}
+
+.admin-panel h2 {
+    font-family: 'Playfair Display', serif;
+    color: #c9a84c;
+    margin-bottom: 0.3rem;
+    font-size: 1.5em;
+}
+
+.admin-panel .admin-subtitle {
+    color: #7eb8d8;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    background: none;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: #6b7f95;
+    transition: color 0.2s;
+}
+.close-btn:hover { color: #c9a84c; }
+
+/* Admin Login */
+.admin-login {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.admin-login input {
+    flex: 1;
+    padding: 0.7rem 1rem;
+    border: 2px solid rgba(201, 168, 76, 0.3);
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: rgba(0,0,0,0.3);
+    color: #e8edf3;
+}
+.admin-login input:focus {
+    outline: none;
+    border-color: #c9a84c;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.7rem 1.3rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn:active { transform: scale(0.97); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-gold {
+    background: linear-gradient(135deg, #c9a84c, #e0c46e);
+    color: #0a1628;
+}
+.btn-navy {
+    background: #1a2744;
+    color: #c9a84c;
+    border: 2px solid rgba(201, 168, 76, 0.3);
+}
+.btn-teal {
+    background: linear-gradient(135deg, #2a7090, #3a9fb5);
+    color: #fff;
+}
+.btn-coral {
+    background: #e87461;
+    color: #fff;
+}
+.btn-sm {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+}
+
+/* Admin Tabs */
+.admin-tabs {
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.admin-tab {
+    padding: 0.5rem 1rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201, 168, 76, 0.15);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: inherit;
+    font-size: 0.85rem;
+    color: #9ab3c9;
+    transition: background 0.2s, color 0.2s;
+}
+.admin-tab.active {
+    background: rgba(201, 168, 76, 0.2);
+    color: #c9a84c;
+    border-color: rgba(201, 168, 76, 0.4);
+}
+
+.admin-section {
+    display: none;
+    margin-top: 1rem;
+}
+.admin-section.active { display: block; }
+
+/* Draw Area */
+.draw-area {
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(0,0,0,0.2);
+    border-radius: 14px;
+    border: 1px solid rgba(201, 168, 76, 0.15);
+    margin: 1rem 0;
+}
+
+.draw-area .pool-count {
+    font-size: 0.9rem;
+    color: #7eb8d8;
+    margin-bottom: 1rem;
+}
+
+.drawn-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: #c9a84c;
+    padding: 1rem;
+    display: none;
+    text-shadow: 0 0 20px rgba(201, 168, 76, 0.3);
+}
+.drawn-name.visible { display: block; }
+
+.assign-section {
+    display: none;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(201, 168, 76, 0.08);
+    border-radius: 10px;
+    border: 1px solid rgba(201, 168, 76, 0.3);
+}
+.assign-section.visible { display: block; }
+
+.assign-section label {
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #c9a84c;
+}
+
+.assign-section select {
+    width: 100%;
+    padding: 0.6rem;
+    border: 2px solid rgba(201, 168, 76, 0.3);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    margin-bottom: 0.8rem;
+    background: rgba(0,0,0,0.3);
+    color: #e8edf3;
+}
+
+/* Winner History */
+.winner-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.9rem;
+}
+.winner-row:last-child { border-bottom: none; }
+.winner-name-col { font-weight: 700; color: #e8edf3; }
+.winner-prize-col { color: #7eb8d8; font-size: 0.82rem; text-align: right; max-width: 55%; }
+.remove-btn {
+    background: none;
+    border: none;
+    color: #e87461;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0 0.3rem;
+}
+
+/* Status messages */
+.status-msg {
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin: 0.5rem 0;
+    display: none;
+}
+.status-msg.success { display: block; background: rgba(74, 222, 128, 0.15); color: #4ade80; }
+.status-msg.error { display: block; background: rgba(232, 116, 97, 0.15); color: #e87461; }
+.status-msg.info { display: block; background: rgba(126, 184, 216, 0.15); color: #7eb8d8; }
+
+.spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(201, 168, 76, 0.2);
+    border-top-color: #c9a84c;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Highlight animation for assigned card */
+@keyframes highlight-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.5); }
+    50% { box-shadow: 0 0 20px 4px rgba(74, 222, 128, 0.3); }
+    100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+}
+.prize-highlight { animation: highlight-pulse 1.5s ease-out 2; }
+
+/* Confetti */
+@keyframes confetti-fall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+.confetti-piece {
+    position: fixed;
+    top: -10px;
+    z-index: 300;
+    animation: confetti-fall 3s ease-out forwards;
+}
 </style>
 </head>
 <body>
@@ -1029,6 +1333,603 @@ body {
     Door prizes generously collected and coordinated by <strong>Kim Frankel</strong><br>
     Voyage to Learning 4.5 &mdash; Oglethorpe County School District
 </div>
+
+<!-- ADMIN TRIGGER -->
+<button class="admin-trigger" onclick="openAdmin()" title="Admin Panel">&#9881;</button>
+
+<!-- ADMIN OVERLAY -->
+<div class="admin-overlay" id="adminOverlay">
+  <div class="admin-panel">
+    <button class="close-btn" onclick="closeAdmin()">&times;</button>
+    <h2>&#128274; Door Prize Admin</h2>
+    <p class="admin-subtitle">For Kim Frankel &mdash; VTL 4.5 Door Prize Coordinator</p>
+
+    <!-- Login -->
+    <div id="adminLoginSection">
+      <div class="admin-login">
+        <input type="password" id="adminPwd" placeholder="Enter admin password" onkeyup="if(event.key==='Enter')adminLogin()">
+        <button class="btn btn-gold" onclick="adminLogin()">Unlock</button>
+      </div>
+      <div class="status-msg" id="loginStatus"></div>
+    </div>
+
+    <!-- Admin Content -->
+    <div id="adminContent" style="display:none;">
+      <div class="admin-tabs">
+        <button class="admin-tab active" onclick="switchTab('draw', this)">&#127922; Draw Winners</button>
+        <button class="admin-tab" onclick="switchTab('manage', this)">&#128203; Manage Winners</button>
+        <button class="admin-tab" onclick="switchTab('export', this)">&#128228; Export</button>
+      </div>
+
+      <!-- TAB: Draw Winners -->
+      <div class="admin-section active" id="tab-draw">
+        <button class="btn btn-teal" onclick="loadCheckedIn()" id="loadBtn">&#128260; Load Check-In List from Airtable</button>
+        <div class="status-msg" id="loadStatus"></div>
+
+        <div class="draw-area" id="drawArea" style="display:none;">
+          <div class="pool-count" id="poolCount"></div>
+          <button class="btn btn-gold" onclick="drawWinner()" style="font-size:1.1rem;padding:0.8rem 2rem;">
+            &#127922; Draw a Winner!
+          </button>
+          <div class="drawn-name" id="drawnName"></div>
+
+          <div class="assign-section" id="assignSection">
+            <label>&#127873; Assign this winner to a prize:</label>
+            <select id="prizeSelect"></select>
+            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+              <button class="btn btn-gold" onclick="assignWinner()">&#10004; Assign Prize</button>
+              <button class="btn btn-navy btn-sm" onclick="skipWinner()">Skip &amp; Draw Again</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: Manage Winners -->
+      <div class="admin-section" id="tab-manage">
+        <p style="font-size:0.9rem;color:#7eb8d8;margin-bottom:1rem;">View and manage all assigned winners. You can remove a winner to put them back in the drawing pool.</p>
+        <div id="winnerCount" style="color:#c9a84c;font-weight:700;margin-bottom:0.8rem;"></div>
+        <div id="winnerHistoryList"></div>
+        <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(201,168,76,0.15);">
+          <button class="btn btn-coral btn-sm" onclick="resetAll()">&#9888; Reset All Winners</button>
+        </div>
+      </div>
+
+      <!-- TAB: Export -->
+      <div class="admin-section" id="tab-export">
+        <p style="font-size:0.9rem;color:#7eb8d8;margin-bottom:1rem;">Copy the full winner list to send via email or share with staff.</p>
+        <button class="btn btn-teal" onclick="exportWinners()">&#128203; Copy Winner List to Clipboard</button>
+        <div class="status-msg" id="exportStatus"></div>
+        <div style="margin-top:1.2rem;">
+          <button class="btn btn-gold" onclick="emailWinners()">&#9993; Open Email to Winners</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  CONFIGURATION — Sharon: Update these before uploading
+// ═══════════════════════════════════════════════════════
+const AIRTABLE_CONFIG = {
+  baseId: 'appGVgzw2GnMh3gii',
+  apiKey: 'YOUR_AIRTABLE_API_KEY',   // <-- Replace with your Airtable API key
+  checkInTable: 'CheckIn'             // <-- Your check-in table name
+};
+
+const ADMIN_PASSWORD = 'vtl2026';
+
+// ═══════════════════════════════════════════════════════
+//  PRIZE LIST (auto-extracted from the page above)
+// ═══════════════════════════════════════════════════════
+const PRIZE_LIST = [
+  { id: 0, vendor: "Tires Plus", desc: "Oil change (up to $100)" },
+  { id: 1, vendor: "Oglethorpe Echo", desc: "Digital Subscription" },
+  { id: 2, vendor: "Oglethorpe Echo", desc: "Digital Subscription" },
+  { id: 3, vendor: "Oglethorpe Echo", desc: "Digital Subscription" },
+  { id: 4, vendor: "KP's Boards & Gifts", desc: "OC Patriots round door hanger w/ bow" },
+  { id: 5, vendor: "DePalma's Italian Cafe", desc: "$25.00 gift card" },
+  { id: 6, vendor: "DePalma's Italian Cafe", desc: "$25.00 gift card" },
+  { id: 7, vendor: "DePalma's Italian Cafe", desc: "$25.00 gift card" },
+  { id: 8, vendor: "DePalma's Italian Cafe", desc: "$25.00 gift card" },
+  { id: 9, vendor: "Golden Pantry", desc: "Golden Pantry Goody Bag" },
+  { id: 10, vendor: "Golden Pantry", desc: "Golden Pantry Goody Bag" },
+  { id: 11, vendor: "Golden Pantry", desc: "Golden Pantry Goody Bag" },
+  { id: 12, vendor: "Golden Pantry", desc: "Golden Pantry Goody Bag" },
+  { id: 13, vendor: "Mary Kay", desc: "Mary Kay gift box/bag of goodies" },
+  { id: 14, vendor: "Mary Kay", desc: "Mary Kay gift box/bag of goodies" },
+  { id: 15, vendor: "Mary Kay", desc: "Mary Kay gift box/bag of goodies" },
+  { id: 16, vendor: "Mary Kay", desc: "Mary Kay gift box/bag of goodies" },
+  { id: 17, vendor: "Mary Kay", desc: "Mary Kay gift box/bag of goodies" },
+  { id: 18, vendor: "Mary Kay", desc: "Mary Kay gift box/bag of goodies" },
+  { id: 19, vendor: "Mary Kay", desc: "Mary Kay gift box/bag of goodies" },
+  { id: 20, vendor: "Mary Kay", desc: "Mary Kay gift box/bag of goodies" },
+  { id: 21, vendor: "Mary Kay", desc: "Mary Kay gift box/bag of goodies" },
+  { id: 22, vendor: "Mary Kay", desc: "Mary Kay gift box/bag of goodies" },
+  { id: 23, vendor: "Mary Kay", desc: "Mary Kay gift box/bag of goodies" },
+  { id: 24, vendor: "Mary Kay", desc: "Mary Kay gift box/bag of goodies" },
+  { id: 25, vendor: "Mary Kay", desc: "Mary Kay gift box/bag of goodies" },
+  { id: 26, vendor: "Mary Kay", desc: "Mary Kay gift box/bag of goodies" },
+  { id: 27, vendor: "Mary Kay", desc: "Mary Kay gift box/bag of goodies" },
+  { id: 28, vendor: "Mary Kay", desc: "Mary Kay gift box/bag of goodies" },
+  { id: 29, vendor: "Mary Kay", desc: "Mary Kay gift box/bag of goodies" },
+  { id: 30, vendor: "Goody Bag", desc: "various items" },
+  { id: 31, vendor: "Big Dawg Batteries", desc: "$25.00 Amazon gift card" },
+  { id: 32, vendor: "Big Dawg Batteries", desc: "$25.00 Amazon gift card" },
+  { id: 33, vendor: "The Rowdy Rooster", desc: "key lime pie" },
+  { id: 34, vendor: "StayHumble Boutique", desc: "$25.00 gift certificate" },
+  { id: 35, vendor: "StayHumble Boutique", desc: "$25.00 gift certificate" },
+  { id: 36, vendor: "Parrish Construction", desc: "Parrish Mug, $15 Starbucks card, goody bag" },
+  { id: 37, vendor: "Parrish Construction", desc: "Freestyle Rocker chair" },
+  { id: 38, vendor: "Parrish Construction", desc: "Pickleball set" },
+  { id: 39, vendor: "Parrish Construction", desc: "Stadium chair" },
+  { id: 40, vendor: "Lifebolt / Bouncy Band / Watkins 3D", desc: "Lifebolt coffee mug, Bouncyband, glasses, Watkins 3D snowflakes" },
+  { id: 41, vendor: "Rhodes Academic Solutions / VTL Friend", desc: "Rhodes coffee mug & snowman cutting board" },
+  { id: 42, vendor: "Simbli & Watkins in 3D", desc: "Simbli goody bag, Watkins 3D snowflakes" },
+  { id: 43, vendor: "PowerSchool / Watkins in 3D / VTL Friend", desc: "PowerSchool battery pack, coloring book, markers, Watkins 3D snowflakes" },
+  { id: 44, vendor: "VTL Friend Gift Bag", desc: "Ultrasonic Diffuser, chapstick, head band, facemask" },
+  { id: 45, vendor: "VTL Friends", desc: "Wall Ring Toss Game, Patriot license plate" },
+  { id: 46, vendor: "Homemade Cake", desc: "Cake made by Jo Harrison" },
+  { id: 47, vendor: "Fit Body Boot Camp", desc: "Fit Body Boot Camp Sessions gift cert." },
+  { id: 48, vendor: "Soaps by Elsa", desc: "Basket of homemade soaps" },
+  { id: 49, vendor: "New Beginnings Bag", desc: "Candle, cup, socks, pouch" },
+  { id: 50, vendor: "Light Up Your Life", desc: "Cork light bottles" },
+  { id: 51, vendor: "Light Up Your Life", desc: "Cork light bottles" },
+  { id: 52, vendor: "Ellen's", desc: "$20 Gift Certificate - service or product" },
+  { id: 53, vendor: "Ellen's", desc: "$30 Nail Service Gift Certificate" },
+  { id: 54, vendor: "Homemade Strawberry Cake", desc: "Strawberry Cake" },
+  { id: 55, vendor: "Farm Bureau", desc: "Goody basket" },
+  { id: 56, vendor: "Oglethorpe Feed & Hardware", desc: "$25 Gift Card" },
+  { id: 57, vendor: "Oglethorpe Feed & Hardware / OC XC", desc: "Feed T-shirt & Patriot License Plate" },
+  { id: 58, vendor: "Oglethorpe Feed & Hardware / OC XC", desc: "Feed T-shirt & Patriot License Plate" },
+  { id: 59, vendor: "Strickland Ace Hardware", desc: "$15 Gift Certificate" },
+  { id: 60, vendor: "Elisse Griffiths Baker", desc: "Voucher for Watercolor Portrait of Home" },
+  { id: 61, vendor: "3B Equipment Repair", desc: "$40 Texas Roadhouse Gift Card" },
+  { id: 62, vendor: "Crawford Pizza", desc: "$25 Crawford Pizza Gift Card" },
+  { id: 63, vendor: "Crawford Pizza", desc: "$25 Crawford Pizza Gift Card" },
+  { id: 64, vendor: "Watkins in 3D", desc: "3D Desk Goose with outfit ($25 value)" },
+  { id: 65, vendor: "Oglethorpe Animal Clinic", desc: "$25 Amazon Gift Card" },
+  { id: 66, vendor: "Oglethorpe Animal Clinic", desc: "$25 Amazon Gift Card" },
+  { id: 67, vendor: "Parrish Construction / OC XC", desc: "RTIC 20 oz Tumbler & Patriot License Plate" },
+  { id: 68, vendor: "Sanders Lawn Maintenance", desc: "Certificate for Lawn Maintenance" },
+  { id: 69, vendor: "Belle Âme Salon", desc: "Hair cut certificate" },
+  { id: 70, vendor: "Junk in the Trunk", desc: "$25.00 gift certificate" },
+  { id: 71, vendor: "Junk in the Trunk", desc: "$25.00 gift certificate" },
+  { id: 72, vendor: "Junk in the Trunk", desc: "$25.00 gift certificate" },
+  { id: 73, vendor: "Junk in the Trunk", desc: "$25.00 gift certificate" },
+  { id: 74, vendor: "Carlie's Signs & Designs", desc: "Voucher for Custom Banner" },
+  { id: 75, vendor: "Community Donations", desc: "Kitchen Shears, 3D items, soup mug & hot pad, chapstick, luggage tag, flashlight" },
+  { id: 76, vendor: "VTL Friend / Watkins in 3D", desc: "Salad chopper, towel, signs, journal, 3D snowflakes" },
+  { id: 77, vendor: "BBQ Sausage Grilling Basket", desc: "Sausage Grilling Basket" },
+  { id: 78, vendor: "Mini Waffle Maker System", desc: "Mini Waffle maker system" },
+];
+
+// ═══════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════
+let checkedInList = [];
+let prizePool = [];
+let winners = {};       // { prizeId: { name, email, school } }
+let currentDrawnPerson = null;
+let adminLoggedIn = false;
+
+// Restore winners from sessionStorage if available
+try {
+  const saved = sessionStorage.getItem('vtl_door_prize_winners');
+  if (saved) {
+    winners = JSON.parse(saved);
+    applyWinnersToPage();
+  }
+} catch(e) {}
+
+// ═══════════════════════════════════════════════════════
+//  DISPLAY WINNERS ON THE PAGE
+// ═══════════════════════════════════════════════════════
+function applyWinnersToPage() {
+  // Clear all first
+  PRIZE_LIST.forEach(p => {
+    const el = document.getElementById('winner-' + p.id);
+    if (el) {
+      el.textContent = '';
+      el.classList.remove('assigned');
+    }
+    // Remove highlight from prize items
+    const prizeItem = el ? el.closest('.prize-item') : null;
+    if (prizeItem) prizeItem.classList.remove('awarded');
+    // Remove highlight from vendor card
+    const card = el ? el.closest('.vendor-card') : null;
+    if (card) card.classList.remove('has-winner');
+  });
+
+  // Apply current winners
+  Object.entries(winners).forEach(([prizeId, winner]) => {
+    const el = document.getElementById('winner-' + prizeId);
+    if (el) {
+      el.textContent = '\u{1F3C6} Winner: ' + winner.name;
+      el.classList.add('assigned');
+      const prizeItem = el.closest('.prize-item');
+      if (prizeItem) prizeItem.classList.add('awarded');
+      const card = el.closest('.vendor-card');
+      if (card) card.classList.add('has-winner');
+    }
+  });
+}
+
+function saveWinners() {
+  try {
+    sessionStorage.setItem('vtl_door_prize_winners', JSON.stringify(winners));
+  } catch(e) {}
+}
+
+// ═══════════════════════════════════════════════════════
+//  ADMIN UI
+// ═══════════════════════════════════════════════════════
+function openAdmin() {
+  document.getElementById('adminOverlay').classList.add('active');
+  if (!adminLoggedIn) {
+    setTimeout(() => document.getElementById('adminPwd').focus(), 100);
+  }
+}
+
+function closeAdmin() {
+  document.getElementById('adminOverlay').classList.remove('active');
+}
+
+function adminLogin() {
+  const pwd = document.getElementById('adminPwd').value;
+  const status = document.getElementById('loginStatus');
+  if (pwd === ADMIN_PASSWORD) {
+    adminLoggedIn = true;
+    document.getElementById('adminLoginSection').style.display = 'none';
+    document.getElementById('adminContent').style.display = 'block';
+    updateAdminUI();
+  } else {
+    status.className = 'status-msg error';
+    status.textContent = 'Incorrect password. Try again.';
+  }
+}
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+  if (tab === 'manage') updateWinnerHistory();
+}
+
+function updateAdminUI() {
+  updatePoolCount();
+  updateWinnerHistory();
+}
+
+// ═══════════════════════════════════════════════════════
+//  LOAD CHECK-INS FROM AIRTABLE
+// ═══════════════════════════════════════════════════════
+async function loadCheckedIn() {
+  const btn = document.getElementById('loadBtn');
+  const status = document.getElementById('loadStatus');
+
+  if (AIRTABLE_CONFIG.apiKey === 'YOUR_AIRTABLE_API_KEY') {
+    status.className = 'status-msg error';
+    status.innerHTML = '\u26A0 Airtable API key not configured. Open this file and replace YOUR_AIRTABLE_API_KEY with your actual key.';
+    return;
+  }
+
+  btn.innerHTML = '<span class="spinner"></span> Loading...';
+  btn.disabled = true;
+  status.className = 'status-msg info';
+  status.textContent = 'Fetching check-in data from Airtable...';
+
+  try {
+    checkedInList = [];
+    let offset = null;
+
+    do {
+      let url = `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${encodeURIComponent(AIRTABLE_CONFIG.checkInTable)}?pageSize=100`;
+      if (offset) url += `&offset=${offset}`;
+
+      const resp = await fetch(url, {
+        headers: { 'Authorization': `Bearer ${AIRTABLE_CONFIG.apiKey}` }
+      });
+
+      if (!resp.ok) throw new Error(`Airtable returned ${resp.status}. Check your API key and table name.`);
+      const data = await resp.json();
+
+      for (const rec of data.records) {
+        const f = rec.fields;
+        if (f.FirstName || f.LastName) {
+          checkedInList.push({
+            name: `${(f.FirstName || '').trim()} ${(f.LastName || '').trim()}`.trim(),
+            email: (f.Email || '').trim(),
+            school: (f.School || '').trim()
+          });
+        }
+      }
+      offset = data.offset;
+    } while (offset);
+
+    // Deduplicate by name
+    const seen = new Set();
+    checkedInList = checkedInList.filter(p => {
+      const key = p.name.toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+    rebuildPool();
+
+    status.className = 'status-msg success';
+    status.textContent = `\u2705 Loaded ${checkedInList.length} checked-in participants. ${prizePool.length} available for drawing.`;
+
+    document.getElementById('drawArea').style.display = 'block';
+    updatePoolCount();
+
+  } catch(err) {
+    status.className = 'status-msg error';
+    status.textContent = 'Error: ' + err.message;
+  }
+
+  btn.innerHTML = '\u{1F504} Refresh Check-In List';
+  btn.disabled = false;
+}
+
+function rebuildPool() {
+  const winnerNames = new Set(Object.values(winners).map(w => w.name.toLowerCase()));
+  prizePool = checkedInList.filter(p => !winnerNames.has(p.name.toLowerCase()));
+}
+
+function updatePoolCount() {
+  const el = document.getElementById('poolCount');
+  if (el) {
+    const assigned = Object.keys(winners).length;
+    el.textContent = `${prizePool.length} people in drawing pool \u2022 ${assigned} of ${PRIZE_LIST.length} prizes assigned`;
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  DRAW & ASSIGN WINNERS
+// ═══════════════════════════════════════════════════════
+function drawWinner() {
+  if (prizePool.length === 0) {
+    if (checkedInList.length === 0) {
+      alert('No check-in data loaded yet! Click "Load Check-In List" first.');
+    } else {
+      alert('Everyone has already won a prize! Remove a winner in "Manage Winners" or reset to start over.');
+    }
+    return;
+  }
+
+  // Random draw with a brief "shuffling" effect
+  const nameEl = document.getElementById('drawnName');
+  currentDrawnPerson = prizePool[Math.floor(Math.random() * prizePool.length)];
+
+  nameEl.innerHTML = '\u{1F389} ' + currentDrawnPerson.name + ' \u{1F389}';
+  nameEl.classList.add('visible');
+
+  // Populate prize dropdown with unassigned prizes only
+  const select = document.getElementById('prizeSelect');
+  const unassigned = PRIZE_LIST.filter(p => !winners[p.id]);
+
+  if (unassigned.length === 0) {
+    alert('All prizes have been assigned! Go to "Manage Winners" to remove one first.');
+    return;
+  }
+
+  select.innerHTML = unassigned.map(p =>
+    `<option value="${p.id}">#${p.id + 1} \u2014 ${p.vendor}: ${p.desc}</option>`
+  ).join('');
+
+  document.getElementById('assignSection').classList.add('visible');
+}
+
+function assignWinner() {
+  if (!currentDrawnPerson) return;
+
+  const prizeId = parseInt(document.getElementById('prizeSelect').value);
+  const prize = PRIZE_LIST.find(p => p.id === prizeId);
+
+  // Save winner
+  winners[prizeId] = {
+    name: currentDrawnPerson.name,
+    email: currentDrawnPerson.email,
+    school: currentDrawnPerson.school
+  };
+
+  saveWinners();
+  applyWinnersToPage();
+  rebuildPool();
+  updatePoolCount();
+
+  // Reset draw UI
+  document.getElementById('drawnName').classList.remove('visible');
+  document.getElementById('assignSection').classList.remove('visible');
+
+  // Close admin and scroll to the prize
+  closeAdmin();
+  setTimeout(() => {
+    const winnerEl = document.getElementById('winner-' + prizeId);
+    if (winnerEl) {
+      const card = winnerEl.closest('.vendor-card');
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.classList.add('prize-highlight');
+        launchConfetti();
+        setTimeout(() => {
+          card.classList.remove('prize-highlight');
+          openAdmin();
+        }, 3500);
+      }
+    }
+  }, 300);
+
+  currentDrawnPerson = null;
+}
+
+function skipWinner() {
+  currentDrawnPerson = null;
+  document.getElementById('drawnName').classList.remove('visible');
+  document.getElementById('assignSection').classList.remove('visible');
+  // Immediately draw again
+  drawWinner();
+}
+
+// ═══════════════════════════════════════════════════════
+//  MANAGE WINNERS
+// ═══════════════════════════════════════════════════════
+function updateWinnerHistory() {
+  const container = document.getElementById('winnerHistoryList');
+  const countEl = document.getElementById('winnerCount');
+  const assigned = PRIZE_LIST.filter(p => winners[p.id]);
+
+  countEl.textContent = `${assigned.length} of ${PRIZE_LIST.length} prizes assigned`;
+
+  if (assigned.length === 0) {
+    container.innerHTML = '<p style="color:#6b7f95;font-style:italic;">No winners assigned yet. Go to "Draw Winners" to get started.</p>';
+    return;
+  }
+
+  container.innerHTML = assigned.map(p => {
+    const w = winners[p.id];
+    return `
+      <div class="winner-row">
+        <div>
+          <div class="winner-name-col">${w.name}</div>
+          <div style="font-size:0.78rem;color:#6b7f95;">${w.email || 'No email'} \u2022 ${w.school || ''}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+          <div class="winner-prize-col">#${p.id + 1} ${p.vendor} \u2014 ${p.desc}</div>
+          <button class="remove-btn" onclick="removeWinner(${p.id})" title="Remove winner">\u274C</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function removeWinner(prizeId) {
+  const w = winners[prizeId];
+  if (!w) return;
+  if (!confirm('Remove ' + w.name + ' from prize #' + (prizeId + 1) + '?\nThey will go back into the drawing pool.')) return;
+
+  delete winners[prizeId];
+  saveWinners();
+  applyWinnersToPage();
+  rebuildPool();
+  updatePoolCount();
+  updateWinnerHistory();
+}
+
+function resetAll() {
+  const count = Object.keys(winners).length;
+  if (count === 0) return;
+  if (!confirm('Reset ALL ' + count + ' winner assignments?\nThis cannot be undone.')) return;
+  if (!confirm('Are you absolutely sure you want to clear all winners?')) return;
+
+  winners = {};
+  saveWinners();
+  applyWinnersToPage();
+  rebuildPool();
+  updatePoolCount();
+  updateWinnerHistory();
+}
+
+// ═══════════════════════════════════════════════════════
+//  EXPORT / EMAIL
+// ═══════════════════════════════════════════════════════
+function exportWinners() {
+  const status = document.getElementById('exportStatus');
+  const assigned = PRIZE_LIST.filter(p => winners[p.id]);
+
+  if (assigned.length === 0) {
+    status.className = 'status-msg error';
+    status.textContent = 'No winners to export yet.';
+    return;
+  }
+
+  let text = 'VOYAGE TO LEARNING 4.5 \u2014 DOOR PRIZE WINNERS\n';
+  text += 'February 20, 2026\n';
+  text += '='.repeat(50) + '\n\n';
+
+  assigned.forEach(p => {
+    const w = winners[p.id];
+    text += `Prize #${p.id + 1}: ${p.vendor} \u2014 ${p.desc}\n`;
+    text += `  Winner: ${w.name}\n`;
+    text += `  Email:  ${w.email || 'N/A'}\n`;
+    text += `  School: ${w.school || 'N/A'}\n\n`;
+  });
+
+  text += `\nTotal prizes awarded: ${assigned.length} of ${PRIZE_LIST.length}`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    status.className = 'status-msg success';
+    status.textContent = '\u2705 Winner list copied to clipboard!';
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    status.className = 'status-msg success';
+    status.textContent = '\u2705 Winner list copied to clipboard!';
+  });
+}
+
+function emailWinners() {
+  const assigned = PRIZE_LIST.filter(p => winners[p.id]);
+  if (assigned.length === 0) {
+    alert('No winners to email yet.');
+    return;
+  }
+
+  // Group by winner
+  const winnerMap = {};
+  assigned.forEach(p => {
+    const w = winners[p.id];
+    if (!winnerMap[w.name]) {
+      winnerMap[w.name] = { email: w.email, prizes: [] };
+    }
+    winnerMap[w.name].prizes.push(`${p.vendor} \u2014 ${p.desc}`);
+  });
+
+  let body = 'Congratulations! You won a door prize at Voyage to Learning 4.5!%0A%0A';
+  body += 'Please come to the registration area to pick up your prize before leaving today.%0A%0A';
+  body += 'Winners:%0A';
+  Object.entries(winnerMap).forEach(([name, info]) => {
+    body += `${name}: ${info.prizes.join('; ')}%0A`;
+  });
+  body += '%0A%0AThank you for attending Voyage to Learning 4.5!%0A- Kim Frankel';
+
+  const emails = [...new Set(Object.values(winners).map(w => w.email).filter(e => e))];
+  window.open(`mailto:${emails.join(',')}?subject=VTL 4.5 - You Won a Door Prize!&body=${body}`);
+}
+
+// ═══════════════════════════════════════════════════════
+//  CONFETTI
+// ═══════════════════════════════════════════════════════
+function launchConfetti() {
+  const colors = ['#c9a84c', '#e87461', '#3a9fb5', '#4ade80', '#7eb8d8', '#e0c46e'];
+  for (let i = 0; i < 35; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = (Math.random() * 100) + 'vw';
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    piece.style.width = (6 + Math.random() * 8) + 'px';
+    piece.style.height = (6 + Math.random() * 8) + 'px';
+    piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+    piece.style.animationDelay = (Math.random() * 0.5) + 's';
+    document.body.appendChild(piece);
+    setTimeout(() => piece.remove(), 4500);
+  }
+}
+
+// Close admin on overlay click
+document.getElementById('adminOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeAdmin();
+});
+</script>
 
 </body>
 </html>
