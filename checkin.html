@@ -268,6 +268,78 @@
 
         .door-prize-note strong { color: var(--navy); }
 
+        /* ===== SCHEDULE CARD ===== */
+        .schedule-card {
+            background: white;
+            border-radius: 14px;
+            padding: 1.5rem 1.2rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 16px rgba(15, 41, 66, 0.10);
+            border: 2px solid var(--sky);
+            text-align: left;
+        }
+
+        .schedule-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--navy);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .schedule-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 0.7rem 0;
+            border-bottom: 1px solid #eef2f7;
+        }
+
+        .schedule-item:last-child { border-bottom: none; }
+
+        .schedule-slot {
+            background: linear-gradient(135deg, var(--navy), var(--ocean));
+            color: white;
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            min-width: 70px;
+            text-align: center;
+            margin-right: 0.8rem;
+            margin-top: 0.15rem;
+            flex-shrink: 0;
+        }
+
+        .schedule-session-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.4;
+        }
+
+        .schedule-empty {
+            font-style: italic;
+            color: #999;
+        }
+
+        .screenshot-hint {
+            text-align: center;
+            margin-top: 1rem;
+            padding: 0.7rem;
+            background: #e8f0fd;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--ocean);
+        }
+
+        .no-schedule-note {
+            text-align: center;
+            padding: 1rem;
+            color: #888;
+            font-style: italic;
+        }
+
         .walkin-fields { display: none; animation: fadeIn 0.3s ease; }
         .walkin-fields.visible { display: block; }
 
@@ -515,6 +587,10 @@
             <h2>You're Checked In!</h2>
             <div class="welcome-name" id="welcomeName"></div>
             <p>You've been added to the attendance roster and entered for door prizes!</p>
+
+            <!-- SESSION SCHEDULE DISPLAY -->
+            <div id="scheduleDisplay"></div>
+
             <div class="door-prize-note">
               &#127873; <strong>Door Prizes:</strong> Winners will be notified by email during the 4th session. Pick up your prize in the cafeteria on your way out. You must be present to win!  
             </div>
@@ -578,9 +654,74 @@
             tableName: 'Registrations'
         };
 
+        // Session time slots for display
+        const SESSION_TIMES = {
+            'Session1': '8:15 – 9:05',
+            'Session2': '9:20 – 10:10',
+            'Session3': '10:35 – 11:25',
+            'Session4': '11:40 – 12:30'
+        };
+
+        const SESSION_LABELS = {
+            'Session1': 'Session 1',
+            'Session2': 'Session 2',
+            'Session3': 'Session 3',
+            'Session4': 'Session 4'
+        };
+
         let checkedInList = [];
         let prizePool = [];
         let winners = [];
+
+        // ============================================
+        // BUILD SCHEDULE HTML
+        // ============================================
+        function buildScheduleHTML(fields) {
+            const sessions = ['Session1', 'Session2', 'Session3', 'Session4'];
+            let hasAnySessions = false;
+
+            for (const s of sessions) {
+                if (fields[s] && fields[s].trim()) {
+                    hasAnySessions = true;
+                    break;
+                }
+            }
+
+            if (!hasAnySessions) {
+                return '';
+            }
+
+            let html = `<div class="schedule-card">
+                <h3>&#9973; Your Excursion Schedule</h3>`;
+
+            for (const s of sessions) {
+                const sessionName = fields[s] && fields[s].trim() ? fields[s].trim() : null;
+                const time = SESSION_TIMES[s];
+                const label = SESSION_LABELS[s];
+
+                if (sessionName && sessionName.toLowerCase() !== 'presenting') {
+                    html += `<div class="schedule-item">
+                        <div class="schedule-slot">${label}<br><span style="font-weight:400;font-size:0.7rem;">${time}</span></div>
+                        <div class="schedule-session-name">${sessionName}</div>
+                    </div>`;
+                } else if (sessionName && sessionName.toLowerCase() === 'presenting') {
+                    html += `<div class="schedule-item">
+                        <div class="schedule-slot">${label}<br><span style="font-weight:400;font-size:0.7rem;">${time}</span></div>
+                        <div class="schedule-session-name">&#127908; Presenting</div>
+                    </div>`;
+                } else {
+                    html += `<div class="schedule-item">
+                        <div class="schedule-slot">${label}<br><span style="font-weight:400;font-size:0.7rem;">${time}</span></div>
+                        <div class="schedule-session-name schedule-empty">No session selected</div>
+                    </div>`;
+                }
+            }
+
+            html += `<div class="screenshot-hint">&#128247; Screenshot this schedule for quick reference!</div>`;
+            html += `</div>`;
+
+            return html;
+        }
 
         // ============================================
         // STEP 1: LOOK UP EMAIL IN REGISTRATIONS
@@ -612,12 +753,17 @@
                     // FOUND — registered participant
                     const record = data.records[0];
                     const name = record.fields.Name || 'Participant';
+                    const fields = record.fields;
 
                     // Already checked in?
                     if (record.fields.CheckedIn) {
                         btn.classList.remove('loading');
                         btn.disabled = false;
-                        showStatus('emailStatus', `You're already checked in, ${name}! You're all set for door prizes. 🎉`, 'info');
+                        // Still show their schedule even if already checked in
+                        showSuccess(name, fields);
+                        // Update the welcome message to reflect already checked in
+                        document.querySelector('.success-screen p').textContent = 
+                            "You were already checked in — welcome back! Here's your schedule:";
                         return;
                     }
 
@@ -638,7 +784,7 @@
 
                     if (!patchResponse.ok) throw new Error('Check-in update failed');
 
-                    showSuccess(name);
+                    showSuccess(name, fields);
 
                 } else {
                     // NOT FOUND — show walk-in fields
@@ -702,7 +848,8 @@
                     throw new Error(errorData.error?.message || 'Check-in failed');
                 }
 
-                showSuccess(name);
+                // Walk-ins won't have sessions, so pass empty fields
+                showSuccess(name, {});
 
             } catch (error) {
                 console.error('Walk-in error:', error);
@@ -713,11 +860,16 @@
         }
 
         // ============================================
-        // SHOW SUCCESS
+        // SHOW SUCCESS (now includes schedule)
         // ============================================
-        function showSuccess(name) {
+        function showSuccess(name, fields) {
             document.getElementById('emailStep').style.display = 'none';
             document.getElementById('welcomeName').textContent = `Welcome, ${name}!`;
+            
+            // Build and insert schedule
+            const scheduleHTML = buildScheduleHTML(fields || {});
+            document.getElementById('scheduleDisplay').innerHTML = scheduleHTML;
+
             document.getElementById('successScreen').classList.add('visible');
         }
 
