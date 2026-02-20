@@ -322,6 +322,13 @@
             color: #999;
         }
 
+        .schedule-room {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--ocean);
+            margin-top: 0.2rem;
+        }
+
         .screenshot-hint {
             text-align: center;
             margin-top: 1rem;
@@ -669,6 +676,104 @@
             'Session4': 'Session 4'
         };
 
+        // Room lookup: key = "SessionN|Title" => Room
+        const ROOM_MAP = {
+            "Session1|A Day in the Life of a SpED Student": "726",
+            "Session1|Absent Intelligence": "722",
+            "Session1|Adobe Express: The Legal \"Cheat Code\" for Busy Teachers": "701",
+            "Session1|Be Aware, Stay Safe: Practical Strategies for Everyday Life": "705",
+            "Session1|Behavior Strategies for the K-12 Classroom": "601",
+            "Session1|Communication Strategies for Teachers": "605",
+            "Session1|Core Balance and Stretch": "Gym",
+            "Session1|Gang Culture and Our Children": "720",
+            "Session1|Hot as H*LL, Tired & Still Brilliant": "Cafeteria",
+            "Session1|Inspire": "620",
+            "Session1|Peardeck": "610",
+            "Session1|So, You're Finished, Now What?": "712",
+            "Session1|Supporting Students with Mental Health Needs": "Media Center",
+            "Session1|Tai Chi for Balance Improvement": "410/weight",
+            "Session1|Using NotebookLM to Support Teaching, Learning, and Planning": "621",
+            "Session1|Wayground": "721",
+            "Session1|Write On: Elevating Writing Instruction in Grades 3-5": "724",
+            "Session1|Your AI Treasure Chest: Creating & Sharing Gemini Gems": "Fellowship Hall",
+            "Session2|A Day in the Life of a SpEd Student": "726",
+            "Session2|A Day in the Life of a SpED Student": "726",
+            "Session2|Behavior Strategies for the K-12 Classroom": "601",
+            "Session2|Core Balance and Stretch": "Gym",
+            "Session2|Gang Culture and Our Children": "720",
+            "Session2|Hot as H*LL, Tired & Still Brilliant": "Cafeteria",
+            "Session2|Inspire": "620",
+            "Session2|Let students use AI in the classroom?! Are you crazy?? Well, yes...yes I am!": "712",
+            "Session2|Mystery Skype: Making Geography Engaging": "614",
+            "Session2|Navigating Crucial Conversations with Confidence": "722",
+            "Session2|Promptcraft? Building a Better AI Prompt": "Fellowship Hall",
+            "Session2|Strategies for Self Defense": "115/Art",
+            "Session2|Strategies for Supporting English Learners in the Classroom": "701",
+            "Session2|Supporting Diverse Learners with Notebook LM": "612",
+            "Session2|Supporting Students with Mental Health Needs": "Media Center",
+            "Session2|Tai Chi for Balance Improvement": "410/weight",
+            "Session2|The Safe Harbor Classroom: Navigating Trauma with Care and Connection": "705",
+            "Session2|Unlocking the Magic of Canva": "605",
+            "Session2|Using AI Tools to Support Life, Work, and Well-Being": "621",
+            "Session2|Wayground": "721",
+            "Session2|Write On: Elevating Writing Instruction in Grades 3-5": "724",
+            "Session2|Writing IEPs using AI": "116",
+            "Session2|\"Foster Care:  The Most Difficult Job You Will Ever Love\"": "821",
+            "Session2|\u201cFoster Care:\u00a0 The Most Difficult Job You Will Ever Love\u201d": "821",
+            "Session3|AI Early Finisher Activities": "726",
+            "Session3|Beat the Stress Away": "401",
+            "Session3|Behavior Strategies for the K-12 Classroom": "601",
+            "Session3|Brisk": "721",
+            "Session3|Core Balance and Stretch": "Gym",
+            "Session3|Digital Locks: The Key to Student Engagement": "712",
+            "Session3|Employing AI Tools in the Science Classroom": "805",
+            "Session3|Fall Smart Workshop": "612",
+            "Session3|Full Bleed: Finding Balance between Technology and Life": "Fellowship Hall",
+            "Session3|Gang Culture and Our Children": "720",
+            "Session3|Mastering Classroom Management with LanSchool": "821",
+            "Session3|Navigating Crucial Conversations with Confidence": "722",
+            "Session3|Power Up Participation: 3 Digital Tools to Supercharge Student Thinking and Writing": "610",
+            "Session3|Strategies for Supporting English Learners in the Classroom": "701",
+            "Session3|Student Survival for the Progressive Teacher": "116",
+            "Session3|Taking Care of You": "Media Center",
+            "Session3|The Safe Harbor Classroom: Navigating Trauma with Care and Connection": "705",
+            "Session3|Unlocking the Magic of Canva": "605",
+            "Session3|Using & Choosing Decodable Texts (Wiley Blevins approach)": "614",
+            "Session3|Using NotebookLM to Support Teaching, Learning, and Planning": "621",
+            "Session3|Write On: Elevating Writing Instruction in Grades K-2": "724",
+            "Session4|Beat the Stress Away": "401",
+            "Session4|Brisk": "721",
+            "Session4|Core Balance and Stretch": "Gym",
+            "Session4|Did a Robot Write This Report? Managing AI Cheating": "Fellowship Hall",
+            "Session4|Gang Culture and Our Children": "720",
+            "Session4|Google Maps across Instruction": "620",
+            "Session4|Hands-On Statistics that Stick": "614",
+            "Session4|Navigating Crucial Conversations with Confidence": "722",
+            "Session4|Read Like a Scientist": "601",
+            "Session4|Strategies for Supporting English Learners in the Classroom": "701",
+            "Session4|Student Survival for the Progressive Teacher": "116",
+            "Session4|Suno: More Than a Jingle": "612",
+            "Session4|Taking Care of You": "Media Center",
+            "Session4|The Safe Harbor Classroom: Navigating Trauma with Care and Connection": "705",
+            "Session4|Unlocking the Magic of Canva": "605",
+            "Session4|Using AI Tools to Support Life, Work, and Well-Being": "621",
+            "Session4|Using AI to Create Stories with Differentiated Lexile Levels": "726",
+            "Session4|Write On: Elevating Writing Instruction in Grades K-2": "724"
+        };
+
+        function lookupRoom(sessionKey, title) {
+            if (!title) return '';
+            const exactKey = sessionKey + '|' + title.trim();
+            if (ROOM_MAP[exactKey]) return ROOM_MAP[exactKey];
+            // Fuzzy match: try case-insensitive and partial
+            const titleLower = title.trim().toLowerCase();
+            for (const [k, v] of Object.entries(ROOM_MAP)) {
+                if (k.startsWith(sessionKey + '|') && k.toLowerCase().includes(titleLower)) return v;
+                if (k.startsWith(sessionKey + '|') && titleLower.includes(k.split('|')[1].toLowerCase())) return v;
+            }
+            return '';
+        }
+
         let checkedInList = [];
         let prizePool = [];
         let winners = [];
@@ -698,21 +803,30 @@
                 const sessionName = fields[s] && fields[s].trim() ? fields[s].trim() : null;
                 const time = SESSION_TIMES[s];
                 const label = SESSION_LABELS[s];
+                const room = sessionName ? lookupRoom(s, sessionName) : '';
+                const roomDisplay = room ? `<div class="schedule-room">&#128205; ${room}</div>` : '';
 
                 if (sessionName && sessionName.toLowerCase() !== 'presenting') {
                     html += `<div class="schedule-item">
                         <div class="schedule-slot">${label}<br><span style="font-weight:400;font-size:0.7rem;">${time}</span></div>
-                        <div class="schedule-session-name">${sessionName}</div>
+                        <div>
+                            <div class="schedule-session-name">${sessionName}</div>
+                            ${roomDisplay}
+                        </div>
                     </div>`;
                 } else if (sessionName && sessionName.toLowerCase() === 'presenting') {
                     html += `<div class="schedule-item">
                         <div class="schedule-slot">${label}<br><span style="font-weight:400;font-size:0.7rem;">${time}</span></div>
-                        <div class="schedule-session-name">&#127908; Presenting</div>
+                        <div>
+                            <div class="schedule-session-name">&#127908; Presenting</div>
+                        </div>
                     </div>`;
                 } else {
                     html += `<div class="schedule-item">
                         <div class="schedule-slot">${label}<br><span style="font-weight:400;font-size:0.7rem;">${time}</span></div>
-                        <div class="schedule-session-name schedule-empty">No session selected</div>
+                        <div>
+                            <div class="schedule-session-name schedule-empty">No session selected</div>
+                        </div>
                     </div>`;
                 }
             }
