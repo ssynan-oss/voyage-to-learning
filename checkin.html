@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VTL 4.5 - Arrival Check-In</title>
+    <title>VTL 4.5 - Check-In</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -45,8 +45,10 @@
         .header::before {
             content: '';
             position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
             background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
             animation: wave 15s infinite linear;
         }
@@ -75,313 +77,369 @@
 
         .header h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: 900;
-            margin-bottom: 0.3rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            margin: 0.3rem 0;
         }
 
         .header .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+            opacity: 0.9;
             font-weight: 600;
-            color: var(--gold);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
-        .header .event-date {
-            font-size: 0.95rem;
+        .header .session-time {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-top: 0.3rem;
+        }
+
+        .header .location {
+            font-size: 0.85rem;
+            opacity: 0.7;
             margin-top: 0.5rem;
-            opacity: 0.9;
         }
 
         .container {
             width: 100%;
-            max-width: 480px;
-            padding: 1.5rem;
+            max-width: 500px;
+            padding: 1.5rem 1rem;
             flex: 1;
         }
 
-        .checkin-card {
+        .welcome-box {
             background: white;
             border-radius: 16px;
-            padding: 2rem 1.5rem;
-            box-shadow: 0 8px 32px rgba(15, 41, 66, 0.12);
-            border: 1px solid rgba(91, 155, 213, 0.15);
-            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 1rem;
+            text-align: center;
         }
 
-        .checkin-card h2 {
+        .welcome-box h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
             color: var(--navy);
-            text-align: center;
+            font-size: 1.3rem;
             margin-bottom: 0.5rem;
         }
 
-        .checkin-card .card-subtitle {
-            text-align: center;
+        .welcome-box p {
             color: #666;
             font-size: 0.95rem;
-            margin-bottom: 1.5rem;
         }
 
         .form-group {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1rem;
         }
 
         .form-group label {
             display: block;
-            font-weight: 700;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
             color: var(--navy);
-            margin-bottom: 0.4rem;
-            font-size: 0.95rem;
         }
 
-        .form-group label .required {
-            color: var(--error);
-        }
-
-        .form-group input,
-        .form-group select {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 0.75rem 1rem;
-            border: 2px solid #dce3ec;
+            border: 2px solid #ddd;
             border-radius: 10px;
             font-size: 1rem;
-            font-family: 'Source Sans 3', sans-serif;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            background: var(--white);
+            font-family: inherit;
+            transition: border-color 0.3s;
         }
 
-        .form-group input:focus,
-        .form-group select:focus {
+        .form-group input:focus, .form-group select:focus {
             outline: none;
             border-color: var(--sky);
-            box-shadow: 0 0 0 3px rgba(91, 155, 213, 0.2);
         }
 
-        .form-group input::placeholder { color: #aab; }
-
-        .submit-btn {
+        .btn {
             width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, var(--navy) 0%, var(--ocean) 100%);
-            color: white;
+            padding: 0.9rem;
             border: none;
             border-radius: 12px;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            font-family: 'Source Sans 3', sans-serif;
             cursor: pointer;
+            font-family: inherit;
             transition: all 0.3s;
-            letter-spacing: 0.5px;
-            margin-top: 0.5rem;
         }
 
-        .submit-btn:hover {
+        .btn-primary {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--ocean) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(15, 41, 66, 0.3);
+        }
+
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(15, 41, 66, 0.3);
+            box-shadow: 0 6px 20px rgba(15, 41, 66, 0.4);
         }
 
-        .submit-btn:active { transform: translateY(0); }
-
-        .submit-btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
+        .btn-primary:disabled {
+            opacity: 0.6;
             transform: none;
+            cursor: not-allowed;
         }
-
-        .submit-btn .btn-text { display: inline; }
-        .submit-btn .btn-loading { display: none; }
-        .submit-btn.loading .btn-text { display: none; }
-        .submit-btn.loading .btn-loading { display: inline; }
 
         .status-message {
-            display: none;
-            padding: 1rem;
+            padding: 0.75rem 1rem;
             border-radius: 10px;
-            margin-top: 1rem;
-            text-align: center;
+            margin: 1rem 0;
             font-weight: 600;
-            font-size: 0.95rem;
-            animation: fadeIn 0.3s ease;
+            display: none;
         }
 
-        .status-message.success { display: block; background: #e8f8ef; color: #1e7e45; border: 1px solid #a3e4bc; }
-        .status-message.error { display: block; background: #fde8e8; color: #c0392b; border: 1px solid #f5a6a6; }
-        .status-message.info { display: block; background: #e8f0fd; color: #1e4d7b; border: 1px solid #a6c8e8; }
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
         }
 
         .success-screen {
             display: none;
             text-align: center;
-            padding: 2rem 1rem;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
-        .success-screen.visible { display: block; animation: fadeIn 0.5s ease; }
-
-        .success-icon {
-            font-size: 5rem;
-            margin-bottom: 1rem;
-            display: inline-block;
-            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0); }
-            80% { transform: scale(1.15); }
-            100% { transform: scale(1); }
+        .success-screen .checkmark {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
         }
 
         .success-screen h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            color: var(--navy);
+            color: var(--success);
+            font-size: 1.5rem;
             margin-bottom: 0.5rem;
         }
 
-        .success-screen .welcome-name {
+        .success-screen .name-display {
             font-size: 1.3rem;
-            color: var(--ocean);
             font-weight: 700;
+            color: var(--navy);
+            margin: 0.5rem 0;
+        }
+
+        .success-screen .session-display {
+            background: var(--light-gray);
+            border-radius: 10px;
+            padding: 0.75rem;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+
+        .door-prize-note {
+            background: linear-gradient(135deg, #fff3cd, #ffeeba);
+            border: 1px solid #ffc107;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .confetti-line {
+            font-size: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        /* Walk-in form (arrival only) */
+        .walkin-form {
+            display: none;
+            background: #fff3cd;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-top: 1rem;
+            border: 1px solid #ffc107;
+        }
+
+        .walkin-form h3 {
+            color: var(--navy);
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        /* Admin panel */
+        .admin-toggle {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .admin-toggle button {
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .admin-panel {
+            display: none;
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .admin-panel h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--navy);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .admin-stats {
+            display: flex;
+            gap: 1rem;
             margin-bottom: 1rem;
         }
 
-        .success-screen p { color: #555; font-size: 1rem; margin-bottom: 0.8rem; }
-
-        .confetti-line { font-size: 2rem; letter-spacing: 0.5rem; margin-top: 1.5rem; }
-
-        .door-prize-note {
-            background: linear-gradient(135deg, #fff7e6, #fff1d4);
-            border: 1px solid var(--gold);
+        .stat-box {
+            flex: 1;
+            background: var(--light-gray);
             border-radius: 10px;
             padding: 1rem;
-            margin-top: 1.5rem;
-            font-size: 0.95rem;
-            color: #6b4b24;
+            text-align: center;
         }
 
-        .door-prize-note strong { color: var(--navy); }
+        .stat-num {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--navy);
+            display: block;
+        }
 
-        /* ===== SCHEDULE CARD ===== */
-        .schedule-card {
-            background: white;
-            border-radius: 14px;
-            padding: 1.5rem 1.2rem;
-            margin-top: 1.5rem;
-            box-shadow: 0 4px 16px rgba(15, 41, 66, 0.10);
-            border: 2px solid var(--sky);
+        .stat-label {
+            font-size: 0.8rem;
+            color: #888;
+            font-weight: 600;
+        }
+
+        .admin-btn {
+            width: 100%;
+            padding: 0.7rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .btn-refresh { background: var(--sky); }
+        .btn-roster { background: var(--ocean); }
+        .btn-prize { background: var(--gold); color: var(--navy); }
+
+        .roster-area {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        .roster-area table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .roster-area th, .roster-area td {
+            padding: 0.4rem 0.5rem;
+            border-bottom: 1px solid #eee;
             text-align: left;
         }
 
-        .schedule-card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            color: var(--navy);
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .schedule-item {
-            display: flex;
-            align-items: flex-start;
-            padding: 0.7rem 0;
-            border-bottom: 1px solid #eef2f7;
-        }
-
-        .schedule-item:last-child { border-bottom: none; }
-
-        .schedule-slot {
-            background: linear-gradient(135deg, var(--navy), var(--ocean));
-            color: white;
+        .roster-area th {
+            background: var(--light-gray);
             font-weight: 700;
-            font-size: 0.75rem;
-            padding: 0.3rem 0.6rem;
-            border-radius: 6px;
-            min-width: 70px;
+            position: sticky;
+            top: 0;
+        }
+
+        .prize-winner {
+            display: none;
             text-align: center;
-            margin-right: 0.8rem;
-            margin-top: 0.15rem;
-            flex-shrink: 0;
-        }
-
-        .schedule-session-name {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text);
-            line-height: 1.4;
-        }
-
-        .schedule-empty {
-            font-style: italic;
-            color: #999;
-        }
-
-        .schedule-room {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--ocean);
-            margin-top: 0.2rem;
-        }
-
-        .screenshot-hint {
-            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #fff3cd, #ffeeba);
+            border-radius: 12px;
             margin-top: 1rem;
-            padding: 0.7rem;
-            background: #e8f0fd;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--ocean);
         }
 
-        .no-schedule-note {
-            text-align: center;
-            padding: 1rem;
-            color: #888;
-            font-style: italic;
+        .winner-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--navy);
+            margin-top: 0.5rem;
         }
 
-        .walkin-fields { display: none; animation: fadeIn 0.3s ease; }
-        .walkin-fields.visible { display: block; }
-
-        .walkin-notice {
-            background: linear-gradient(135deg, #fff7e6, #fff1d4);
-            border: 1px solid var(--gold);
+        .winners-so-far {
+            display: none;
+            background: var(--light-gray);
             border-radius: 10px;
-            padding: 0.8rem 1rem;
-            margin-bottom: 1.2rem;
-            font-size: 0.9rem;
-            color: #6b4b24;
-            text-align: center;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            text-align: left;
+        }
+
+        .winners-so-far h4 {
+            margin-bottom: 0.5rem;
         }
 
         .footer {
+            width: 100%;
             text-align: center;
             padding: 1rem;
-            color: #999;
-            font-size: 0.8rem;
-            width: 100%;
+            margin-top: auto;
         }
 
-        .footer a { color: var(--sky); text-decoration: none; }
+        .footer a {
+            color: var(--ocean);
+            text-decoration: none;
+            font-weight: 600;
+        }
 
-        @media (max-width: 480px) {
-            .header h1 { font-size: 1.8rem; }
-            .header .subtitle { font-size: 1rem; }
-            .container { padding: 1rem; }
-            .checkin-card { padding: 1.5rem 1.2rem; }
-            .checkin-card h2 { font-size: 1.4rem; }
+        .copy-toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            display: none;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
         .spinner {
             display: inline-block;
-            width: 18px; height: 18px;
+            width: 18px;
+            height: 18px;
             border: 3px solid rgba(255,255,255,0.3);
             border-radius: 50%;
             border-top-color: white;
@@ -390,779 +448,584 @@
             margin-right: 8px;
         }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* Admin */
-        .admin-toggle { text-align: center; margin-top: 1rem; }
-
-        .admin-toggle button {
-            background: none;
-            border: 1px dashed #ccc;
-            color: #999;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-family: 'Source Sans 3', sans-serif;
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
-
-        .admin-panel {
-            display: none;
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 8px 32px rgba(15, 41, 66, 0.12);
-            border: 1px solid rgba(91, 155, 213, 0.15);
-            margin-bottom: 1.5rem;
-        }
-
-        .admin-panel.visible { display: block; }
-
-        .admin-panel h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            color: var(--navy);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .admin-stats { display: flex; gap: 0.8rem; margin-bottom: 1rem; }
-
-        .stat-box {
-            flex: 1;
-            background: linear-gradient(135deg, var(--navy), var(--ocean));
-            color: white;
-            border-radius: 10px;
-            padding: 0.8rem;
-            text-align: center;
-        }
-
-        .stat-box .stat-num { font-size: 2rem; font-weight: 900; display: block; }
-        .stat-box .stat-label { font-size: 0.75rem; opacity: 0.85; }
-
-        .admin-btn {
-            width: 100%;
-            padding: 0.75rem;
-            border: none;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            font-family: 'Source Sans 3', sans-serif;
-            cursor: pointer;
-            margin-bottom: 0.5rem;
-            transition: all 0.2s;
-        }
-
-        .btn-roster { background: var(--sky); color: white; }
-        .btn-prize { background: linear-gradient(135deg, #f39c12, #e67e22); color: white; }
-        .btn-refresh { background: var(--light-gray); color: var(--text); border: 1px solid #dce3ec; }
-
-        .admin-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .roster-area {
-            display: none;
-            margin-top: 1rem;
-            background: var(--light-gray);
-            border-radius: 10px;
-            padding: 1rem;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .roster-area.visible { display: block; }
-
-        .roster-item {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #e2e8f0;
-            font-size: 0.9rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .roster-item:last-child { border-bottom: none; }
-        .roster-item .roster-name { font-weight: 600; }
-        .roster-item .roster-school { color: #888; font-size: 0.8rem; }
-        .roster-item .roster-time { color: var(--sky); font-size: 0.8rem; font-weight: 600; }
-
-        .prize-winner {
-            display: none;
-            text-align: center;
-            margin-top: 1rem;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, #fff7e6, #fff1d4);
-            border: 2px solid var(--gold);
-            border-radius: 12px;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .prize-winner.visible { display: block; }
-
-        .prize-winner .winner-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            color: var(--navy);
-            margin: 0.5rem 0;
-        }
-
-        .copy-toast {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--navy);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-            z-index: 1000;
-        }
-
-        .copy-toast.show { display: block; animation: fadeIn 0.3s ease; }
     </style>
 </head>
 <body>
 
+    <!-- ============================================ -->
+    <!-- HEADER - changes based on mode               -->
+    <!-- ============================================ -->
     <div class="header">
         <div class="header-content">
-            <div class="ship-icon">&#9973;</div>
+            <span class="ship-icon">⛵</span>
             <h1>VOYAGE TO LEARNING 4.5</h1>
-            <div class="subtitle">Arrival Check-In</div>
-            <div class="event-date">&#128205; Oglethorpe County Middle School &bull; February 20, 2026</div>
+            <div class="subtitle" id="headerSubtitle">Arrival Check-In</div>
+            <div class="session-time" id="headerSessionTime" style="display:none;"></div>
+            <div class="location">📍 Oglethorpe County Middle School &bull; February 20, 2026</div>
         </div>
     </div>
 
     <div class="container">
 
-        <!-- STEP 1: Email Lookup -->
-        <div class="checkin-card" id="emailStep">
-            <h2>&#9875; Welcome Aboard!</h2>
-            <p class="card-subtitle">Check in to confirm your attendance and be entered for door prizes!</p>
+        <!-- ============================================ -->
+        <!-- WELCOME BOX                                  -->
+        <!-- ============================================ -->
+        <div class="welcome-box" id="welcomeBox">
+            <h2>⚓ Welcome Aboard!</h2>
+            <p id="welcomeText">Check in to confirm your attendance and be entered for door prizes!</p>
+        </div>
 
+        <!-- ============================================ -->
+        <!-- EMAIL FORM                                    -->
+        <!-- ============================================ -->
+        <div id="emailForm">
             <div class="form-group">
-                <label>Email Address <span class="required">*</span></label>
-                <input type="email" id="emailInput" placeholder="your.email@school.org" autocomplete="email" />
+                <label>Email Address *</label>
+                <input type="email" id="emailInput" placeholder="Enter the email you used to register for VTL" 
+                       onkeypress="if(event.key==='Enter') handleLookup()">
             </div>
-
-            <button class="submit-btn" id="lookupBtn" onclick="lookupEmail()">
-                <span class="btn-text">&#128674; Check In</span>
-                <span class="btn-loading"><span class="spinner"></span> Looking you up...</span>
+            <button class="btn btn-primary" id="lookupBtn" onclick="handleLookup()">
+                🚢 Check In
             </button>
-
-            <div class="status-message" id="emailStatus"></div>
-
-            <!-- Walk-in fields (shown if email not found) -->
-            <div class="walkin-fields" id="walkinFields">
-                <div class="walkin-notice">
-                    &#128075; Welcome, visitor! We don't have a registration for that email. Enter your info below to check in.
-                </div>
-
-                <div class="form-group">
-                    <label>Your Name <span class="required">*</span></label>
-                    <input type="text" id="walkinName" placeholder="First and Last Name" autocomplete="name" />
-                </div>
-
-                <div class="form-group">
-                    <label>School / Organization</label>
-                    <select id="walkinSchool">
-                        <option value="">-- Select --</option>
-                        <option value="Oglethorpe County Primary School">Oglethorpe County Primary School</option>
-                        <option value="Oglethorpe County Elementary School">Oglethorpe County Elementary School</option>
-                        <option value="Oglethorpe County Middle/High School">Oglethorpe County Middle/High School</option>
-                        <option value="Central Office">Central Office</option>
-                        <option value="NEGA RESA">NEGA RESA</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-
-                <button class="submit-btn" id="walkinBtn" onclick="walkinCheckIn()">
-                    <span class="btn-text">&#128674; Complete Check-In</span>
-                    <span class="btn-loading"><span class="spinner"></span> Checking in...</span>
-                </button>
-            </div>
         </div>
 
-        <!-- Success Screen -->
+        <!-- STATUS MESSAGE -->
+        <div class="status-message" id="statusMessage"></div>
+
+        <!-- ============================================ -->
+        <!-- WALK-IN FORM (Arrival mode only)              -->
+        <!-- ============================================ -->
+        <div class="walkin-form" id="walkinForm">
+            <h3>👋 Welcome, visitor! We don't have a registration for that email. Enter your info below to check in.</h3>
+            <div class="form-group">
+                <label>Your Name *</label>
+                <input type="text" id="walkinName" placeholder="First and Last Name">
+            </div>
+            <div class="form-group">
+                <label>School / Organization</label>
+                <select id="walkinSchool">
+                    <option value="">-- Select --</option>
+                    <option>Oglethorpe County Primary School</option>
+                    <option>Oglethorpe County Elementary School</option>
+                    <option>Oglethorpe County Middle/High School</option>
+                    <option>Central Office</option>
+                    <option>NEGA RESA</option>
+                    <option>Other</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" id="walkinBtn" onclick="handleWalkinCheckIn()">
+                🚢 Complete Check-In
+            </button>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- SUCCESS SCREEN                                -->
+        <!-- ============================================ -->
         <div class="success-screen" id="successScreen">
-            <div class="success-icon">&#127881;</div>
-            <h2>You're Checked In!</h2>
-            <div class="welcome-name" id="welcomeName"></div>
-            <p>You've been added to the attendance roster and entered for door prizes!</p>
-
-            <!-- SESSION SCHEDULE DISPLAY -->
-            <div id="scheduleDisplay"></div>
-
-            <div class="door-prize-note">
-              &#127873; <strong>Door Prizes:</strong> Winners will be notified by email during the 4th session. Pick up your prize in the cafeteria on your way out. You must be present to win!  
+            <div class="checkmark">🎉</div>
+            <h2 id="successTitle">You're Checked In!</h2>
+            <div class="name-display" id="successName"></div>
+            <div class="session-display" id="successSession" style="display:none;"></div>
+            <!-- Door prize note - arrival only -->
+            <div class="door-prize-note" id="doorPrizeNote" style="display:none;">
+                🎁 <strong>Door Prizes:</strong> Winners will be notified by email during the 4th session. Pick up your prize in the cafeteria on your way out. You must be present to win!
             </div>
-            <div class="confetti-line">&#127882; &#9973; &#127882; &#9973; &#127882;</div>
+            <div class="confetti-line">🎊 ⛵ 🎊 ⛵ 🎊</div>
         </div>
 
-        <!-- Admin Toggle -->
-        <div class="admin-toggle">
-            <button onclick="toggleAdmin()">&#128274; Admin</button>
-        </div>
-
-        <!-- Admin Panel -->
-        <div class="admin-panel" id="adminPanel">
-            <h3>&#128202; Check-In Dashboard</h3>
-
-            <div class="admin-stats">
-                <div class="stat-box">
-                    <span class="stat-num" id="totalCheckedIn">0</span>
-                    <span class="stat-label">Checked In</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-num" id="totalRegistered">0</span>
-                    <span class="stat-label">Total Registered</span>
-                </div>
+        <!-- ============================================ -->
+        <!-- ADMIN PANEL (arrival mode only)               -->
+        <!-- ============================================ -->
+        <div id="adminSection">
+            <div class="admin-toggle">
+                <button onclick="toggleAdmin()">🔒 Admin</button>
             </div>
 
-            <button class="admin-btn btn-refresh" onclick="loadAdminData()">&#128260; Refresh</button>
-            <button class="admin-btn btn-roster" onclick="showRoster()">&#128203; View Check-In Roster</button>
-            <button class="admin-btn btn-roster" onclick="copyRoster()">&#128196; Copy Names for Door Prizes</button>
-            <button class="admin-btn btn-prize" onclick="drawWinner()">&#127873; Draw Random Door Prize Winner</button>
-            <button class="admin-btn btn-refresh" onclick="resetWinners()" style="font-size:0.8rem;">&#128260; Reset Winners (Start Over)</button>
+            <div class="admin-panel" id="adminPanel">
+                <h3>📊 Check-In Dashboard</h3>
 
-            <div class="roster-area" id="rosterArea"></div>
-            <div class="prize-winner" id="prizeWinner">
-                <div style="font-size:2.5rem;">&#127942;</div>
-                <div>The winner is...</div>
-                <div class="winner-name" id="winnerName"></div>
-                <div style="font-size:1.5rem; margin-top:0.5rem;">&#127882;&#127881;&#127882;</div>
-                <div id="remainingCount" style="margin-top:0.8rem;font-size:0.85rem;color:#888;"></div>
-            </div>
-            <div id="winnerHistory" style="display:none;margin-top:1rem;background:var(--light-gray);border-radius:10px;padding:1rem;">
-                <div style="font-weight:700;color:var(--navy);margin-bottom:0.5rem;">&#127873; Winners So Far:</div>
-                <div id="winnerList"></div>
+                <div class="admin-stats">
+                    <div class="stat-box">
+                        <span class="stat-num" id="totalCheckedIn">0</span>
+                        <span class="stat-label">Checked In</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-num" id="totalRegistered">0</span>
+                        <span class="stat-label">Total Registered</span>
+                    </div>
+                </div>
+
+                <button class="admin-btn btn-refresh" onclick="loadAdminData()">🔄 Refresh</button>
+                <button class="admin-btn btn-roster" onclick="showRoster()">📋 View Check-In Roster</button>
+                <button class="admin-btn btn-roster" onclick="copyRoster()">📄 Copy Names for Door Prizes</button>
+                <button class="admin-btn btn-prize" onclick="drawWinner()">🎁 Draw Random Door Prize Winner</button>
+                <button class="admin-btn" style="background:#aaa;" onclick="resetWinners()">🔄 Reset Winners (Start Over)</button>
+
+                <div class="roster-area" id="rosterArea"></div>
+                <div class="prize-winner" id="prizeWinner">
+                    <div style="font-size:2.5rem;">🏆</div>
+                    <div>The winner is...</div>
+                    <div class="winner-name" id="winnerName"></div>
+                    <div style="font-size:1.5rem; margin-top:0.5rem;">🎊🎉🎊</div>
+                </div>
+                <div class="winners-so-far" id="winnersSoFar">
+                    <h4>🎁 Winners So Far:</h4>
+                    <div id="winnersListDisplay"></div>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="footer">
-        <a href="https://ssynan-oss.github.io/voyage-to-learning/">&#8592; Back to Session Registration</a>
+        <a href="https://ssynan-oss.github.io/voyage-to-learning/">← Back to Session Registration</a>
     </div>
 
-    <div class="copy-toast" id="copyToast">&#9989; Names copied to clipboard!</div>
+    <div class="copy-toast" id="copyToast">✅ Names copied to clipboard!</div>
 
     <script>
         // ============================================
-        // AIRTABLE CONFIG - SAME Registrations table
+        // AIRTABLE CONFIGURATION
         // ============================================
         const AIRTABLE_CONFIG = {
             apiKey: 'pat4JfPWUNgr4NQxL.342aa5b23a4784cc789d0a9729b0c52cae067201249a0188661ced3b247571a7',
-            baseId: 'appGVgzw2GnMh3gii',
-            tableName: 'Registrations'
+            baseId: 'appGVgzw2GnMh3gii'
         };
 
-        // Session time slots for display
+        // ============================================
+        // DETECT MODE: SESSION or ARRIVAL
+        // ============================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionNum = urlParams.get('session');
+        const isSessionMode = sessionNum && ['1','2','3','4'].includes(sessionNum);
+
         const SESSION_TIMES = {
-            'Session1': '8:15 – 9:05',
-            'Session2': '9:20 – 10:10',
-            'Session3': '10:35 – 11:25',
-            'Session4': '11:40 – 12:30'
+            '1': '8:15 – 9:05',
+            '2': '9:20 – 10:10',
+            '3': '10:35 – 11:25',
+            '4': '11:40 – 12:30'
         };
-
-        const SESSION_LABELS = {
-            'Session1': 'Session 1',
-            'Session2': 'Session 2',
-            'Session3': 'Session 3',
-            'Session4': 'Session 4'
-        };
-
-        // Room lookup: key = "SessionN|Title" => Room
-        const ROOM_MAP = {
-            "Session1|A Day in the Life of a SpED Student": "726",
-            "Session1|Absent Intelligence": "722",
-            "Session1|Adobe Express: The Legal \"Cheat Code\" for Busy Teachers": "701",
-            "Session1|Be Aware, Stay Safe: Practical Strategies for Everyday Life": "705",
-            "Session1|Behavior Strategies for the K-12 Classroom": "601",
-            "Session1|Communication Strategies for Teachers": "605",
-            "Session1|Core Balance and Stretch": "Gym",
-            "Session1|Gang Culture and Our Children": "720",
-            "Session1|Hot as H*LL, Tired & Still Brilliant": "Cafeteria",
-            "Session1|Inspire": "620",
-            "Session1|Peardeck": "610",
-            "Session1|So, You're Finished, Now What?": "712",
-            "Session1|Supporting Students with Mental Health Needs": "Media Center",
-            "Session1|Tai Chi for Balance Improvement": "410/weight",
-            "Session1|Using NotebookLM to Support Teaching, Learning, and Planning": "621",
-            "Session1|Wayground": "721",
-            "Session1|Write On: Elevating Writing Instruction in Grades 3-5": "724",
-            "Session1|Your AI Treasure Chest: Creating & Sharing Gemini Gems": "Fellowship Hall",
-            "Session2|A Day in the Life of a SpEd Student": "726",
-            "Session2|A Day in the Life of a SpED Student": "726",
-            "Session2|Behavior Strategies for the K-12 Classroom": "601",
-            "Session2|Core Balance and Stretch": "Gym",
-            "Session2|Gang Culture and Our Children": "720",
-            "Session2|Hot as H*LL, Tired & Still Brilliant": "Cafeteria",
-            "Session2|Inspire": "620",
-            "Session2|Let students use AI in the classroom?! Are you crazy?? Well, yes...yes I am!": "712",
-            "Session2|Mystery Skype: Making Geography Engaging": "614",
-            "Session2|Navigating Crucial Conversations with Confidence": "722",
-            "Session2|Promptcraft? Building a Better AI Prompt": "Fellowship Hall",
-            "Session2|Strategies for Self Defense": "115/Art",
-            "Session2|Strategies for Supporting English Learners in the Classroom": "701",
-            "Session2|Supporting Diverse Learners with Notebook LM": "612",
-            "Session2|Supporting Students with Mental Health Needs": "Media Center",
-            "Session2|Tai Chi for Balance Improvement": "410/weight",
-            "Session2|The Safe Harbor Classroom: Navigating Trauma with Care and Connection": "705",
-            "Session2|Unlocking the Magic of Canva": "605",
-            "Session2|Using AI Tools to Support Life, Work, and Well-Being": "621",
-            "Session2|Wayground": "721",
-            "Session2|Write On: Elevating Writing Instruction in Grades 3-5": "724",
-            "Session2|Writing IEPs using AI": "116",
-            "Session2|\"Foster Care:  The Most Difficult Job You Will Ever Love\"": "821",
-            "Session2|\u201cFoster Care:\u00a0 The Most Difficult Job You Will Ever Love\u201d": "821",
-            "Session3|AI Early Finisher Activities": "726",
-            "Session3|Beat the Stress Away": "401",
-            "Session3|Behavior Strategies for the K-12 Classroom": "601",
-            "Session3|Brisk": "721",
-            "Session3|Core Balance and Stretch": "Gym",
-            "Session3|Digital Locks: The Key to Student Engagement": "712",
-            "Session3|Employing AI Tools in the Science Classroom": "805",
-            "Session3|Fall Smart Workshop": "612",
-            "Session3|Full Bleed: Finding Balance between Technology and Life": "Fellowship Hall",
-            "Session3|Gang Culture and Our Children": "720",
-            "Session3|Mastering Classroom Management with LanSchool": "821",
-            "Session3|Navigating Crucial Conversations with Confidence": "722",
-            "Session3|Power Up Participation: 3 Digital Tools to Supercharge Student Thinking and Writing": "610",
-            "Session3|Strategies for Supporting English Learners in the Classroom": "701",
-            "Session3|Student Survival for the Progressive Teacher": "116",
-            "Session3|Taking Care of You": "Media Center",
-            "Session3|The Safe Harbor Classroom: Navigating Trauma with Care and Connection": "705",
-            "Session3|Unlocking the Magic of Canva": "605",
-            "Session3|Using & Choosing Decodable Texts (Wiley Blevins approach)": "614",
-            "Session3|Using NotebookLM to Support Teaching, Learning, and Planning": "621",
-            "Session3|Write On: Elevating Writing Instruction in Grades K-2": "724",
-            "Session4|Beat the Stress Away": "401",
-            "Session4|Brisk": "721",
-            "Session4|Core Balance and Stretch": "Gym",
-            "Session4|Did a Robot Write This Report? Managing AI Cheating": "Fellowship Hall",
-            "Session4|Gang Culture and Our Children": "720",
-            "Session4|Google Maps across Instruction": "620",
-            "Session4|Hands-On Statistics that Stick": "614",
-            "Session4|Navigating Crucial Conversations with Confidence": "722",
-            "Session4|Read Like a Scientist": "601",
-            "Session4|Strategies for Supporting English Learners in the Classroom": "701",
-            "Session4|Student Survival for the Progressive Teacher": "116",
-            "Session4|Suno: More Than a Jingle": "612",
-            "Session4|Taking Care of You": "Media Center",
-            "Session4|The Safe Harbor Classroom: Navigating Trauma with Care and Connection": "705",
-            "Session4|Unlocking the Magic of Canva": "605",
-            "Session4|Using AI Tools to Support Life, Work, and Well-Being": "621",
-            "Session4|Using AI to Create Stories with Differentiated Lexile Levels": "726",
-            "Session4|Write On: Elevating Writing Instruction in Grades K-2": "724"
-        };
-
-        function lookupRoom(sessionKey, title) {
-            if (!title) return '';
-            const exactKey = sessionKey + '|' + title.trim();
-            if (ROOM_MAP[exactKey]) return ROOM_MAP[exactKey];
-            // Fuzzy match: try case-insensitive and partial
-            const titleLower = title.trim().toLowerCase();
-            for (const [k, v] of Object.entries(ROOM_MAP)) {
-                if (k.startsWith(sessionKey + '|') && k.toLowerCase().includes(titleLower)) return v;
-                if (k.startsWith(sessionKey + '|') && titleLower.includes(k.split('|')[1].toLowerCase())) return v;
-            }
-            return '';
-        }
-
-        let checkedInList = [];
-        let prizePool = [];
-        let winners = [];
 
         // ============================================
-        // BUILD SCHEDULE HTML
+        // SET UP UI BASED ON MODE
         // ============================================
-        function buildScheduleHTML(fields) {
-            const sessions = ['Session1', 'Session2', 'Session3', 'Session4'];
-            let hasAnySessions = false;
-
-            for (const s of sessions) {
-                if (fields[s] && fields[s].trim()) {
-                    hasAnySessions = true;
-                    break;
-                }
-            }
-
-            if (!hasAnySessions) {
-                return '';
-            }
-
-            let html = `<div class="schedule-card">
-                <h3>&#9973; Your Excursion Schedule</h3>`;
-
-            for (const s of sessions) {
-                const sessionName = fields[s] && fields[s].trim() ? fields[s].trim() : null;
-                const time = SESSION_TIMES[s];
-                const label = SESSION_LABELS[s];
-                const room = sessionName ? lookupRoom(s, sessionName) : '';
-                const roomDisplay = room ? `<div class="schedule-room">&#128205; ${room}</div>` : '';
-
-                if (sessionName && sessionName.toLowerCase() !== 'presenting') {
-                    html += `<div class="schedule-item">
-                        <div class="schedule-slot">${label}<br><span style="font-weight:400;font-size:0.7rem;">${time}</span></div>
-                        <div>
-                            <div class="schedule-session-name">${sessionName}</div>
-                            ${roomDisplay}
-                        </div>
-                    </div>`;
-                } else if (sessionName && sessionName.toLowerCase() === 'presenting') {
-                    html += `<div class="schedule-item">
-                        <div class="schedule-slot">${label}<br><span style="font-weight:400;font-size:0.7rem;">${time}</span></div>
-                        <div>
-                            <div class="schedule-session-name">&#127908; Presenting</div>
-                        </div>
-                    </div>`;
-                } else {
-                    html += `<div class="schedule-item">
-                        <div class="schedule-slot">${label}<br><span style="font-weight:400;font-size:0.7rem;">${time}</span></div>
-                        <div>
-                            <div class="schedule-session-name schedule-empty">No session selected</div>
-                        </div>
-                    </div>`;
-                }
-            }
-
-            html += `<div class="screenshot-hint">&#128247; Screenshot this schedule for quick reference!</div>`;
-            html += `</div>`;
-
-            return html;
+        if (isSessionMode) {
+            // SESSION ATTENDANCE MODE
+            document.getElementById('headerSubtitle').textContent = 'Session ' + sessionNum + ' Attendance';
+            document.getElementById('headerSessionTime').textContent = SESSION_TIMES[sessionNum];
+            document.getElementById('headerSessionTime').style.display = 'block';
+            document.getElementById('welcomeText').textContent = 'Scan to check in for attendance. Enter the email you used to register for VTL.';
+            document.getElementById('welcomeBox').querySelector('h2').textContent = '📋 Session ' + sessionNum + ' Check-In';
+            // Hide admin section for session mode
+            document.getElementById('adminSection').style.display = 'none';
+        } else {
+            // ARRIVAL / DOOR PRIZE MODE
+            document.getElementById('headerSubtitle').textContent = 'Arrival Check-In';
+            document.getElementById('welcomeText').textContent = 'Check in to confirm your attendance and be entered for door prizes!';
         }
 
         // ============================================
-        // STEP 1: LOOK UP EMAIL IN REGISTRATIONS
+        // SHARED: Airtable fetch helper
         // ============================================
-        async function lookupEmail() {
+        async function airtableFetch(table, options = {}) {
+            let url = `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${encodeURIComponent(table)}`;
+            if (options.query) url += '?' + options.query;
+            
+            const fetchOptions = {
+                headers: {
+                    'Authorization': `Bearer ${AIRTABLE_CONFIG.apiKey}`,
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            if (options.method) fetchOptions.method = options.method;
+            if (options.body) fetchOptions.body = JSON.stringify(options.body);
+
+            const response = await fetch(url, fetchOptions);
+            if (!response.ok) {
+                const errText = await response.text();
+                throw new Error(`Airtable error: ${response.status} - ${errText}`);
+            }
+            return response.json();
+        }
+
+        // ============================================
+        // MAIN LOOKUP HANDLER
+        // ============================================
+        async function handleLookup() {
             const email = document.getElementById('emailInput').value.trim().toLowerCase();
-
             if (!email || !email.includes('@')) {
-                showStatus('emailStatus', 'Please enter a valid email address.', 'error');
+                showStatus('Please enter a valid email address.', 'error');
                 return;
             }
 
             const btn = document.getElementById('lookupBtn');
-            btn.classList.add('loading');
             btn.disabled = true;
-            hideStatus('emailStatus');
+            btn.innerHTML = '<span class="spinner"></span> Looking you up...';
 
             try {
-                const formula = encodeURIComponent(`LOWER({Email})="${email}"`);
-                const response = await fetch(
-                    `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}?filterByFormula=${formula}`,
-                    { headers: { 'Authorization': `Bearer ${AIRTABLE_CONFIG.apiKey}` } }
-                );
-
-                if (!response.ok) throw new Error('Lookup failed');
-                const data = await response.json();
-
-                if (data.records && data.records.length > 0) {
-                    // FOUND — registered participant
-                    const record = data.records[0];
-                    const name = record.fields.Name || 'Participant';
-                    const fields = record.fields;
-
-                    // Already checked in?
-                    if (record.fields.CheckedIn) {
-                        btn.classList.remove('loading');
-                        btn.disabled = false;
-                        // Still show their schedule even if already checked in
-                        showSuccess(name, fields);
-                        // Update the welcome message to reflect already checked in
-                        document.querySelector('.success-screen p').textContent = 
-                            "You were already checked in — welcome back! Here's your schedule:";
-                        return;
-                    }
-
-                    // Mark as checked in
-                    const patchResponse = await fetch(
-                        `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}/${record.id}`,
-                        {
-                            method: 'PATCH',
-                            headers: {
-                                'Authorization': `Bearer ${AIRTABLE_CONFIG.apiKey}`,
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                fields: { 'CheckedIn': new Date().toISOString() }
-                            })
-                        }
-                    );
-
-                    if (!patchResponse.ok) throw new Error('Check-in update failed');
-
-                    showSuccess(name, fields);
-
+                if (isSessionMode) {
+                    await handleSessionCheckIn(email);
                 } else {
-                    // NOT FOUND — show walk-in fields
-                    btn.classList.remove('loading');
-                    btn.disabled = false;
-                    document.getElementById('walkinFields').classList.add('visible');
-                    document.getElementById('lookupBtn').style.display = 'none';
-                    document.getElementById('walkinName').focus();
+                    await handleArrivalCheckIn(email);
                 }
-
-            } catch (error) {
-                console.error('Lookup error:', error);
-                showStatus('emailStatus', 'Something went wrong. Please try again or see a registration volunteer.', 'error');
-                btn.classList.remove('loading');
+            } catch (err) {
+                console.error(err);
+                showStatus('Something went wrong. Please try again. (' + err.message + ')', 'error');
                 btn.disabled = false;
+                btn.innerHTML = '🚢 Check In';
             }
         }
 
         // ============================================
-        // STEP 2 (WALK-INS): CREATE NEW ROW + CHECK IN
+        // SESSION ATTENDANCE CHECK-IN
+        // Looks up email in Registrations table
+        // Writes timestamp to Attended1/2/3/4
         // ============================================
-        async function walkinCheckIn() {
-            const email = document.getElementById('emailInput').value.trim();
+        async function handleSessionCheckIn(email) {
+            const btn = document.getElementById('lookupBtn');
+            const fieldName = 'Attended' + sessionNum;
+
+            // Search Registrations table for this email
+            const formula = encodeURIComponent(`LOWER({Email})="${email}"`);
+            const data = await airtableFetch('Registrations', {
+                query: `filterByFormula=${formula}`
+            });
+
+            if (data.records.length === 0) {
+                showStatus('Email not found. Please use the email you registered with for VTL.', 'error');
+                btn.disabled = false;
+                btn.innerHTML = '🚢 Check In';
+                return;
+            }
+
+            const record = data.records[0];
+            const name = record.fields.Name || record.fields.FirstName || 'Attendee';
+
+            // Check if already checked in for this session
+            if (record.fields[fieldName]) {
+                showStatus(`You're already checked in for Session ${sessionNum}, ${name}! ✅`, 'info');
+                btn.disabled = false;
+                btn.innerHTML = '🚢 Check In';
+                return;
+            }
+
+            // Write attendance timestamp
+            await airtableFetch('Registrations', {
+                method: 'PATCH',
+                body: {
+                    records: [{
+                        id: record.id,
+                        fields: {
+                            [fieldName]: new Date().toISOString()
+                        }
+                    }]
+                }
+            });
+
+            // Show success
+            const sessionTitle = record.fields['Session' + sessionNum] || '';
+            document.getElementById('successName').textContent = name;
+            document.getElementById('successTitle').textContent = "You're Checked In!";
+            
+            if (sessionTitle && sessionTitle !== 'Presenting') {
+                document.getElementById('successSession').textContent = `Session ${sessionNum}: ${sessionTitle}`;
+                document.getElementById('successSession').style.display = 'block';
+            } else if (sessionTitle === 'Presenting') {
+                document.getElementById('successSession').textContent = `Session ${sessionNum}: Presenting`;
+                document.getElementById('successSession').style.display = 'block';
+            }
+
+            // Hide form, show success (no door prize note for session mode)
+            document.getElementById('emailForm').style.display = 'none';
+            document.getElementById('welcomeBox').style.display = 'none';
+            document.getElementById('doorPrizeNote').style.display = 'none';
+            document.getElementById('successScreen').style.display = 'block';
+            hideStatus();
+        }
+
+        // ============================================
+        // ARRIVAL CHECK-IN (Door Prizes)
+        // Looks up email in Registrations table
+        // If found: marks CheckedIn, also writes to CheckIn table
+        // If not found: shows walk-in form
+        // ============================================
+        let arrivalRecordId = null;
+        let arrivalEmail = '';
+
+        async function handleArrivalCheckIn(email) {
+            const btn = document.getElementById('lookupBtn');
+            arrivalEmail = email;
+
+            // First check if already in CheckIn table
+            const checkFormula = encodeURIComponent(`LOWER({Email})="${email}"`);
+            const checkData = await airtableFetch('CheckIn', {
+                query: `filterByFormula=${checkFormula}`
+            });
+
+            if (checkData.records.length > 0) {
+                const existingName = (checkData.records[0].fields.FirstName || '') + ' ' + (checkData.records[0].fields.LastName || '');
+                showStatus(`You're already checked in, ${existingName.trim()}! You're all set for door prizes. 🎉`, 'info');
+                btn.disabled = false;
+                btn.innerHTML = '🚢 Check In';
+                return;
+            }
+
+            // Look up in Registrations
+            const regFormula = encodeURIComponent(`LOWER({Email})="${email}"`);
+            const regData = await airtableFetch('Registrations', {
+                query: `filterByFormula=${regFormula}`
+            });
+
+            if (regData.records.length > 0) {
+                // Found - registered attendee
+                const record = regData.records[0];
+                const name = record.fields.Name || '';
+                const school = record.fields.School || '';
+                arrivalRecordId = record.id;
+
+                // Parse name into first/last
+                const nameParts = name.split(' ');
+                const firstName = nameParts[0] || '';
+                const lastName = nameParts.slice(1).join(' ') || '';
+
+                // Write to CheckIn table
+                await airtableFetch('CheckIn', {
+                    method: 'POST',
+                    body: {
+                        records: [{
+                            fields: {
+                                FirstName: firstName,
+                                LastName: lastName,
+                                Email: email,
+                                School: school,
+                                CheckInTime: new Date().toISOString()
+                            }
+                        }]
+                    }
+                });
+
+                // Mark CheckedIn on Registrations if field exists
+                try {
+                    await airtableFetch('Registrations', {
+                        method: 'PATCH',
+                        body: {
+                            records: [{
+                                id: record.id,
+                                fields: { CheckedIn: true }
+                            }]
+                        }
+                    });
+                } catch(e) {
+                    // CheckedIn field may not exist, that's okay
+                    console.log('CheckedIn field not found, skipping:', e.message);
+                }
+
+                // Show success with door prize note
+                document.getElementById('successName').textContent = name;
+                document.getElementById('successTitle').textContent = "You're Checked In!";
+                document.getElementById('doorPrizeNote').style.display = 'block';
+                document.getElementById('emailForm').style.display = 'none';
+                document.getElementById('welcomeBox').style.display = 'none';
+                document.getElementById('successScreen').style.display = 'block';
+                hideStatus();
+
+            } else {
+                // Not found - show walk-in form
+                document.getElementById('walkinForm').style.display = 'block';
+                showStatus('', '');
+                btn.disabled = false;
+                btn.innerHTML = '🚢 Check In';
+            }
+        }
+
+        // ============================================
+        // WALK-IN CHECK-IN (Arrival mode only)
+        // ============================================
+        async function handleWalkinCheckIn() {
             const name = document.getElementById('walkinName').value.trim();
             const school = document.getElementById('walkinSchool').value;
+            const email = arrivalEmail;
 
             if (!name) {
-                showStatus('emailStatus', 'Please enter your name.', 'error');
+                showStatus('Please enter your name.', 'error');
                 return;
             }
 
             const btn = document.getElementById('walkinBtn');
-            btn.classList.add('loading');
             btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Checking in...';
 
             try {
-                const response = await fetch(
-                    `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}`,
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${AIRTABLE_CONFIG.apiKey}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            records: [{
-                                fields: {
-                                    'Name': name,
-                                    'Email': email,
-                                    'School': school || 'Visitor',
-                                    'CheckedIn': new Date().toISOString(),
-                                    'RegisteredAt': new Date().toISOString()
-                                }
-                            }]
-                        })
+                const nameParts = name.split(' ');
+                const firstName = nameParts[0] || '';
+                const lastName = nameParts.slice(1).join(' ') || '';
+
+                // Write to CheckIn table
+                await airtableFetch('CheckIn', {
+                    method: 'POST',
+                    body: {
+                        records: [{
+                            fields: {
+                                FirstName: firstName,
+                                LastName: lastName,
+                                Email: email,
+                                School: school,
+                                CheckInTime: new Date().toISOString()
+                            }
+                        }]
                     }
-                );
+                });
 
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error?.message || 'Check-in failed');
-                }
+                // Show success
+                document.getElementById('successName').textContent = name;
+                document.getElementById('successTitle').textContent = "You're Checked In!";
+                document.getElementById('doorPrizeNote').style.display = 'block';
+                document.getElementById('emailForm').style.display = 'none';
+                document.getElementById('welcomeBox').style.display = 'none';
+                document.getElementById('walkinForm').style.display = 'none';
+                document.getElementById('successScreen').style.display = 'block';
+                hideStatus();
 
-                // Walk-ins won't have sessions, so pass empty fields
-                showSuccess(name, {});
-
-            } catch (error) {
-                console.error('Walk-in error:', error);
-                showStatus('emailStatus', 'Something went wrong. Please try again or see a registration volunteer.', 'error');
-                btn.classList.remove('loading');
+            } catch (err) {
+                console.error(err);
+                showStatus('Something went wrong. Please try again.', 'error');
                 btn.disabled = false;
+                btn.innerHTML = '🚢 Complete Check-In';
             }
         }
 
         // ============================================
-        // SHOW SUCCESS (now includes schedule)
+        // STATUS HELPERS
         // ============================================
-        function showSuccess(name, fields) {
-            document.getElementById('emailStep').style.display = 'none';
-            document.getElementById('welcomeName').textContent = `Welcome, ${name}!`;
-            
-            // Build and insert schedule
-            const scheduleHTML = buildScheduleHTML(fields || {});
-            document.getElementById('scheduleDisplay').innerHTML = scheduleHTML;
+        function showStatus(msg, type) {
+            const el = document.getElementById('statusMessage');
+            if (!msg) { el.style.display = 'none'; return; }
+            el.textContent = msg;
+            el.className = 'status-message status-' + type;
+            el.style.display = 'block';
+        }
 
-            document.getElementById('successScreen').classList.add('visible');
+        function hideStatus() {
+            document.getElementById('statusMessage').style.display = 'none';
         }
 
         // ============================================
-        // STATUS MESSAGES
+        // ADMIN PANEL (arrival mode only)
         // ============================================
-        function showStatus(id, message, type) {
-            const el = document.getElementById(id);
-            el.className = `status-message ${type}`;
-            el.textContent = message;
-        }
-
-        function hideStatus(id) {
-            document.getElementById(id).className = 'status-message';
-        }
-
-        // ============================================
-        // ADMIN FUNCTIONS
-        // ============================================
-        let adminVisible = false;
+        let allCheckedIn = [];
+        let previousWinners = JSON.parse(localStorage.getItem('vtlWinners') || '[]');
 
         function toggleAdmin() {
-            adminVisible = !adminVisible;
-            const panel = document.getElementById('adminPanel');
-            if (adminVisible) {
-                const pwd = prompt('Enter admin password:');
-                if (pwd !== 'vtl2026') {
-                    adminVisible = false;
-                    return;
-                }
-                panel.classList.add('visible');
+            const pwd = prompt('Enter admin password:');
+            if (pwd === 'vtl2026') {
+                document.getElementById('adminPanel').style.display = 'block';
                 loadAdminData();
-            } else {
-                panel.classList.remove('visible');
+                updateWinnersDisplay();
             }
         }
 
         async function loadAdminData() {
             try {
-                let allRecords = [];
-                let offset = null;
+                // Get check-in count
+                const checkInData = await airtableFetch('CheckIn', {
+                    query: 'fields%5B%5D=FirstName&fields%5B%5D=LastName&fields%5B%5D=Email&fields%5B%5D=School&fields%5B%5D=CheckInTime'
+                });
+                
+                allCheckedIn = checkInData.records.filter(r => r.fields.FirstName || r.fields.LastName);
+                document.getElementById('totalCheckedIn').textContent = allCheckedIn.length;
 
-                do {
-                    let url = `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableName}?sort%5B0%5D%5Bfield%5D=Name&sort%5B0%5D%5Bdirection%5D=asc`;
-                    if (offset) url += `&offset=${offset}`;
+                // Get total registrations
+                const regData = await airtableFetch('Registrations', {
+                    query: 'fields%5B%5D=Name'
+                });
+                const totalReg = regData.records.filter(r => r.fields.Name).length;
+                document.getElementById('totalRegistered').textContent = totalReg;
 
-                    const response = await fetch(url, {
-                        headers: { 'Authorization': `Bearer ${AIRTABLE_CONFIG.apiKey}` }
-                    });
-
-                    const data = await response.json();
-                    allRecords = allRecords.concat(data.records || []);
-                    offset = data.offset;
-                } while (offset);
-
-                const totalRegistered = allRecords.filter(r => r.fields.Name).length;
-
-                checkedInList = allRecords
-                    .filter(r => r.fields.CheckedIn && r.fields.Name)
-                    .map(r => ({
-                        name: r.fields.Name || '',
-                        email: r.fields.Email || '',
-                        school: r.fields.School || '',
-                        time: r.fields.CheckedIn || ''
-                    }));
-
-                checkedInList.sort((a, b) => new Date(b.time) - new Date(a.time));
-
-                document.getElementById('totalCheckedIn').textContent = checkedInList.length;
-
-                // Refresh prize pool (exclude previous winners)
-                prizePool = checkedInList.filter(p => !winners.includes(p.name));
-                document.getElementById('totalRegistered').textContent = totalRegistered;
-
-            } catch (error) {
-                console.error('Error loading admin data:', error);
+            } catch (err) {
+                console.error('Admin data error:', err);
             }
         }
 
         function showRoster() {
             const area = document.getElementById('rosterArea');
-            area.classList.toggle('visible');
-
-            if (area.classList.contains('visible')) {
-                if (checkedInList.length === 0) {
-                    area.innerHTML = '<div style="text-align:center;color:#999;padding:1rem;">No check-ins yet. Click Refresh first.</div>';
-                    return;
-                }
-
-                const sorted = [...checkedInList].sort((a, b) => a.name.localeCompare(b.name));
-                area.innerHTML = sorted.map((p, i) => {
-                    const t = new Date(p.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                    return `<div class="roster-item">
-                        <div>
-                            <div class="roster-name">${i + 1}. ${p.name}</div>
-                            <div class="roster-school">${p.school}</div>
-                        </div>
-                        <div class="roster-time">${t}</div>
-                    </div>`;
-                }).join('');
-            }
-        }
-
-        function copyRoster() {
-            if (checkedInList.length === 0) {
-                alert('No check-ins to copy yet. Click Refresh first.');
+            if (allCheckedIn.length === 0) {
+                area.innerHTML = '<p>No check-ins yet.</p>';
+                area.style.display = 'block';
                 return;
             }
 
-            const sorted = [...checkedInList].sort((a, b) => a.name.localeCompare(b.name));
-            const text = sorted.map(p => p.name).join('\n');
+            let html = '<table><tr><th>#</th><th>Name</th><th>School</th></tr>';
+            allCheckedIn.forEach((r, i) => {
+                const name = ((r.fields.FirstName || '') + ' ' + (r.fields.LastName || '')).trim();
+                html += `<tr><td>${i+1}</td><td>${name}</td><td>${r.fields.School || ''}</td></tr>`;
+            });
+            html += '</table>';
+            area.innerHTML = html;
+            area.style.display = 'block';
+        }
 
-            navigator.clipboard.writeText(text).then(() => {
+        function copyRoster() {
+            const names = allCheckedIn.map(r => 
+                ((r.fields.FirstName || '') + ' ' + (r.fields.LastName || '')).trim()
+            ).filter(n => n).join('\n');
+            
+            navigator.clipboard.writeText(names).then(() => {
                 const toast = document.getElementById('copyToast');
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 2500);
-            }).catch(() => {
-                const ta = document.createElement('textarea');
-                ta.value = text;
-                document.body.appendChild(ta);
-                ta.select();
-                document.execCommand('copy');
-                document.body.removeChild(ta);
-                alert('Names copied!');
+                toast.style.display = 'block';
+                setTimeout(() => toast.style.display = 'none', 2500);
             });
         }
 
         function drawWinner() {
-            if (checkedInList.length === 0) {
-                alert('No check-ins yet. Click Refresh first.');
+            if (allCheckedIn.length === 0) {
+                alert('No one has checked in yet!');
                 return;
             }
 
-            // Build pool excluding past winners
-            prizePool = checkedInList.filter(p => !winners.includes(p.name));
+            // Filter out previous winners
+            const eligible = allCheckedIn.filter(r => {
+                const name = ((r.fields.FirstName || '') + ' ' + (r.fields.LastName || '')).trim();
+                return !previousWinners.includes(name);
+            });
 
-            if (prizePool.length === 0) {
-                alert('Everyone has already won a prize! Click "Reset Winners" to start over.');
+            if (eligible.length === 0) {
+                alert('Everyone has already won! Click "Reset Winners" to start over.');
                 return;
             }
 
-            const winner = prizePool[Math.floor(Math.random() * prizePool.length)];
-            winners.push(winner.name);
+            const winner = eligible[Math.floor(Math.random() * eligible.length)];
+            const winnerName = ((winner.fields.FirstName || '') + ' ' + (winner.fields.LastName || '')).trim();
 
-            // Remove from pool
-            prizePool = prizePool.filter(p => p.name !== winner.name);
+            previousWinners.push(winnerName);
+            localStorage.setItem('vtlWinners', JSON.stringify(previousWinners));
 
-            document.getElementById('winnerName').textContent = winner.name;
-            document.getElementById('remainingCount').textContent = `${prizePool.length} names remaining in the pool`;
-            document.getElementById('prizeWinner').classList.add('visible');
-
-            // Update winner history
-            const historyDiv = document.getElementById('winnerHistory');
-            historyDiv.style.display = 'block';
-            document.getElementById('winnerList').innerHTML = winners.map((w, i) =>
-                `<div style="padding:0.3rem 0;border-bottom:1px solid #e2e8f0;font-size:0.9rem;">${i + 1}. ${w}</div>`
-            ).join('');
+            document.getElementById('winnerName').textContent = winnerName;
+            document.getElementById('prizeWinner').style.display = 'block';
+            updateWinnersDisplay();
         }
 
         function resetWinners() {
-            if (winners.length === 0) return;
-            if (!confirm(`Reset all ${winners.length} winners and start over?`)) return;
-            winners = [];
-            prizePool = [...checkedInList];
-            document.getElementById('prizeWinner').classList.remove('visible');
-            document.getElementById('winnerHistory').style.display = 'none';
-            document.getElementById('winnerList').innerHTML = '';
+            if (confirm('Reset all winners and start over?')) {
+                previousWinners = [];
+                localStorage.setItem('vtlWinners', '[]');
+                document.getElementById('prizeWinner').style.display = 'none';
+                updateWinnersDisplay();
+            }
         }
 
-        // Enter key handlers
-        document.getElementById('emailInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !document.getElementById('walkinFields').classList.contains('visible')) {
-                lookupEmail();
+        function updateWinnersDisplay() {
+            const container = document.getElementById('winnersSoFar');
+            const list = document.getElementById('winnersListDisplay');
+            if (previousWinners.length > 0) {
+                list.innerHTML = previousWinners.map((n, i) => `${i+1}. ${n}`).join('<br>');
+                container.style.display = 'block';
+            } else {
+                container.style.display = 'none';
             }
-        });
-
-        document.getElementById('walkinName').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') walkinCheckIn();
-        });
+        }
     </script>
 </body>
 </html>
